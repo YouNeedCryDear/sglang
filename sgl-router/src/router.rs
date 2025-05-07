@@ -676,6 +676,14 @@ impl Router {
         HttpResponse::InternalServerError().body("All retry attempts failed")
     }
 
+    pub fn get_worker_urls(&self) -> Vec<String> {
+        match self {
+            Router::RoundRobin { worker_urls, .. } => worker_urls.read().unwrap().clone(),
+            Router::Random { worker_urls, .. } => worker_urls.read().unwrap().clone(),
+            Router::CacheAware { worker_urls, .. } => worker_urls.read().unwrap().clone(),
+        }
+    }
+
     pub async fn add_worker(&self, worker_url: &str) -> Result<String, String> {
         let (timeout_secs, interval_secs) = match self {
             Router::Random {

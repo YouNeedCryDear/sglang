@@ -1,12 +1,17 @@
 use crate::router::PolicyConfig;
 use crate::router::Router;
+#[cfg(feature = "k8s")]
+use crate::k8s_discovery::{DiscoveryCommand, K8sDiscoveryConfig, run_k8s_discovery_task};
+#[cfg(not(feature = "k8s"))]
+use crate::k8s_discovery::K8sDiscoveryConfig;
+
 use actix_web::{
     error, get, post, web, App, Error, HttpRequest, HttpResponse, HttpServer, Responder,
 };
 use bytes::Bytes;
 use env_logger::Builder;
 use futures_util::StreamExt;
-use log::{info, LevelFilter};
+use log::{info, LevelFilter, warn};
 use std::collections::HashMap;
 use std::io::Write;
 use std::time::Duration;
@@ -148,6 +153,8 @@ pub struct ServerConfig {
     pub policy_config: PolicyConfig,
     pub verbose: bool,
     pub max_payload_size: usize,
+    pub enable_k8s_discovery: bool,
+    pub k8s_discovery_config: Option<K8sDiscoveryConfig>,
 }
 
 pub async fn startup(config: ServerConfig) -> std::io::Result<()> {
@@ -180,6 +187,22 @@ pub async fn startup(config: ServerConfig) -> std::io::Result<()> {
         "🚧 Max payload size: {} MB",
         config.max_payload_size / (1024 * 1024)
     );
+    
+    #[cfg(feature = "k8s")]
+    if config.enable_k8s_discovery {
+        info!("🚧 Kubernetes service discovery is enabled (feature 'k8s' active)");
+        if let Some(k8s_config) = &config.k8s_discovery_config {
+            info!("🚧 Kubernetes service discovery config: {:?}", k8s_config);
+        } else {
+            // This case shouldn't happen if enable_k8s_discovery is true due to lib.rs logic
+            info!("🚧 Using default Kubernetes service discovery configuration (Warning: config was None)");
+        }
+    }
+    #[cfg(not(feature = "k8s"))]
+    if config.enable_k8s_discovery {
+        // Log a warning if the user tries to enable k8s discovery without the feature compiled in
+        warn!("Kubernetes service discovery requested but 'k8s' feature is not compiled. Ignoring.");
+    }
 
     let client = reqwest::Client::builder()
         .pool_idle_timeout(Some(Duration::from_secs(50)))
@@ -194,9 +217,48 @@ pub async fn startup(config: ServerConfig) -> std::io::Result<()> {
         )
         .map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))?,
     );
+    
+    // Start Kubernetes service discovery only if feature is enabled AND config flag is true
+    #[cfg(feature = "k8s")]
+    if config.enable_k8s_discovery {
+        if let Some(k8s_config) = config.k8s_discovery_config {
+             info!("🚧 Starting Kubernetes service discovery task...");
+            // Start the discovery task and get the receiver
+            match run_k8s_discovery_task(k8s_config).await {
+                Ok(mut receiver) => {
+                    let router_ref = app_state.router.clone();
+                    
+                    // Process discovery commands in a background task
+                    tokio::spawn(async move {
+                        info!("✅ Kubernetes service discovery background task is running");
+                        while let Some(cmd) = receiver.recv().await {
+                            match cmd {
+                                DiscoveryCommand::AddWorker(url) => {
+                                    match router_ref.add_worker(&url).await {
+                                        Ok(msg) => info!("K8s discovery: {}", msg),
+                                        Err(err) => info!("K8s discovery error: {}", err),
+                                    }
+                                },
+                                DiscoveryCommand::RemoveWorker(url) => {
+                                    router_ref.remove_worker(&url);
+                                    info!("K8s discovery: Removed worker {}", url);
+                                },
+                            }
+                        }
+                        info!("Kubernetes service discovery background task finished.");
+                    });
+                },
+                Err(e) => {
+                    log::error!("❌ Failed to start Kubernetes service discovery task: {:?}", e);
+                }
+            }
+        } else {
+             log::error!("❌ Tried to start k8s discovery but config was missing!");
+        }
+    }
 
     info!("✅ Serving router on {}:{}", config.host, config.port);
-    info!("✅ Serving workers on {:?}", config.worker_urls);
+    info!("✅ Initial workers: {:?}", app_state.router.get_worker_urls()); // Add a helper to get current workers
 
     HttpServer::new(move || {
         App::new()
