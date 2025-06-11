@@ -1,3 +1,4 @@
+pub mod grpc_generated;
 use pyo3::prelude::*;
 pub mod logging;
 use std::collections::HashMap;

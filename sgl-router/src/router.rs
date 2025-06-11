@@ -12,6 +12,14 @@ use std::sync::{Arc, Mutex, RwLock};
 use std::thread;
 use std::time::Duration;
 use std::time::Instant;
+
+// gRPC related imports
+use crate::grpc_generated::sglang_engine_v1::{
+    sglang_engine_service_client::SglangEngineServiceClient,
+    GenerateRequest as GrpcGenerateRequest, TokenUpdate,
+};
+use tonic::transport::{Channel, Endpoint};
+use tonic::Request as TonicRequest;
 use tokio;
 use tracing::{debug, error, info, warn};
 
@@ -579,84 +587,174 @@ impl Router {
 
     async fn send_generate_request(
         &self,
-        client: &reqwest::Client,
+        _client: &reqwest::Client, // Unused with gRPC, kept for signature compatibility for now
         req: &HttpRequest,
         body: &Bytes,
-        route: &str,
+        _route: &str, // Unused with gRPC
         worker_url: &str,
     ) -> HttpResponse {
         let is_stream = serde_json::from_slice::<serde_json::Value>(&body)
             .map(|v| v.get("stream").and_then(|s| s.as_bool()).unwrap_or(false))
             .unwrap_or(false);
 
-        let mut request_builder = client
-            .post(format!("{}{}", worker_url, route))
-            .body(body.to_vec());
-
-        // Copy all headers from original request
-        for (name, value) in copy_request_headers(req) {
-            request_builder = request_builder.header(name, value);
-        }
-
-        let res = match request_builder.send().await {
-            Ok(res) => res,
-            Err(_) => return HttpResponse::InternalServerError().finish(),
+        let formatted_worker_url = if !worker_url.starts_with("http://") && !worker_url.starts_with("https://") {
+            format!("http://{}", worker_url)
+        } else {
+            worker_url.to_string()
         };
 
-        let status = actix_web::http::StatusCode::from_u16(res.status().as_u16())
-            .unwrap_or(actix_web::http::StatusCode::INTERNAL_SERVER_ERROR);
+        let channel_result = Endpoint::from_shared(formatted_worker_url.clone())
+            .map_err(|e| {
+                error!("Invalid worker URL endpoint {}: {}", formatted_worker_url, e);
+                HttpResponse::InternalServerError().body(format!("Invalid worker URL endpoint: {}", e))
+            })
+            .and_then(|endpoint| {
+                endpoint.connect_timeout(Duration::from_secs(self.get_timeout_secs())); // Use configured timeout
+                endpoint.connect().await.map_err(|e| {
+                    error!("Failed to connect to worker {}: {}", formatted_worker_url, e);
+                    HttpResponse::InternalServerError().body(format!("gRPC connection error to {}: {}", formatted_worker_url, e))
+                })
+            });
+
+        let channel = match channel_result {
+            Ok(ch) => ch,
+            Err(http_response) => return http_response, // Return the error response directly
+        };
+
+        let mut grpc_client = SglangEngineServiceClient::new(channel);
+
+        let request_json_body = match String::from_utf8(body.to_vec()) {
+            Ok(s) => s,
+            Err(_) => return HttpResponse::BadRequest().body("Invalid UTF-8 in request body"),
+        };
+
+        let mut grpc_headers = HashMap::new();
+        for (name, value) in copy_request_headers(req) {
+            grpc_headers.insert(name, value);
+        }
+
+        let grpc_request = TonicRequest::new(GrpcGenerateRequest {
+            request_json_body,
+            headers: grpc_headers,
+        });
 
         if !is_stream {
-            // For non-streaming requests, get response first
-            let response = match res.bytes().await {
-                Ok(body) => HttpResponse::build(status).body(body.to_vec()),
-                Err(e) => {
-                    let error_msg = format!("Failed to get response body: {}", e);
-                    HttpResponse::InternalServerError().body(error_msg)
-                }
-            };
+            match grpc_client.generate(grpc_request).await {
+                Ok(response_wrapper) => {
+                    let grpc_response = response_wrapper.into_inner();
+                    let status = actix_web::http::StatusCode::from_u16(grpc_response.status_code as u16)
+                        .unwrap_or(actix_web::http::StatusCode::INTERNAL_SERVER_ERROR);
 
-            // Then decrement running queue counter if using CacheAware
-            if let Router::CacheAware { running_queue, .. } = self {
-                if let Ok(mut queue) = running_queue.lock() {
-                    if let Some(count) = queue.get_mut(worker_url) {
-                        *count = count.saturating_sub(1);
+                    if let Router::CacheAware { running_queue, .. } = self {
+                        if let Ok(mut queue) = running_queue.lock() {
+                            if let Some(count) = queue.get_mut(worker_url) {
+                                *count = count.saturating_sub(1);
+                            }
+                        }
                     }
+                    HttpResponse::build(status).body(grpc_response.response_json_body)
+                }
+                Err(status) => {
+                    error!("gRPC Generate call to {} failed: {}", worker_url, status);
+                    if let Router::CacheAware { running_queue, .. } = self {
+                        if let Ok(mut queue) = running_queue.lock() {
+                            if let Some(count) = queue.get_mut(worker_url) {
+                                *count = count.saturating_sub(1);
+                            }
+                        }
+                    }
+                    HttpResponse::InternalServerError().body(format!("gRPC error: {}", status.message()))
                 }
             }
-
-            response
-        } else if let Router::CacheAware { running_queue, .. } = self {
-            let running_queue = Arc::clone(running_queue);
-            let worker_url = worker_url.to_string();
-
-            HttpResponse::build(status)
-                .insert_header((CONTENT_TYPE, HeaderValue::from_static("text/event-stream")))
-                .streaming(
-                    res.bytes_stream()
-                        .map_err(|_| {
-                            actix_web::error::ErrorInternalServerError("Failed to read stream")
-                        })
-                        .inspect(move |bytes| {
-                            let bytes = bytes.as_ref().unwrap();
-                            if bytes
-                                .as_ref()
-                                .windows(12)
-                                .any(|window| window == b"data: [DONE]")
-                            {
-                                let mut locked_queue = running_queue.lock().unwrap();
-                                let count = locked_queue.get_mut(&worker_url).unwrap();
-                                *count = count.saturating_sub(1);
-                                debug!("Streaming is done!!")
-                            }
-                        }),
-                )
         } else {
-            HttpResponse::build(status)
-                .insert_header((CONTENT_TYPE, HeaderValue::from_static("text/event-stream")))
-                .streaming(res.bytes_stream().map_err(|_| {
-                    actix_web::error::ErrorInternalServerError("Failed to read stream")
-                }))
+            // Streaming case
+            let captured_running_queue: Option<Arc<Mutex<HashMap<String, usize>>>> =
+                if let Router::CacheAware { running_queue, .. } = self {
+                    Some(Arc::clone(running_queue))
+                } else {
+                    None
+                };
+            let captured_worker_url = worker_url.to_string();
+
+            match grpc_client.generate_stream(grpc_request).await {
+                Ok(response_wrapper) => {
+                    let mut stream = response_wrapper.into_inner();
+                    let (tx, rx_body) = actix_web::web::BytesChannel::new();
+
+                    tokio::spawn(async move {
+                        while let Some(token_update_result) = stream.next().await {
+                            match token_update_result {
+                                Ok(token_update) => {
+                                    let sse_event = format!("data: {}\n\n", token_update.json_chunk);
+                                    if tx.send(Bytes::from(sse_event)).is_err() {
+                                        break; // Receiver closed
+                                    }
+
+                                    if let Some(ref running_queue_arc) = captured_running_queue {
+                                        // Check for [DONE] message. The exact format depends on what the Python gRPC server sends.
+                                        // Assuming the json_chunk contains something like `{"text": "...", "finish_reason": "stop"}` for the last message,
+                                        // or a specific "[DONE]" marker if you implement that.
+                                        // For this example, we'll check if json_chunk contains a common stop indicator.
+                                        // This needs to be robust and match the actual server output.
+                                        if token_update.json_chunk.contains("[DONE]") || token_update.json_chunk.contains("\"finish_reason\": \"stop\"") || token_update.json_chunk.contains("\"finish_reason\": \"length\"") {
+                                            if let Ok(mut queue) = running_queue_arc.lock() {
+                                                if let Some(count) = queue.get_mut(&captured_worker_url) {
+                                                    *count = count.saturating_sub(1);
+                                                    debug!("gRPC Streaming is done for worker {}!!", captured_worker_url);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                Err(status) => {
+                                    error!("gRPC stream error from {}: {}", captured_worker_url, status);
+                                    let error_msg = format!("data: {{ \"error\": \"gRPC stream error: {}\n\n" }}", status.message());
+                                    let _ = tx.send(Bytes::from(error_msg));
+                                    // Decrement queue on stream error for CacheAware as well, as the request is finished.
+                                    if let Some(ref running_queue_arc) = captured_running_queue {
+                                        if let Ok(mut queue) = running_queue_arc.lock() {
+                                            if let Some(count) = queue.get_mut(&captured_worker_url) {
+                                                *count = count.saturating_sub(1);
+                                                debug!("gRPC Streaming errored for worker {}, count decremented.", captured_worker_url);
+                                            }
+                                        }
+                                    }
+                                    tx.close();
+                                    break;
+                                }
+                            }
+                        }
+                        if !tx.is_closed() {
+                             tx.close();
+                        }
+                    });
+
+                    HttpResponse::Ok()
+                        .insert_header((CONTENT_TYPE, HeaderValue::from_static("text/event-stream")))
+                        .streaming(rx_body)
+                }
+                Err(status) => {
+                    error!("gRPC GenerateStream call to {} failed: {}", worker_url, status);
+                    // Decrement queue on initial call failure for CacheAware as well.
+                    if let Some(ref running_queue_arc) = captured_running_queue {
+                         if let Ok(mut queue) = running_queue_arc.lock() {
+                            if let Some(count) = queue.get_mut(&captured_worker_url) {
+                                *count = count.saturating_sub(1);
+                            }
+                        }
+                    }
+                    HttpResponse::InternalServerError().body(format!("gRPC error: {}", status.message()))
+                }
+            }
+        }
+    }
+
+    // Helper function to get timeout_secs, as it's stored differently in Router variants
+    fn get_timeout_secs(&self) -> u64 {
+        match self {
+            Router::RoundRobin { timeout_secs, .. } => *timeout_secs,
+            Router::Random { timeout_secs, .. } => *timeout_secs,
+            Router::CacheAware { timeout_secs, .. } => *timeout_secs,
         }
     }
 
