@@ -1,0 +1,40 @@
+// /home/archeng/sglang/protos/sglang_engine.proto
+syntax = "proto3";
+
+package sglang.engine.v1;
+
+// Service definition for the SGLang Engine
+service SglangEngineService {
+  // RPC for non-streaming generation requests
+  rpc Generate(GenerateRequest) returns (GenerateResponse);
+
+  // RPC for streaming generation requests
+  rpc GenerateStream(GenerateRequest) returns (stream TokenUpdate);
+}
+
+// Request message for generation
+message GenerateRequest {
+  // The JSON serialized body of the request, containing parameters like
+  // "prompt", "sampling_params", "stream", "image_data", etc.
+  // This mirrors the structure expected by the current HTTP endpoints.
+  string request_json_body = 1;
+
+  // Optional: To pass along necessary headers if any are critical for the engine's logic.
+  map<string, string> headers = 2;
+}
+
+// Response message for non-streaming generation
+message GenerateResponse {
+  // The JSON serialized body of the response.
+  string response_json_body = 1;
+
+  // An integer status code, similar to HTTP status codes (e.g., 200 for OK, 500 for error).
+  int32 status_code = 2;
+}
+
+// Message for individual updates in a streaming response
+message TokenUpdate {
+  // A chunk of the response stream, typically JSON formatted.
+  // For SSE compatibility, this could be the "data:" part of an SSE event.
+  string json_chunk = 1;
+}
