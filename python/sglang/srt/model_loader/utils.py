@@ -94,6 +94,10 @@ def get_model_architecture(model_config: ModelConfig) -> Tuple[Type[nn.Module], 
     ):
         architectures = ["QuantMixtralForCausalLM"]
 
+    # Special handling for Sarashina Vision Model
+    if "Sarashina2VisionForCausalLM" in architectures:
+        architectures = ["Qwen2VLForConditionalGeneration"]
+
     supported_archs = ModelRegistry.get_supported_archs()
     is_native_supported = any(arch in supported_archs for arch in architectures)
 
