@@ -474,7 +474,11 @@ class Qwen2VLForConditionalGeneration(nn.Module):
                 prefix=add_prefix("lm_head", prefix),
             )
 
-        self.is_mrope_enabled = "mrope_section" in self.config.rope_scaling
+        self.is_mrope_enabled = (
+            False
+            if not getattr(self.config, "rope_scalling", None)
+            else "mrope_section" in self.config.rope_scaling
+        )
         self.logits_processor = LogitsProcessor(config)
         self.pooler = Pooler(pooling_type=PoolingType.LAST, normalize=True)
 
@@ -571,6 +575,11 @@ class Qwen2VLForConditionalGeneration(nn.Module):
         ]
         params_dict = dict(self.named_parameters(remove_duplicate=False))
         for name, loaded_weight in weights:
+            # Special Handling for Sarashina 2
+            name = name.replace("llm.model", "model")
+            if name == "norm.weight":
+                name = "model.norm.weight"
+
             if "rotary_emb.inv_freq" in name:
                 continue
             if self.config.tie_word_embeddings and "lm_head.weight" in name:
