@@ -375,7 +375,7 @@ impl StreamingToolHandler {
                 StreamAction::Forward
             }
             event_types::FUNCTION_CALL_ARGUMENTS_DONE => {
-                // Function call arguments complete - check if ready to execute
+                // Function call arguments complete - update tracking
                 if let Some(output_index) = parsed
                     .get("output_index")
                     .and_then(|v| v.as_u64())
@@ -393,11 +393,9 @@ impl StreamingToolHandler {
                     }
                 }
 
-                if self.has_complete_calls() {
-                    StreamAction::ExecuteTools
-                } else {
-                    StreamAction::Forward
-                }
+                // Always forward this event, don't execute tools yet
+                // Let OUTPUT_ITEM_DONE event trigger tool execution
+                StreamAction::Forward
             }
             event_types::OUTPUT_ITEM_DELTA => self.process_output_delta(&parsed),
             event_types::OUTPUT_ITEM_DONE => {
@@ -1003,8 +1001,12 @@ pub(super) fn send_final_response_event(
         }
     }
 
+    // Only inject MCP metadata if MCP tools were actually executed
+    // Check if state has any conversation history (indicating MCP tool execution occurred)
     if let Some(mcp) = active_mcp {
-        inject_mcp_metadata_streaming(&mut final_response, state, mcp, server_label, tool_context);
+        if !state.conversation_history.is_empty() {
+            inject_mcp_metadata_streaming(&mut final_response, state, mcp, server_label, tool_context);
+        }
     }
 
     mask_tools_as_mcp(&mut final_response, original_request);
@@ -1466,13 +1468,17 @@ pub(super) async fn handle_streaming_with_tool_interception(
                             obj.insert("id".to_string(), Value::String(id.clone()));
                         }
                     }
-                    inject_mcp_metadata_streaming(
-                        &mut response_json,
-                        &state,
-                        &active_mcp_clone,
-                        server_label,
-                        tool_context,
-                    );
+
+                    // Only inject MCP metadata if MCP tools were actually executed
+                    if !state.conversation_history.is_empty() {
+                        inject_mcp_metadata_streaming(
+                            &mut response_json,
+                            &state,
+                            &active_mcp_clone,
+                            server_label,
+                            tool_context,
+                        );
+                    }
 
                     mask_tools_as_mcp(&mut response_json, &original_request);
                     patch_streaming_response_json(
