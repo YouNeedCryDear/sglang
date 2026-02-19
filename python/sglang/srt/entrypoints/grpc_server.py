@@ -5,15 +5,19 @@ Uses GrpcRequestManager for orchestration without tokenization.
 
 import asyncio
 import dataclasses
+import hashlib
+import io
 import json
 import logging
 import os
 import signal
 import threading
 import time
+import zipfile
 from concurrent import futures
 from datetime import datetime, timezone
-from typing import AsyncIterator, Dict, Optional
+from pathlib import Path
+from typing import AsyncIterator, Dict, List, Optional, Tuple
 
 import grpc
 from google.protobuf.json_format import MessageToDict
@@ -42,6 +46,31 @@ from sglang.utils import get_exception_traceback
 
 logger = logging.getLogger(__name__)
 HEALTH_CHECK_TIMEOUT = int(os.getenv("SGLANG_HEALTH_CHECK_TIMEOUT", 20))
+
+TOKENIZER_CHUNK_SIZE = 2 * 1024 * 1024  # 2MB
+TOKENIZER_EXACT_FILE_NAMES = {
+    "tokenizer.json",
+    "tokenizer_config.json",
+    "special_tokens_map.json",
+    "added_tokens.json",
+    "vocab.json",
+    "vocab.txt",
+    "merges.txt",
+    "tokenizer.model",
+    "spiece.model",
+    "sentencepiece.bpe.model",
+    "chat_template.jinja",
+    "chat_template.json",
+    "config.json",
+}
+TOKENIZER_PREFIXES = (
+    "tokenizer",
+    "vocab",
+    "merges",
+    "special_tokens_map",
+    "added_tokens",
+    "chat_template",
+)
 
 
 def _convert_loads_to_protobuf(
@@ -532,6 +561,123 @@ class SGLangSchedulerServicer(sglang_scheduler_pb2_grpc.SglangSchedulerServicer)
             loads=loads,
             aggregate=_compute_aggregate_protobuf(loads),
         )
+
+    async def GetTokenizer(
+        self,
+        _request: sglang_scheduler_pb2.GetTokenizerRequest,
+        context: grpc.aio.ServicerContext,
+    ) -> AsyncIterator[sglang_scheduler_pb2.GetTokenizerChunk]:
+        """Stream tokenizer bundle as raw zip bytes; sha256 is sent on the final chunk
+        only."""
+        logger.info("Receive tokenizer fetch request")
+
+        try:
+            bundle_bytes, fingerprint = self._prepare_tokenizer_bundle()
+        except FileNotFoundError as exc:
+            logger.error(f"Tokenizer bundle not available: {exc}")
+            context.set_code(grpc.StatusCode.NOT_FOUND)
+            context.set_details(str(exc))
+            return
+        except Exception as exc:  # pragma: no cover - defensive catch
+            logger.error(
+                "Failed to prepare tokenizer bundle: %s\n%s",
+                exc,
+                get_exception_traceback(),
+            )
+            context.set_code(grpc.StatusCode.INTERNAL)
+            context.set_details(str(exc))
+            return
+
+        total_size = len(bundle_bytes)
+        if total_size == 0:
+            context.set_code(grpc.StatusCode.INTERNAL)
+            context.set_details("Prepared tokenizer bundle is empty")
+            return
+
+        logger.info(
+            "Streaming tokenizer bundle: bytes=%d, chunks=%d",
+            total_size,
+            (total_size + TOKENIZER_CHUNK_SIZE - 1) // TOKENIZER_CHUNK_SIZE,
+        )
+
+        for start in range(0, total_size, TOKENIZER_CHUNK_SIZE):
+            end = min(start + TOKENIZER_CHUNK_SIZE, total_size)
+            is_final_chunk = end == total_size
+            yield sglang_scheduler_pb2.GetTokenizerChunk(
+                data=bundle_bytes[start:end],
+                sha256=fingerprint if is_final_chunk else "",
+            )
+
+    def _prepare_tokenizer_bundle(self) -> Tuple[bytes, str]:
+        """Build a deterministic zip bundle of tokenizer artifacts and return (bytes,
+        sha256)."""
+        source_root = self._resolve_tokenizer_source()
+        files = self._collect_tokenizer_files(source_root)
+
+        if not files:
+            raise FileNotFoundError(
+                f"No tokenizer artifacts found under '{source_root}'"
+            )
+
+        buffer = io.BytesIO()
+        with zipfile.ZipFile(
+            buffer,
+            mode="w",
+            compression=zipfile.ZIP_DEFLATED,
+            compresslevel=6,
+        ) as archive:
+            for abs_path, arcname in files:
+                archive.write(abs_path, arcname)
+
+        bundle_bytes = buffer.getvalue()
+        fingerprint = hashlib.sha256(bundle_bytes).hexdigest()
+        return bundle_bytes, fingerprint
+
+    def _resolve_tokenizer_source(self) -> Path:
+        """Resolve tokenizer artifact root from server args."""
+        tokenizer_path = (self.server_args.tokenizer_path or "").strip()
+        raw = tokenizer_path or self.server_args.model_path
+        if not raw:
+            raise FileNotFoundError(
+                "Neither tokenizer_path nor model_path is configured"
+            )
+
+        p = Path(raw).expanduser().resolve()
+        if not p.exists():
+            raise FileNotFoundError(f"Tokenizer source path does not exist: {p}")
+
+        return p if p.is_dir() else p.parent
+
+    def _collect_tokenizer_files(self, source_root: Path) -> List[Tuple[Path, str]]:
+        """Collect tokenizer-related files only (exclude model weights)."""
+        selected: List[Path] = []
+        root_resolved = source_root.resolve()
+
+        for path in source_root.rglob("*"):
+            if not path.is_file():
+                continue
+            try:
+                resolved = path.resolve()
+            except OSError:
+                continue
+
+            # Skip symlink escapes or weird paths
+            if not str(resolved).startswith(str(root_resolved)):
+                continue
+
+            name = path.name.lower()
+            if name in TOKENIZER_EXACT_FILE_NAMES or any(
+                name.startswith(prefix) for prefix in TOKENIZER_PREFIXES
+            ):
+                selected.append(path)
+
+        # deterministic order
+        selected.sort(key=lambda p: str(p.relative_to(source_root)).lower())
+
+        # return (absolute path, zip entry name)
+        return [
+            (p, str(p.relative_to(source_root)).replace("\\", "/")) for p in selected
+        ]
 
     # Helper methods for request/response conversion
 
