@@ -1,0 +1,32 @@
+{
+  "scope": "CPU compatibility adapter only; not a throughput benchmark",
+  "python": "3.12.14",
+  "machine": "x86_64",
+  "oss-harmony": "0.0.12",
+  "measurements": [
+    {
+      "tool_calls": 1,
+      "tokens": 120,
+      "repeats": 10,
+      "normalization_mean_ms": 0.284207700042316
+    },
+    {
+      "tool_calls": 10,
+      "tokens": 1182,
+      "repeats": 10,
+      "normalization_mean_ms": 0.32058670003607403
+    },
+    {
+      "tool_calls": 100,
+      "tokens": 11802,
+      "repeats": 10,
+      "normalization_mean_ms": 0.9540805000142427
+    },
+    {
+      "tool_calls": 1000,
+      "tokens": 118002,
+      "repeats": 3,
+      "normalization_mean_ms": 13.946947666530226
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "date": "2026-11-03",
+  "base_commit": "a4bef204c51e1c1b7ed59593b85993a940367591",
+  "candidate_commit": "3d1442e6e85f77dc083d1111c3aa07a7ee17429d",
+  "image": "lmsysorg/sglang:v0.5.22-cu130",
+  "source_override": "PYTHONPATH=<checkout>/python",
+  "gpu": "1 x NVIDIA H200 NVL",
+  "model": "openai/gpt-oss-20b",
+  "model_revision": "6cee5e81ee83917806bbde320786a8fb61efebee",
+  "baseline_harmony": "openai-harmony==0.0.4",
+  "candidate_harmony": "oss-harmony==0.0.12"
+}

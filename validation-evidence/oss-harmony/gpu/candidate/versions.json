@@ -1,0 +1,18 @@
+{
+  "sglang": "0.5.22",
+  "torch": "2.14.1+cu130",
+  "openai": "2.8.0",
+  "openai-harmony": null,
+  "oss-harmony": "0.0.12",
+  "transformers": "5.19.0",
+  "triton": "3.8.0",
+  "triton-kernels": null,
+  "flashinfer-python": "0.7.1",
+  "sgl-kernel": null,
+  "sglang-kernel": "0.4.9",
+  "tml-renderers": "0.1.0",
+  "pytest": "9.1.1",
+  "pytest-asyncio": "1.4.1.post1",
+  "python": "3.12.15",
+  "gpu": "NVIDIA H200 NVL, 615.71.10, 143771 MiB"
+}

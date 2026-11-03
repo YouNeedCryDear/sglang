@@ -1,0 +1,98 @@
+[
+  {
+    "name": "arithmetic",
+    "status_code": 200,
+    "passed": true,
+    "text": "42",
+    "exception": null,
+    "elapsed_seconds": 2.397
+  },
+  {
+    "name": "arithmetic_stream",
+    "status_code": 200,
+    "passed": true,
+    "text": "42",
+    "exception": null,
+    "elapsed_seconds": 0.83
+  },
+  {
+    "name": "capital",
+    "status_code": 200,
+    "passed": true,
+    "text": "Paris",
+    "exception": null,
+    "elapsed_seconds": 0.634
+  },
+  {
+    "name": "capital_stream",
+    "status_code": 200,
+    "passed": true,
+    "text": "Paris",
+    "exception": null,
+    "elapsed_seconds": 0.627
+  },
+  {
+    "name": "literal",
+    "status_code": 200,
+    "passed": true,
+    "text": "BLUE",
+    "exception": null,
+    "elapsed_seconds": 0.667
+  },
+  {
+    "name": "literal_stream",
+    "status_code": 200,
+    "passed": true,
+    "text": "BLUE",
+    "exception": null,
+    "elapsed_seconds": 0.666
+  },
+  {
+    "name": "tool_call",
+    "status_code": 200,
+    "passed": true,
+    "text": "",
+    "exception": null,
+    "elapsed_seconds": 2.867
+  },
+  {
+    "name": "tool_call_stream",
+    "status_code": 200,
+    "passed": true,
+    "text": "",
+    "exception": null,
+    "elapsed_seconds": 1.318
+  },
+  {
+    "name": "tool_replay",
+    "status_code": 200,
+    "passed": true,
+    "text": "The current weather in Paris is sunny with a temperature of 21\u202f\u00b0C.",
+    "exception": null,
+    "elapsed_seconds": 1.793
+  },
+  {
+    "name": "tool_replay_stream",
+    "status_code": 200,
+    "passed": true,
+    "text": "The current weather in Paris is 21\u202f\u00b0C and sunny.",
+    "exception": null,
+    "elapsed_seconds": 1.167
+  },
+  {
+    "name": "chat_control",
+    "status_code": 200,
+    "passed": true,
+    "text": "42",
+    "exception": null,
+    "elapsed_seconds": 0.776
+  },
+  {
+    "name": "chat_control_stream",
+    "status_code": 200,
+    "passed": true,
+    "text": "42",
+    "exception": null,
+    "elapsed_seconds": 0.777
+  }
+]

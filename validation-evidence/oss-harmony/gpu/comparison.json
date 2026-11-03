@@ -1,0 +1,117 @@
+{
+  "cases": [
+    {
+      "case": "arithmetic",
+      "baseline_pass": true,
+      "candidate_pass": true,
+      "same_request": true,
+      "same_text": true,
+      "same_canonical_response": true,
+      "differences": []
+    },
+    {
+      "case": "arithmetic_stream",
+      "baseline_pass": true,
+      "candidate_pass": true,
+      "same_request": true,
+      "same_text": true,
+      "same_canonical_response": true,
+      "differences": []
+    },
+    {
+      "case": "capital",
+      "baseline_pass": true,
+      "candidate_pass": true,
+      "same_request": true,
+      "same_text": true,
+      "same_canonical_response": true,
+      "differences": []
+    },
+    {
+      "case": "capital_stream",
+      "baseline_pass": true,
+      "candidate_pass": true,
+      "same_request": true,
+      "same_text": true,
+      "same_canonical_response": true,
+      "differences": []
+    },
+    {
+      "case": "chat_control",
+      "baseline_pass": true,
+      "candidate_pass": true,
+      "same_request": true,
+      "same_text": true,
+      "same_canonical_response": true,
+      "differences": []
+    },
+    {
+      "case": "chat_control_stream",
+      "baseline_pass": true,
+      "candidate_pass": true,
+      "same_request": true,
+      "same_text": true,
+      "same_canonical_response": true,
+      "differences": []
+    },
+    {
+      "case": "literal",
+      "baseline_pass": true,
+      "candidate_pass": true,
+      "same_request": true,
+      "same_text": true,
+      "same_canonical_response": true,
+      "differences": []
+    },
+    {
+      "case": "literal_stream",
+      "baseline_pass": true,
+      "candidate_pass": true,
+      "same_request": true,
+      "same_text": true,
+      "same_canonical_response": true,
+      "differences": []
+    },
+    {
+      "case": "tool_call",
+      "baseline_pass": true,
+      "candidate_pass": true,
+      "same_request": true,
+      "same_text": true,
+      "same_canonical_response": true,
+      "differences": []
+    },
+    {
+      "case": "tool_call_stream",
+      "baseline_pass": true,
+      "candidate_pass": true,
+      "same_request": true,
+      "same_text": true,
+      "same_canonical_response": true,
+      "differences": []
+    },
+    {
+      "case": "tool_replay",
+      "baseline_pass": true,
+      "candidate_pass": true,
+      "same_request": true,
+      "same_text": true,
+      "same_canonical_response": true,
+      "differences": []
+    },
+    {
+      "case": "tool_replay_stream",
+      "baseline_pass": true,
+      "candidate_pass": true,
+      "same_request": true,
+      "same_text": true,
+      "same_canonical_response": true,
+      "differences": []
+    }
+  ],
+  "passed_baseline": 12,
+  "passed_candidate": 12,
+  "identical_requests": 12,
+  "identical_text": 12,
+  "identical_canonical_response": 12
+}

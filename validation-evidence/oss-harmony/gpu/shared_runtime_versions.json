@@ -1,0 +1,9 @@
+{
+  "sglang-kernel": "0.4.9",
+  "torch": "2.14.1+cu130",
+  "openai": "2.8.0",
+  "tml-renderers": "0.1.0",
+  "transformers": "5.19.0",
+  "triton": "3.8.0",
+  "flashinfer-python": "0.7.1"
+}

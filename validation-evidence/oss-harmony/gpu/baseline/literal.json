@@ -1,0 +1,150 @@
+{
+  "name": "literal",
+  "path": "/v1/responses",
+  "request": {
+    "model": "gpt-oss-20b",
+    "temperature": 0,
+    "max_output_tokens": 512,
+    "reasoning": {
+      "effort": "low"
+    },
+    "store": false,
+    "input": "Reply with exactly the word BLUE and nothing else.",
+    "stream": false
+  },
+  "status_code": 200,
+  "response": {
+    "id": "resp_7b83c3c2d4be42abb8e032a91d3a2565",
+    "object": "response",
+    "created_at": 1793749545,
+    "model": "gpt-oss-20b",
+    "output": [
+      {
+        "id": "rs_9dae0909a8eb4ae18b1ad6e56a133fa0",
+        "summary": [],
+        "type": "reasoning",
+        "content": [
+          {
+            "text": "User wants exactly \"BLUE\".",
+            "type": "reasoning_text"
+          }
+        ],
+        "encrypted_content": null,
+        "status": null
+      },
+      {
+        "id": "msg_1289b5b027354c179d9dd7d2b516f3eb",
+        "content": [
+          {
+            "annotations": [],
+            "text": "BLUE",
+            "type": "output_text",
+            "logprobs": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "status": "completed",
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cached_tokens": 68,
+        "cache_write_tokens": 0
+      },
+      "output_tokens": 17,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 17
+    },
+    "parallel_tool_calls": true,
+    "tool_choice": "auto",
+    "tools": [],
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "max_output_tokens": 512,
+    "previous_response_id": null,
+    "reasoning": {
+      "effort": "low",
+      "summary": null
+    },
+    "store": false,
+    "temperature": 0.0,
+    "text": null,
+    "top_p": null,
+    "truncation": "disabled",
+    "user": null,
+    "metadata": {}
+  },
+  "passed": true,
+  "text": "BLUE",
+  "canonical": {
+    "object": "response",
+    "model": "gpt-oss-20b",
+    "output": [
+      {
+        "summary": [],
+        "type": "reasoning",
+        "content": [
+          {
+            "text": "User wants exactly \"BLUE\".",
+            "type": "reasoning_text"
+          }
+        ],
+        "encrypted_content": null,
+        "status": null
+      },
+      {
+        "content": [
+          {
+            "annotations": [],
+            "text": "BLUE",
+            "type": "output_text",
+            "logprobs": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "status": "completed",
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cache_write_tokens": 0
+      },
+      "output_tokens": 17,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 17
+    },
+    "parallel_tool_calls": true,
+    "tool_choice": "auto",
+    "tools": [],
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "max_output_tokens": 512,
+    "previous_response_id": null,
+    "reasoning": {
+      "effort": "low",
+      "summary": null
+    },
+    "store": false,
+    "temperature": 0.0,
+    "text": null,
+    "top_p": null,
+    "truncation": "disabled",
+    "user": null,
+    "metadata": {}
+  },
+  "elapsed_seconds": 0.667
+}

@@ -1,0 +1,150 @@
+{
+  "name": "capital",
+  "path": "/v1/responses",
+  "request": {
+    "model": "gpt-oss-20b",
+    "temperature": 0,
+    "max_output_tokens": 512,
+    "reasoning": {
+      "effort": "low"
+    },
+    "store": false,
+    "input": "What is the capital of France? Answer with the city name only.",
+    "stream": false
+  },
+  "status_code": 200,
+  "response": {
+    "id": "resp_677cdf1b20224ea58689347b37ef98bc",
+    "object": "response",
+    "created_at": 1793749544,
+    "model": "gpt-oss-20b",
+    "output": [
+      {
+        "id": "rs_441b5aba31cd4b23abfb6dd49c611d90",
+        "summary": [],
+        "type": "reasoning",
+        "content": [
+          {
+            "text": "Just answer \"Paris\".",
+            "type": "reasoning_text"
+          }
+        ],
+        "encrypted_content": null,
+        "status": null
+      },
+      {
+        "id": "msg_1580fbc39d4c408f9cec15909c5f60fe",
+        "content": [
+          {
+            "annotations": [],
+            "text": "Paris",
+            "type": "output_text",
+            "logprobs": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "status": "completed",
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cached_tokens": 70,
+        "cache_write_tokens": 0
+      },
+      "output_tokens": 16,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 16
+    },
+    "parallel_tool_calls": true,
+    "tool_choice": "auto",
+    "tools": [],
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "max_output_tokens": 512,
+    "previous_response_id": null,
+    "reasoning": {
+      "effort": "low",
+      "summary": null
+    },
+    "store": false,
+    "temperature": 0.0,
+    "text": null,
+    "top_p": null,
+    "truncation": "disabled",
+    "user": null,
+    "metadata": {}
+  },
+  "passed": true,
+  "text": "Paris",
+  "canonical": {
+    "object": "response",
+    "model": "gpt-oss-20b",
+    "output": [
+      {
+        "summary": [],
+        "type": "reasoning",
+        "content": [
+          {
+            "text": "Just answer \"Paris\".",
+            "type": "reasoning_text"
+          }
+        ],
+        "encrypted_content": null,
+        "status": null
+      },
+      {
+        "content": [
+          {
+            "annotations": [],
+            "text": "Paris",
+            "type": "output_text",
+            "logprobs": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "status": "completed",
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cache_write_tokens": 0
+      },
+      "output_tokens": 16,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 16
+    },
+    "parallel_tool_calls": true,
+    "tool_choice": "auto",
+    "tools": [],
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "max_output_tokens": 512,
+    "previous_response_id": null,
+    "reasoning": {
+      "effort": "low",
+      "summary": null
+    },
+    "store": false,
+    "temperature": 0.0,
+    "text": null,
+    "top_p": null,
+    "truncation": "disabled",
+    "user": null,
+    "metadata": {}
+  },
+  "elapsed_seconds": 0.634
+}

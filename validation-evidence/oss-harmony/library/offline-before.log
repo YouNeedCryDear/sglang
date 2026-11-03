@@ -1,0 +1,9 @@
+{"result": "FAIL", "network": "socket syscall denied EPERM", "error": "error downloading or loading vocab file: failed to download or load vocab file", "cache_files": []}
+Traceback (most recent call last):
+  File "/tmp/harmony-compat-evidence/offline_probe.py", line 28, in <module>
+    enc=openai_harmony.load_harmony_encoding(openai_harmony.HarmonyEncodingName.HARMONY_GPT_OSS)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/harmony-compat-before/lib/python3.12/site-packages/openai_harmony/__init__.py", line 689, in load_harmony_encoding
+    inner: _PyHarmonyEncoding = _load_harmony_encoding(name)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+openai_harmony.HarmonyError: error downloading or loading vocab file: failed to download or load vocab file

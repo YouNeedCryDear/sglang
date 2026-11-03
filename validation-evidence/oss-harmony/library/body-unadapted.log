@@ -1,0 +1,51 @@
+Traceback (most recent call last):
+  File "/tmp/harmony-compat-evidence/body_probe.py", line 21, in <module>
+    namespace[method.name](unittest.TestCase())
+  File "/tmp/sglang-oss-harmony-20261103/test/registered/unit/entrypoints/openai/test_serving_responses.py", line 1875, in test_harmony_tool_replay_preserves_legacy_header_and_body
+    self.assertEqual(render_for_completion([message]), expected)
+  File "/home/xuyangc/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/unittest/case.py", line 885, in assertEqual
+    assertion_func(first, second, msg=msg)
+  File "/home/xuyangc/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/unittest/case.py", line 1091, in assertListEqual
+    self.assertSequenceEqual(list1, list2, msg, seq_type=list)
+  File "/home/xuyangc/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/unittest/case.py", line 1073, in assertSequenceEqual
+    self.fail(msg)
+  File "/home/xuyangc/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/unittest/case.py", line 715, in fail
+    raise self.failureException(msg)
+AssertionError: Lists differ: [200006, 173781, 200005, 12606, 815, 316, 28, 44580, 18260[120 chars]3781] != [200006, 173781, 316, 28, 44580, 182608, 200005, 12606, 81[120 chars]3781]
+
+First differing element 2:
+200005
+316
+
+  [200006,
+   173781,
+-  200005,
+-  12606,
+-  815,
+   316,
+   28,
+   44580,
+   182608,
++  200005,
++  12606,
++  815,
+   200008,
+   10848,
+   919,
+   7534,
+   70989,
+   464,
+   91,
+   5236,
+   91,
+   29,
+   173781,
+   316,
+   28,
+   29010,
+   326,
+   30469,
+   18583,
+   200012,
+   200006,
+   173781]
