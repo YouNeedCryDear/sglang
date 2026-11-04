@@ -1,0 +1,71 @@
+{
+  "cases": [
+    {
+      "case": "plain",
+      "same_as_openai_harmony_0_0_4": true,
+      "same_as_native_oss_harmony_0_0_12": true
+    },
+    {
+      "case": "tools",
+      "same_as_openai_harmony_0_0_4": true,
+      "same_as_native_oss_harmony_0_0_12": true
+    },
+    {
+      "case": "analysis",
+      "same_as_openai_harmony_0_0_4": true,
+      "same_as_native_oss_harmony_0_0_12": true
+    },
+    {
+      "case": "final",
+      "same_as_openai_harmony_0_0_4": true,
+      "same_as_native_oss_harmony_0_0_12": true
+    },
+    {
+      "case": "commentary",
+      "same_as_openai_harmony_0_0_4": true,
+      "same_as_native_oss_harmony_0_0_12": true
+    },
+    {
+      "case": "tool_call",
+      "same_as_openai_harmony_0_0_4": false,
+      "same_as_native_oss_harmony_0_0_12": true,
+      "old_assistant_header": " to=functions.weather<|channel|>commentary",
+      "native_assistant_header": "<|channel|>commentary to=functions.weather"
+    },
+    {
+      "case": "tool_call_json",
+      "same_as_openai_harmony_0_0_4": false,
+      "same_as_native_oss_harmony_0_0_12": true,
+      "old_assistant_header": " to=functions.weather<|channel|>commentary json",
+      "native_assistant_header": "<|channel|>commentary to=functions.weather <|constrain|>json"
+    },
+    {
+      "case": "python",
+      "same_as_openai_harmony_0_0_4": true,
+      "same_as_native_oss_harmony_0_0_12": true
+    },
+    {
+      "case": "python_code",
+      "same_as_openai_harmony_0_0_4": false,
+      "same_as_native_oss_harmony_0_0_12": true,
+      "old_assistant_header": " to=python<|channel|>analysis code",
+      "native_assistant_header": " to=python<|channel|>analysis <|constrain|>code"
+    },
+    {
+      "case": "browser_json",
+      "same_as_openai_harmony_0_0_4": false,
+      "same_as_native_oss_harmony_0_0_12": true,
+      "old_assistant_header": " to=browser.search<|channel|>analysis json",
+      "native_assistant_header": " to=browser.search<|channel|>analysis <|constrain|>json"
+    },
+    {
+      "case": "browser",
+      "same_as_openai_harmony_0_0_4": true,
+      "same_as_native_oss_harmony_0_0_12": true
+    }
+  ],
+  "old_render_equal": 7,
+  "native_render_equal": 11,
+  "old_token_parsing_equal": true,
+  "native_parsing_full_equals_stream": true
+}

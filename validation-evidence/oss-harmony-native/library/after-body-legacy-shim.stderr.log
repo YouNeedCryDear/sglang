@@ -1,0 +1,218 @@
+test_harmony_tool_replay_preserves_native_header_and_body (__main__.ActualNativeHeaderRegression.test_harmony_tool_replay_preserves_native_header_and_body)
+Tool histories retain native channel ordering and content-type markers. ... 
+  test_harmony_tool_replay_preserves_native_header_and_body (__main__.ActualNativeHeaderRegression.test_harmony_tool_replay_preserves_native_header_and_body) (channel='commentary', recipient='functions.echo')
+Tool histories retain native channel ordering and content-type markers. ... FAIL
+  test_harmony_tool_replay_preserves_native_header_and_body (__main__.ActualNativeHeaderRegression.test_harmony_tool_replay_preserves_native_header_and_body) (channel='commentary', recipient='functions.echo')
+Tool histories retain native channel ordering and content-type markers. ... FAIL
+  test_harmony_tool_replay_preserves_native_header_and_body (__main__.ActualNativeHeaderRegression.test_harmony_tool_replay_preserves_native_header_and_body) (channel='analysis', recipient='python')
+Tool histories retain native channel ordering and content-type markers. ... FAIL
+  test_harmony_tool_replay_preserves_native_header_and_body (__main__.ActualNativeHeaderRegression.test_harmony_tool_replay_preserves_native_header_and_body) (channel='analysis', recipient='browser.search')
+Tool histories retain native channel ordering and content-type markers. ... FAIL
+
+======================================================================
+FAIL: test_harmony_tool_replay_preserves_native_header_and_body (__main__.ActualNativeHeaderRegression.test_harmony_tool_replay_preserves_native_header_and_body) (channel='commentary', recipient='functions.echo')
+Tool histories retain native channel ordering and content-type markers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/sglang-oss-harmony-20261103/test/registered/unit/entrypoints/openai/test_serving_responses.py", line 1890, in test_harmony_tool_replay_preserves_native_header_and_body
+    self.assertEqual(actual, expected)
+AssertionError: Lists differ: [200006, 173781, 316, 28, 44580, 182608, 200005, 12606, 81[120 chars]3781] != [200006, 173781, 200005, 12606, 815, 316, 28, 44580, 18260[120 chars]3781]
+
+First differing element 2:
+316
+200005
+
+  [200006,
+   173781,
++  200005,
++  12606,
++  815,
+   316,
+   28,
+   44580,
+   182608,
+-  200005,
+-  12606,
+-  815,
+   200008,
+   10848,
+   919,
+   7534,
+   70989,
+   464,
+   91,
+   5236,
+   91,
+   29,
+   173781,
+   316,
+   28,
+   29010,
+   326,
+   30469,
+   18583,
+   200012,
+   200006,
+   173781]
+
+======================================================================
+FAIL: test_harmony_tool_replay_preserves_native_header_and_body (__main__.ActualNativeHeaderRegression.test_harmony_tool_replay_preserves_native_header_and_body) (channel='commentary', recipient='functions.echo')
+Tool histories retain native channel ordering and content-type markers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/sglang-oss-harmony-20261103/test/registered/unit/entrypoints/openai/test_serving_responses.py", line 1890, in test_harmony_tool_replay_preserves_native_header_and_body
+    self.assertEqual(actual, expected)
+AssertionError: Lists differ: [200006, 173781, 316, 28, 44580, 182608, 200005, 12606, 81[126 chars]3781] != [200006, 173781, 200005, 12606, 815, 316, 28, 44580, 18260[139 chars]3781]
+
+First differing element 2:
+316
+200005
+
+Second list contains 2 additional elements.
+First extra element 30:
+200006
+
+  [200006,
+   173781,
++  200005,
++  12606,
++  815,
+   316,
+   28,
+   44580,
+   182608,
++  220,
+-  200005,
+?       ^
+
++  200003,
+?       ^
+
++  4108,
+-  12606,
+-  815,
+-  5701,
+   200008,
+   10848,
+   919,
+   7534,
+   70989,
+   464,
+   91,
+   5236,
+   91,
+   29,
+   173781,
+   316,
+   28,
+   29010,
+   326,
+   30469,
+   18583,
+   200012,
+   200006,
+   173781]
+
+======================================================================
+FAIL: test_harmony_tool_replay_preserves_native_header_and_body (__main__.ActualNativeHeaderRegression.test_harmony_tool_replay_preserves_native_header_and_body) (channel='analysis', recipient='python')
+Tool histories retain native channel ordering and content-type markers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/sglang-oss-harmony-20261103/test/registered/unit/entrypoints/openai/test_serving_responses.py", line 1890, in test_harmony_tool_replay_preserves_native_header_and_body
+    self.assertEqual(actual, expected)
+AssertionError: Lists differ: [2000[38 chars]644, 3490, 200008, 10848, 919, 7534, 70989, 46[82 chars]3781] != [2000[38 chars]644, 220, 200003, 3056, 200008, 10848, 919, 75[95 chars]3781]
+
+First differing element 7:
+3490
+220
+
+Second list contains 2 additional elements.
+First extra element 28:
+200006
+
+  [200006,
+   173781,
+   316,
+   28,
+   29010,
+   200005,
+   35644,
+-  3490,
++  220,
++  200003,
++  3056,
+   200008,
+   10848,
+   919,
+   7534,
+   70989,
+   464,
+   91,
+   5236,
+   91,
+   29,
+   173781,
+   316,
+   28,
+   29010,
+   326,
+   30469,
+   18583,
+   200012,
+   200006,
+   173781]
+
+======================================================================
+FAIL: test_harmony_tool_replay_preserves_native_header_and_body (__main__.ActualNativeHeaderRegression.test_harmony_tool_replay_preserves_native_header_and_body) (channel='analysis', recipient='browser.search')
+Tool histories retain native channel ordering and content-type markers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/sglang-oss-harmony-20261103/test/registered/unit/entrypoints/openai/test_serving_responses.py", line 1890, in test_harmony_tool_replay_preserves_native_header_and_body
+    self.assertEqual(actual, expected)
+AssertionError: Lists differ: [2000[45 chars]644, 5701, 200008, 10848, 919, 7534, 70989, 46[82 chars]3781] != [2000[45 chars]644, 220, 200003, 4108, 200008, 10848, 919, 75[95 chars]3781]
+
+First differing element 8:
+5701
+220
+
+Second list contains 2 additional elements.
+First extra element 29:
+200006
+
+  [200006,
+   173781,
+   316,
+   28,
+   46071,
+   16718,
+   200005,
+   35644,
+-  5701,
++  220,
++  200003,
++  4108,
+   200008,
+   10848,
+   919,
+   7534,
+   70989,
+   464,
+   91,
+   5236,
+   91,
+   29,
+   173781,
+   316,
+   28,
+   29010,
+   326,
+   30469,
+   18583,
+   200012,
+   200006,
+   173781]
+
+----------------------------------------------------------------------
+Ran 1 test in 0.118s
+
+FAILED (failures=4)

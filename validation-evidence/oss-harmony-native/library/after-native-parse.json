@@ -1,0 +1,784 @@
+{
+  "plain": {
+    "full": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message."
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      }
+    ],
+    "stream": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message."
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      }
+    ]
+  },
+  "tools": {
+    "full": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message.\nCalls to these tools must go to the commentary channel: 'functions'."
+          }
+        ]
+      },
+      {
+        "role": "developer",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "# Instructions\n\nBe concise.\n\n# Tools\n\n## functions\n\nnamespace functions {\n\n// Get weather\ntype weather = (_: {\ncity?: string,\n}) => any;\n\n} // namespace functions"
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      }
+    ],
+    "stream": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message.\nCalls to these tools must go to the commentary channel: 'functions'."
+          }
+        ]
+      },
+      {
+        "role": "developer",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "# Instructions\n\nBe concise.\n\n# Tools\n\n## functions\n\nnamespace functions {\n\n// Get weather\ntype weather = (_: {\ncity?: string,\n}) => any;\n\n} // namespace functions"
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      }
+    ]
+  },
+  "analysis": {
+    "full": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message."
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "I should check."
+          }
+        ],
+        "channel": "analysis"
+      }
+    ],
+    "stream": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message."
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "I should check."
+          }
+        ],
+        "channel": "analysis"
+      }
+    ]
+  },
+  "final": {
+    "full": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message."
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "It is sunny."
+          }
+        ],
+        "channel": "final"
+      }
+    ],
+    "stream": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message."
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "It is sunny."
+          }
+        ],
+        "channel": "final"
+      }
+    ]
+  },
+  "commentary": {
+    "full": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message."
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "Checking now."
+          }
+        ],
+        "channel": "commentary"
+      }
+    ],
+    "stream": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message."
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "Checking now."
+          }
+        ],
+        "channel": "commentary"
+      }
+    ]
+  },
+  "tool_call": {
+    "full": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message.\nCalls to these tools must go to the commentary channel: 'functions'."
+          }
+        ]
+      },
+      {
+        "role": "developer",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "# Instructions\n\nBe concise.\n\n# Tools\n\n## functions\n\nnamespace functions {\n\n// Get weather\ntype weather = (_: {\ncity?: string,\n}) => any;\n\n} // namespace functions"
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"city\":\"Paris\"}"
+          }
+        ],
+        "channel": "commentary",
+        "recipient": "functions.weather"
+      }
+    ],
+    "stream": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message.\nCalls to these tools must go to the commentary channel: 'functions'."
+          }
+        ]
+      },
+      {
+        "role": "developer",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "# Instructions\n\nBe concise.\n\n# Tools\n\n## functions\n\nnamespace functions {\n\n// Get weather\ntype weather = (_: {\ncity?: string,\n}) => any;\n\n} // namespace functions"
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"city\":\"Paris\"}"
+          }
+        ],
+        "channel": "commentary",
+        "recipient": "functions.weather"
+      }
+    ]
+  },
+  "tool_call_json": {
+    "full": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message.\nCalls to these tools must go to the commentary channel: 'functions'."
+          }
+        ]
+      },
+      {
+        "role": "developer",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "# Instructions\n\nBe concise.\n\n# Tools\n\n## functions\n\nnamespace functions {\n\n// Get weather\ntype weather = (_: {\ncity?: string,\n}) => any;\n\n} // namespace functions"
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"city\":\"Paris\"}"
+          }
+        ],
+        "channel": "commentary",
+        "recipient": "functions.weather",
+        "content_type": "<|constrain|>json"
+      }
+    ],
+    "stream": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message.\nCalls to these tools must go to the commentary channel: 'functions'."
+          }
+        ]
+      },
+      {
+        "role": "developer",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "# Instructions\n\nBe concise.\n\n# Tools\n\n## functions\n\nnamespace functions {\n\n// Get weather\ntype weather = (_: {\ncity?: string,\n}) => any;\n\n} // namespace functions"
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"city\":\"Paris\"}"
+          }
+        ],
+        "channel": "commentary",
+        "recipient": "functions.weather",
+        "content_type": "<|constrain|>json"
+      }
+    ]
+  },
+  "python": {
+    "full": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message."
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "print(1 + 1)"
+          }
+        ],
+        "channel": "analysis",
+        "recipient": "python"
+      }
+    ],
+    "stream": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message."
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "print(1 + 1)"
+          }
+        ],
+        "channel": "analysis",
+        "recipient": "python"
+      }
+    ]
+  },
+  "python_code": {
+    "full": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message."
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "print(1 + 1)"
+          }
+        ],
+        "channel": "analysis",
+        "recipient": "python",
+        "content_type": "<|constrain|>code"
+      }
+    ],
+    "stream": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message."
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "print(1 + 1)"
+          }
+        ],
+        "channel": "analysis",
+        "recipient": "python",
+        "content_type": "<|constrain|>code"
+      }
+    ]
+  },
+  "browser_json": {
+    "full": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message."
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"query\":\"weather\"}"
+          }
+        ],
+        "channel": "analysis",
+        "recipient": "browser.search",
+        "content_type": "<|constrain|>json"
+      }
+    ],
+    "stream": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message."
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"query\":\"weather\"}"
+          }
+        ],
+        "channel": "analysis",
+        "recipient": "browser.search",
+        "content_type": "<|constrain|>json"
+      }
+    ]
+  },
+  "browser": {
+    "full": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message."
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"query\":\"weather\"}"
+          }
+        ],
+        "channel": "analysis",
+        "recipient": "browser.search"
+      }
+    ],
+    "stream": [
+      {
+        "role": "system",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2024-06\nCurrent date: 2026-11-03\n\nReasoning: medium\n\n# Valid channels: analysis, commentary, final. Channel must be included for every message."
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the weather in Paris?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "name": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"query\":\"weather\"}"
+          }
+        ],
+        "channel": "analysis",
+        "recipient": "browser.search"
+      }
+    ]
+  }
+}

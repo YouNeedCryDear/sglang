@@ -1,0 +1,466 @@
+{
+  "name": "tool_replay_stream",
+  "path": "/v1/responses",
+  "request": {
+    "model": "gpt-oss-20b",
+    "temperature": 0,
+    "max_output_tokens": 512,
+    "reasoning": {
+      "effort": "low"
+    },
+    "store": false,
+    "input": [
+      {
+        "role": "user",
+        "content": "What is the current weather in Paris?"
+      },
+      {
+        "type": "function_call",
+        "call_id": "call_weather_fixed",
+        "name": "get_weather",
+        "arguments": "{\"city\":\"Paris\"}"
+      },
+      {
+        "type": "function_call_output",
+        "call_id": "call_weather_fixed",
+        "output": "{\"city\":\"Paris\",\"temperature_c\":21,\"conditions\":\"sunny\"}"
+      }
+    ],
+    "instructions": "Use the tool result and answer in one short sentence.",
+    "tools": [
+      {
+        "type": "function",
+        "name": "get_weather",
+        "description": "Get the current weather for a city.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "city"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true
+      }
+    ],
+    "stream": true
+  },
+  "status_code": 200,
+  "events": [
+    {
+      "type": "response.created",
+      "sequence_number": 0,
+      "response": {
+        "id": "resp_74c1c6f7e3484a0db8b2ebe9825149e5",
+        "object": "response",
+        "created_at": 1793751644,
+        "model": "gpt-oss-20b",
+        "output": [],
+        "status": "in_progress",
+        "usage": null,
+        "parallel_tool_calls": true,
+        "tool_choice": "auto",
+        "tools": [],
+        "error": null,
+        "incomplete_details": null,
+        "instructions": "Use the tool result and answer in one short sentence.",
+        "max_output_tokens": 512,
+        "previous_response_id": null,
+        "reasoning": {
+          "effort": "low",
+          "summary": null
+        },
+        "store": false,
+        "temperature": 0.0,
+        "text": null,
+        "top_p": null,
+        "truncation": "disabled",
+        "user": null,
+        "metadata": {}
+      }
+    },
+    {
+      "type": "response.in_progress",
+      "sequence_number": 1,
+      "response": {
+        "id": "resp_74c1c6f7e3484a0db8b2ebe9825149e5",
+        "object": "response",
+        "created_at": 1793751644,
+        "model": "gpt-oss-20b",
+        "output": [],
+        "status": "in_progress",
+        "usage": null,
+        "parallel_tool_calls": true,
+        "tool_choice": "auto",
+        "tools": [],
+        "error": null,
+        "incomplete_details": null,
+        "instructions": "Use the tool result and answer in one short sentence.",
+        "max_output_tokens": 512,
+        "previous_response_id": null,
+        "reasoning": {
+          "effort": "low",
+          "summary": null
+        },
+        "store": false,
+        "temperature": 0.0,
+        "text": null,
+        "top_p": null,
+        "truncation": "disabled",
+        "user": null,
+        "metadata": {}
+      }
+    },
+    {
+      "type": "response.output_item.added",
+      "sequence_number": 2,
+      "output_index": 0,
+      "item": {
+        "id": "msg_19f026b3a67a4347b32a22347d62357a",
+        "content": [],
+        "role": "assistant",
+        "status": "in_progress",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    },
+    {
+      "type": "response.content_part.added",
+      "sequence_number": 3,
+      "output_index": 0,
+      "item_id": "msg_19f026b3a67a4347b32a22347d62357a",
+      "content_index": 0,
+      "part": {
+        "annotations": [],
+        "text": "",
+        "type": "output_text",
+        "logprobs": null
+      }
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 4,
+      "output_index": 0,
+      "item_id": "msg_19f026b3a67a4347b32a22347d62357a",
+      "content_index": 0,
+      "delta": "It",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 5,
+      "output_index": 0,
+      "item_id": "msg_19f026b3a67a4347b32a22347d62357a",
+      "content_index": 0,
+      "delta": "\u2019s",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 6,
+      "output_index": 0,
+      "item_id": "msg_19f026b3a67a4347b32a22347d62357a",
+      "content_index": 0,
+      "delta": " ",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 7,
+      "output_index": 0,
+      "item_id": "msg_19f026b3a67a4347b32a22347d62357a",
+      "content_index": 0,
+      "delta": "21",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 8,
+      "output_index": 0,
+      "item_id": "msg_19f026b3a67a4347b32a22347d62357a",
+      "content_index": 0,
+      "delta": "\u202f",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 9,
+      "output_index": 0,
+      "item_id": "msg_19f026b3a67a4347b32a22347d62357a",
+      "content_index": 0,
+      "delta": "\u00b0C",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 10,
+      "output_index": 0,
+      "item_id": "msg_19f026b3a67a4347b32a22347d62357a",
+      "content_index": 0,
+      "delta": " and",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 11,
+      "output_index": 0,
+      "item_id": "msg_19f026b3a67a4347b32a22347d62357a",
+      "content_index": 0,
+      "delta": " sunny",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 12,
+      "output_index": 0,
+      "item_id": "msg_19f026b3a67a4347b32a22347d62357a",
+      "content_index": 0,
+      "delta": " in",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 13,
+      "output_index": 0,
+      "item_id": "msg_19f026b3a67a4347b32a22347d62357a",
+      "content_index": 0,
+      "delta": " Paris",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 14,
+      "output_index": 0,
+      "item_id": "msg_19f026b3a67a4347b32a22347d62357a",
+      "content_index": 0,
+      "delta": ".",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.done",
+      "sequence_number": 15,
+      "output_index": 0,
+      "item_id": "msg_19f026b3a67a4347b32a22347d62357a",
+      "content_index": 0,
+      "text": "It\u2019s 21\u202f\u00b0C and sunny in Paris.",
+      "logprobs": []
+    },
+    {
+      "type": "response.content_part.done",
+      "sequence_number": 16,
+      "output_index": 0,
+      "item_id": "msg_19f026b3a67a4347b32a22347d62357a",
+      "content_index": 0,
+      "part": {
+        "annotations": [],
+        "text": "It\u2019s 21\u202f\u00b0C and sunny in Paris.",
+        "type": "output_text",
+        "logprobs": null
+      }
+    },
+    {
+      "type": "response.output_item.done",
+      "sequence_number": 17,
+      "output_index": 0,
+      "item": {
+        "id": "msg_19f026b3a67a4347b32a22347d62357a",
+        "content": [
+          {
+            "annotations": [],
+            "text": "It\u2019s 21\u202f\u00b0C and sunny in Paris.",
+            "type": "output_text",
+            "logprobs": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    },
+    {
+      "type": "response.completed",
+      "sequence_number": 18,
+      "response": {
+        "id": "resp_74c1c6f7e3484a0db8b2ebe9825149e5",
+        "object": "response",
+        "created_at": 1793751644,
+        "model": "gpt-oss-20b",
+        "output": [
+          {
+            "id": "msg_19f026b3a67a4347b32a22347d62357a",
+            "content": [
+              {
+                "annotations": [],
+                "text": "It\u2019s 21\u202f\u00b0C and sunny in Paris.",
+                "type": "output_text",
+                "logprobs": null
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "input_tokens": 0,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 0,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 0
+        },
+        "parallel_tool_calls": true,
+        "tool_choice": "auto",
+        "tools": [],
+        "error": null,
+        "incomplete_details": null,
+        "instructions": "Use the tool result and answer in one short sentence.",
+        "max_output_tokens": 512,
+        "previous_response_id": null,
+        "reasoning": {
+          "effort": "low",
+          "summary": null
+        },
+        "store": false,
+        "temperature": 0.0,
+        "text": {
+          "format": {
+            "type": "text"
+          }
+        },
+        "top_p": null,
+        "truncation": "disabled",
+        "user": null,
+        "metadata": {}
+      }
+    }
+  ],
+  "response": {
+    "id": "resp_74c1c6f7e3484a0db8b2ebe9825149e5",
+    "object": "response",
+    "created_at": 1793751644,
+    "model": "gpt-oss-20b",
+    "output": [
+      {
+        "id": "msg_19f026b3a67a4347b32a22347d62357a",
+        "content": [
+          {
+            "annotations": [],
+            "text": "It\u2019s 21\u202f\u00b0C and sunny in Paris.",
+            "type": "output_text",
+            "logprobs": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "status": "completed",
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "parallel_tool_calls": true,
+    "tool_choice": "auto",
+    "tools": [],
+    "error": null,
+    "incomplete_details": null,
+    "instructions": "Use the tool result and answer in one short sentence.",
+    "max_output_tokens": 512,
+    "previous_response_id": null,
+    "reasoning": {
+      "effort": "low",
+      "summary": null
+    },
+    "store": false,
+    "temperature": 0.0,
+    "text": {
+      "format": {
+        "type": "text"
+      }
+    },
+    "top_p": null,
+    "truncation": "disabled",
+    "user": null,
+    "metadata": {}
+  },
+  "passed": true,
+  "text": "It\u2019s 21\u202f\u00b0C and sunny in Paris.",
+  "canonical": {
+    "object": "response",
+    "model": "gpt-oss-20b",
+    "output": [
+      {
+        "content": [
+          {
+            "annotations": [],
+            "text": "It\u2019s 21\u202f\u00b0C and sunny in Paris.",
+            "type": "output_text",
+            "logprobs": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "status": "completed",
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cache_write_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "parallel_tool_calls": true,
+    "tool_choice": "auto",
+    "tools": [],
+    "error": null,
+    "incomplete_details": null,
+    "instructions": "Use the tool result and answer in one short sentence.",
+    "max_output_tokens": 512,
+    "previous_response_id": null,
+    "reasoning": {
+      "effort": "low",
+      "summary": null
+    },
+    "store": false,
+    "temperature": 0.0,
+    "text": {
+      "format": {
+        "type": "text"
+      }
+    },
+    "top_p": null,
+    "truncation": "disabled",
+    "user": null,
+    "metadata": {}
+  },
+  "elapsed_seconds": 0.442
+}

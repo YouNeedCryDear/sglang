@@ -1,0 +1,17 @@
+{"name": "arithmetic", "status_code": 200, "passed": true, "text": "42", "exception": null, "elapsed_seconds": 0.607}
+{"name": "arithmetic_stream", "status_code": 200, "passed": true, "text": "42", "exception": null, "elapsed_seconds": 0.585}
+{"name": "capital", "status_code": 200, "passed": true, "text": "Paris", "exception": null, "elapsed_seconds": 0.446}
+{"name": "capital_stream", "status_code": 200, "passed": true, "text": "Paris", "exception": null, "elapsed_seconds": 0.442}
+{"name": "literal", "status_code": 200, "passed": true, "text": "BLUE", "exception": null, "elapsed_seconds": 0.496}
+{"name": "literal_stream", "status_code": 200, "passed": true, "text": "BLUE", "exception": null, "elapsed_seconds": 0.495}
+{"name": "tool_call", "status_code": 200, "passed": true, "text": "", "exception": null, "elapsed_seconds": 0.866}
+{"name": "tool_call_stream", "status_code": 200, "passed": true, "text": "", "exception": null, "elapsed_seconds": 0.849}
+{"name": "tool_replay", "status_code": 200, "passed": true, "text": "The current weather in Paris is 21\u202f\u00b0C and sunny.", "exception": null, "elapsed_seconds": 0.875}
+{"name": "tool_replay_stream", "status_code": 200, "passed": true, "text": "The current weather in Paris is 21\u202f\u00b0C and sunny.", "exception": null, "elapsed_seconds": 0.937}
+{"name": "chat_control", "status_code": 200, "passed": true, "text": "42", "exception": null, "elapsed_seconds": 0.583}
+{"name": "chat_control_stream", "status_code": 200, "passed": true, "text": "42", "exception": null, "elapsed_seconds": 0.571}
+{"name": "multiturn_next_call", "status_code": 200, "passed": true, "text": "", "exception": null, "elapsed_seconds": 0.871}
+{"name": "multiturn_replay", "status_code": 200, "passed": true, "text": "Rome is 25\u202f\u00b0C and clear.", "exception": null, "elapsed_seconds": 0.891}
+{"name": "multiturn_next_call_stream", "status_code": 200, "passed": true, "text": "", "exception": null, "elapsed_seconds": 0.875}
+{"name": "multiturn_replay_stream", "status_code": 200, "passed": true, "text": "Rome is 25\u202f\u00b0C and clear.", "exception": null, "elapsed_seconds": 0.873}
+TOTAL 16/16 passed

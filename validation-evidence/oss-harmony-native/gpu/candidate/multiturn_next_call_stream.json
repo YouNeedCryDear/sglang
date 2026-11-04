@@ -1,0 +1,477 @@
+{
+  "name": "multiturn_next_call_stream",
+  "path": "/v1/responses",
+  "request": {
+    "model": "gpt-oss-20b",
+    "temperature": 0,
+    "max_output_tokens": 512,
+    "reasoning": {
+      "effort": "low"
+    },
+    "store": false,
+    "input": [
+      {
+        "role": "user",
+        "content": "What is the current weather in Paris?"
+      },
+      {
+        "type": "function_call",
+        "call_id": "call_paris_fixed",
+        "name": "get_weather",
+        "arguments": "{\"city\":\"Paris\"}"
+      },
+      {
+        "type": "function_call_output",
+        "call_id": "call_paris_fixed",
+        "output": "{\"city\":\"Paris\",\"temperature_c\":21,\"conditions\":\"sunny\"}"
+      },
+      {
+        "role": "assistant",
+        "content": "Paris is 21 C and sunny."
+      },
+      {
+        "role": "user",
+        "content": "And what is the current weather in London?"
+      },
+      {
+        "type": "function_call",
+        "call_id": "call_london_fixed",
+        "name": "get_weather",
+        "arguments": "{\"city\":\"London\"}"
+      },
+      {
+        "type": "function_call_output",
+        "call_id": "call_london_fixed",
+        "output": "{\"city\":\"London\",\"temperature_c\":11,\"conditions\":\"cloudy\"}"
+      },
+      {
+        "role": "assistant",
+        "content": "London is 11 C and cloudy."
+      },
+      {
+        "role": "user",
+        "content": "Now use get_weather to look up the current weather in Rome. Call the tool before answering."
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "name": "get_weather",
+        "description": "Get the current weather for a city.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "city"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true
+      }
+    ],
+    "tool_choice": "auto",
+    "stream": true
+  },
+  "status_code": 200,
+  "events": [
+    {
+      "type": "response.created",
+      "sequence_number": 0,
+      "response": {
+        "id": "resp_7c38f86f3aa0448aac3b65cea04614f8",
+        "object": "response",
+        "created_at": 1793751647,
+        "model": "gpt-oss-20b",
+        "output": [],
+        "status": "in_progress",
+        "usage": null,
+        "parallel_tool_calls": true,
+        "tool_choice": "auto",
+        "tools": [],
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "max_output_tokens": 512,
+        "previous_response_id": null,
+        "reasoning": {
+          "effort": "low",
+          "summary": null
+        },
+        "store": false,
+        "temperature": 0.0,
+        "text": null,
+        "top_p": null,
+        "truncation": "disabled",
+        "user": null,
+        "metadata": {}
+      }
+    },
+    {
+      "type": "response.in_progress",
+      "sequence_number": 1,
+      "response": {
+        "id": "resp_7c38f86f3aa0448aac3b65cea04614f8",
+        "object": "response",
+        "created_at": 1793751647,
+        "model": "gpt-oss-20b",
+        "output": [],
+        "status": "in_progress",
+        "usage": null,
+        "parallel_tool_calls": true,
+        "tool_choice": "auto",
+        "tools": [],
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "max_output_tokens": 512,
+        "previous_response_id": null,
+        "reasoning": {
+          "effort": "low",
+          "summary": null
+        },
+        "store": false,
+        "temperature": 0.0,
+        "text": null,
+        "top_p": null,
+        "truncation": "disabled",
+        "user": null,
+        "metadata": {}
+      }
+    },
+    {
+      "type": "response.output_item.added",
+      "sequence_number": 2,
+      "output_index": 0,
+      "item": {
+        "id": "rs_9963ced9b298493f8f6dd019f936de8f",
+        "summary": [],
+        "type": "reasoning",
+        "content": [],
+        "encrypted_content": null,
+        "status": "in_progress"
+      }
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 3,
+      "output_index": 0,
+      "item_id": "rs_9963ced9b298493f8f6dd019f936de8f",
+      "content_index": 0,
+      "delta": "Need"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 4,
+      "output_index": 0,
+      "item_id": "rs_9963ced9b298493f8f6dd019f936de8f",
+      "content_index": 0,
+      "delta": " to"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 5,
+      "output_index": 0,
+      "item_id": "rs_9963ced9b298493f8f6dd019f936de8f",
+      "content_index": 0,
+      "delta": " call"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 6,
+      "output_index": 0,
+      "item_id": "rs_9963ced9b298493f8f6dd019f936de8f",
+      "content_index": 0,
+      "delta": " tool"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 7,
+      "output_index": 0,
+      "item_id": "rs_9963ced9b298493f8f6dd019f936de8f",
+      "content_index": 0,
+      "delta": "."
+    },
+    {
+      "type": "response.reasoning_text.done",
+      "sequence_number": 8,
+      "output_index": 0,
+      "item_id": "rs_9963ced9b298493f8f6dd019f936de8f",
+      "content_index": 0,
+      "text": "Need to call tool."
+    },
+    {
+      "type": "response.output_item.done",
+      "sequence_number": 9,
+      "output_index": 0,
+      "item": {
+        "id": "rs_9963ced9b298493f8f6dd019f936de8f",
+        "summary": [],
+        "type": "reasoning",
+        "content": [
+          {
+            "text": "Need to call tool.",
+            "type": "reasoning_text"
+          }
+        ],
+        "encrypted_content": null,
+        "status": "completed"
+      }
+    },
+    {
+      "type": "response.output_item.added",
+      "sequence_number": 10,
+      "output_index": 1,
+      "item": {
+        "arguments": "",
+        "call_id": "call_ec845a462a3045b0b7789e72097bb3f2",
+        "name": "get_weather",
+        "type": "function_call",
+        "id": "ft_ec845a462a3045b0b7789e72097bb3f2",
+        "status": "in_progress"
+      }
+    },
+    {
+      "type": "response.function_call_arguments.delta",
+      "sequence_number": 11,
+      "output_index": 1,
+      "item_id": "ft_ec845a462a3045b0b7789e72097bb3f2",
+      "delta": "{\""
+    },
+    {
+      "type": "response.function_call_arguments.delta",
+      "sequence_number": 12,
+      "output_index": 1,
+      "item_id": "ft_ec845a462a3045b0b7789e72097bb3f2",
+      "delta": "city"
+    },
+    {
+      "type": "response.function_call_arguments.delta",
+      "sequence_number": 13,
+      "output_index": 1,
+      "item_id": "ft_ec845a462a3045b0b7789e72097bb3f2",
+      "delta": "\":\""
+    },
+    {
+      "type": "response.function_call_arguments.delta",
+      "sequence_number": 14,
+      "output_index": 1,
+      "item_id": "ft_ec845a462a3045b0b7789e72097bb3f2",
+      "delta": "Rome"
+    },
+    {
+      "type": "response.function_call_arguments.delta",
+      "sequence_number": 15,
+      "output_index": 1,
+      "item_id": "ft_ec845a462a3045b0b7789e72097bb3f2",
+      "delta": "\"}"
+    },
+    {
+      "type": "response.function_call_arguments.done",
+      "sequence_number": 16,
+      "output_index": 1,
+      "item_id": "ft_ec845a462a3045b0b7789e72097bb3f2",
+      "arguments": "{\"city\":\"Rome\"}"
+    },
+    {
+      "type": "response.output_item.done",
+      "sequence_number": 17,
+      "output_index": 1,
+      "item": {
+        "arguments": "{\"city\":\"Rome\"}",
+        "call_id": "call_ec845a462a3045b0b7789e72097bb3f2",
+        "name": "get_weather",
+        "type": "function_call",
+        "id": "ft_ec845a462a3045b0b7789e72097bb3f2",
+        "status": "completed"
+      }
+    },
+    {
+      "type": "response.completed",
+      "sequence_number": 18,
+      "response": {
+        "id": "resp_7c38f86f3aa0448aac3b65cea04614f8",
+        "object": "response",
+        "created_at": 1793751647,
+        "model": "gpt-oss-20b",
+        "output": [
+          {
+            "id": "rs_9963ced9b298493f8f6dd019f936de8f",
+            "summary": [],
+            "type": "reasoning",
+            "content": [
+              {
+                "text": "Need to call tool.",
+                "type": "reasoning_text"
+              }
+            ],
+            "encrypted_content": null,
+            "status": "completed"
+          },
+          {
+            "arguments": "{\"city\":\"Rome\"}",
+            "call_id": "call_ec845a462a3045b0b7789e72097bb3f2",
+            "name": "get_weather",
+            "type": "function_call",
+            "id": "ft_ec845a462a3045b0b7789e72097bb3f2",
+            "status": "completed"
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "input_tokens": 0,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 0,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 0
+        },
+        "parallel_tool_calls": true,
+        "tool_choice": "auto",
+        "tools": [],
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "max_output_tokens": 512,
+        "previous_response_id": null,
+        "reasoning": {
+          "effort": "low",
+          "summary": null
+        },
+        "store": false,
+        "temperature": 0.0,
+        "text": null,
+        "top_p": null,
+        "truncation": "disabled",
+        "user": null,
+        "metadata": {}
+      }
+    }
+  ],
+  "response": {
+    "id": "resp_7c38f86f3aa0448aac3b65cea04614f8",
+    "object": "response",
+    "created_at": 1793751647,
+    "model": "gpt-oss-20b",
+    "output": [
+      {
+        "id": "rs_9963ced9b298493f8f6dd019f936de8f",
+        "summary": [],
+        "type": "reasoning",
+        "content": [
+          {
+            "text": "Need to call tool.",
+            "type": "reasoning_text"
+          }
+        ],
+        "encrypted_content": null,
+        "status": "completed"
+      },
+      {
+        "arguments": "{\"city\":\"Rome\"}",
+        "call_id": "call_ec845a462a3045b0b7789e72097bb3f2",
+        "name": "get_weather",
+        "type": "function_call",
+        "id": "ft_ec845a462a3045b0b7789e72097bb3f2",
+        "status": "completed"
+      }
+    ],
+    "status": "completed",
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "parallel_tool_calls": true,
+    "tool_choice": "auto",
+    "tools": [],
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "max_output_tokens": 512,
+    "previous_response_id": null,
+    "reasoning": {
+      "effort": "low",
+      "summary": null
+    },
+    "store": false,
+    "temperature": 0.0,
+    "text": null,
+    "top_p": null,
+    "truncation": "disabled",
+    "user": null,
+    "metadata": {}
+  },
+  "passed": true,
+  "text": "",
+  "canonical": {
+    "object": "response",
+    "model": "gpt-oss-20b",
+    "output": [
+      {
+        "summary": [],
+        "type": "reasoning",
+        "content": [
+          {
+            "text": "Need to call tool.",
+            "type": "reasoning_text"
+          }
+        ],
+        "encrypted_content": null,
+        "status": "completed"
+      },
+      {
+        "arguments": "{\"city\":\"Rome\"}",
+        "name": "get_weather",
+        "type": "function_call",
+        "status": "completed"
+      }
+    ],
+    "status": "completed",
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cache_write_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "parallel_tool_calls": true,
+    "tool_choice": "auto",
+    "tools": [],
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "max_output_tokens": 512,
+    "previous_response_id": null,
+    "reasoning": {
+      "effort": "low",
+      "summary": null
+    },
+    "store": false,
+    "temperature": 0.0,
+    "text": null,
+    "top_p": null,
+    "truncation": "disabled",
+    "user": null,
+    "metadata": {}
+  },
+  "elapsed_seconds": 0.809
+}

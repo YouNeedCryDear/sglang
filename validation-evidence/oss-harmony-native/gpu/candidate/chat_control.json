@@ -1,0 +1,97 @@
+{
+  "name": "chat_control",
+  "path": "/v1/chat/completions",
+  "request": {
+    "model": "gpt-oss-20b",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What is 17 plus 25? Answer with the number only."
+      }
+    ],
+    "temperature": 0,
+    "max_tokens": 512,
+    "reasoning_effort": "low",
+    "stream": false
+  },
+  "status_code": 200,
+  "response": {
+    "id": "661f5904a3a3448393df8312a3b32663",
+    "object": "chat.completion",
+    "created": 1793751645,
+    "model": "gpt-oss-20b",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "42",
+          "reasoning_content": "Just compute 17+25=42."
+        },
+        "logprobs": null,
+        "finish_reason": "stop",
+        "matched_stop": 200002
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 81,
+      "total_tokens": 101,
+      "completion_tokens": 20,
+      "prompt_tokens_details": null,
+      "reasoning_tokens": 13,
+      "completion_tokens_details": {
+        "reasoning_tokens": 13
+      }
+    },
+    "metadata": {
+      "weight_version": "default",
+      "weight_versions": [
+        {
+          "version": "default",
+          "start": 0,
+          "end": 20
+        }
+      ]
+    }
+  },
+  "passed": true,
+  "text": "42",
+  "canonical": {
+    "object": "chat.completion",
+    "model": "gpt-oss-20b",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "42",
+          "reasoning_content": "Just compute 17+25=42."
+        },
+        "logprobs": null,
+        "finish_reason": "stop",
+        "matched_stop": 200002
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 81,
+      "total_tokens": 101,
+      "completion_tokens": 20,
+      "prompt_tokens_details": null,
+      "reasoning_tokens": 13,
+      "completion_tokens_details": {
+        "reasoning_tokens": 13
+      }
+    },
+    "metadata": {
+      "weight_version": "default",
+      "weight_versions": [
+        {
+          "version": "default",
+          "start": 0,
+          "end": 20
+        }
+      ]
+    }
+  },
+  "elapsed_seconds": 0.568
+}

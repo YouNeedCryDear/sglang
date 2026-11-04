@@ -1,0 +1,16 @@
+{
+  "before": 0,
+  "before-sglang": 0,
+  "before-parse": 0,
+  "before-body": 1,
+  "before-offline": 1,
+  "before-proxy": 0,
+  "after": 0,
+  "after-sglang": 0,
+  "after-parse": 0,
+  "after-body": 0,
+  "after-offline": 0,
+  "after-proxy": 0,
+  "after-body-legacy-shim": 1,
+  "after-native-parse": 0
+}

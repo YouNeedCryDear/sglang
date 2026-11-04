@@ -1,0 +1,269 @@
+{
+  "name": "multiturn_replay",
+  "path": "/v1/responses",
+  "request": {
+    "model": "gpt-oss-20b",
+    "temperature": 0,
+    "max_output_tokens": 512,
+    "reasoning": {
+      "effort": "low"
+    },
+    "store": false,
+    "input": [
+      {
+        "role": "user",
+        "content": "What is the current weather in Paris?"
+      },
+      {
+        "type": "function_call",
+        "call_id": "call_paris_fixed",
+        "name": "get_weather",
+        "arguments": "{\"city\":\"Paris\"}"
+      },
+      {
+        "type": "function_call_output",
+        "call_id": "call_paris_fixed",
+        "output": "{\"city\":\"Paris\",\"temperature_c\":21,\"conditions\":\"sunny\"}"
+      },
+      {
+        "role": "assistant",
+        "content": "Paris is 21 C and sunny."
+      },
+      {
+        "role": "user",
+        "content": "And what is the current weather in London?"
+      },
+      {
+        "type": "function_call",
+        "call_id": "call_london_fixed",
+        "name": "get_weather",
+        "arguments": "{\"city\":\"London\"}"
+      },
+      {
+        "type": "function_call_output",
+        "call_id": "call_london_fixed",
+        "output": "{\"city\":\"London\",\"temperature_c\":11,\"conditions\":\"cloudy\"}"
+      },
+      {
+        "role": "assistant",
+        "content": "London is 11 C and cloudy."
+      },
+      {
+        "role": "user",
+        "content": "Now use get_weather to look up the current weather in Rome. Call the tool before answering."
+      },
+      {
+        "type": "function_call",
+        "call_id": "call_rome_fixed",
+        "name": "get_weather",
+        "arguments": "{\"city\":\"Rome\"}"
+      },
+      {
+        "type": "function_call_output",
+        "call_id": "call_rome_fixed",
+        "output": "{\"city\":\"Rome\",\"temperature_c\":25,\"conditions\":\"clear\"}"
+      }
+    ],
+    "instructions": "Use the latest tool result to answer the latest question in one short sentence.",
+    "tools": [
+      {
+        "type": "function",
+        "name": "get_weather",
+        "description": "Get the current weather for a city.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "city"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true
+      }
+    ],
+    "stream": false
+  },
+  "status_code": 200,
+  "response": {
+    "id": "resp_30a8845ab10c4905ba38459c98788fca",
+    "object": "response",
+    "created_at": 1793751646,
+    "model": "gpt-oss-20b",
+    "output": [
+      {
+        "id": "rs_40b0b3b3c54c4d328eeb167d155830cd",
+        "summary": [],
+        "type": "reasoning",
+        "content": [
+          {
+            "text": "We need to answer: \"Now use get_weather to look up the current weather in Rome. Call the tool before answering.\" We did. Provide answer.",
+            "type": "reasoning_text"
+          }
+        ],
+        "encrypted_content": null,
+        "status": null
+      },
+      {
+        "id": "msg_5f1c54b6a8994fdaa1ca54c76d5ab604",
+        "content": [
+          {
+            "annotations": [],
+            "text": "Rome is 25\u202f\u00b0C and clear.",
+            "type": "output_text",
+            "logprobs": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "status": "completed",
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cached_tokens": 64,
+        "cache_write_tokens": 0
+      },
+      "output_tokens": 50,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 50
+    },
+    "parallel_tool_calls": true,
+    "tool_choice": "auto",
+    "tools": [
+      {
+        "type": "function",
+        "name": "get_weather",
+        "description": "Get the current weather for a city.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "city"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "tools": null,
+        "defer_loading": null,
+        "format": null
+      }
+    ],
+    "error": null,
+    "incomplete_details": null,
+    "instructions": "Use the latest tool result to answer the latest question in one short sentence.",
+    "max_output_tokens": 512,
+    "previous_response_id": null,
+    "reasoning": {
+      "effort": "low",
+      "summary": null
+    },
+    "store": false,
+    "temperature": 0.0,
+    "text": null,
+    "top_p": null,
+    "truncation": "disabled",
+    "user": null,
+    "metadata": {}
+  },
+  "passed": true,
+  "text": "Rome is 25\u202f\u00b0C and clear.",
+  "canonical": {
+    "object": "response",
+    "model": "gpt-oss-20b",
+    "output": [
+      {
+        "summary": [],
+        "type": "reasoning",
+        "content": [
+          {
+            "text": "We need to answer: \"Now use get_weather to look up the current weather in Rome. Call the tool before answering.\" We did. Provide answer.",
+            "type": "reasoning_text"
+          }
+        ],
+        "encrypted_content": null,
+        "status": null
+      },
+      {
+        "content": [
+          {
+            "annotations": [],
+            "text": "Rome is 25\u202f\u00b0C and clear.",
+            "type": "output_text",
+            "logprobs": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "status": "completed",
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cache_write_tokens": 0
+      },
+      "output_tokens": 50,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 50
+    },
+    "parallel_tool_calls": true,
+    "tool_choice": "auto",
+    "tools": [
+      {
+        "type": "function",
+        "name": "get_weather",
+        "description": "Get the current weather for a city.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "city"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "tools": null,
+        "defer_loading": null,
+        "format": null
+      }
+    ],
+    "error": null,
+    "incomplete_details": null,
+    "instructions": "Use the latest tool result to answer the latest question in one short sentence.",
+    "max_output_tokens": 512,
+    "previous_response_id": null,
+    "reasoning": {
+      "effort": "low",
+      "summary": null
+    },
+    "store": false,
+    "temperature": 0.0,
+    "text": null,
+    "top_p": null,
+    "truncation": "disabled",
+    "user": null,
+    "metadata": {}
+  },
+  "elapsed_seconds": 1.395
+}

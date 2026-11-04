@@ -1,0 +1,18 @@
+{
+  "sglang": "0.5.23",
+  "torch": "2.14.1+cu130",
+  "openai": "2.8.0",
+  "openai-harmony": null,
+  "oss-harmony": "0.0.12",
+  "transformers": "5.19.0",
+  "triton": "3.8.0",
+  "triton-kernels": null,
+  "flashinfer-python": "0.7.2",
+  "sgl-kernel": null,
+  "sglang-kernel": "0.4.10",
+  "tml-renderers": "0.1.0",
+  "pytest": "9.2.0",
+  "pytest-asyncio": "1.4.1.post1",
+  "python": "3.12.16",
+  "gpu": "NVIDIA GB300, 610.43.02, 256703 MiB"
+}

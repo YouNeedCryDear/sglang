@@ -1,0 +1,7 @@
+test_harmony_tool_replay_preserves_native_header_and_body (__main__.ActualNativeHeaderRegression.test_harmony_tool_replay_preserves_native_header_and_body)
+Tool histories retain native channel ordering and content-type markers. ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.102s
+
+OK

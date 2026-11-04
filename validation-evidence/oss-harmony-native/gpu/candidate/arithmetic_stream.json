@@ -1,0 +1,476 @@
+{
+  "name": "arithmetic_stream",
+  "path": "/v1/responses",
+  "request": {
+    "model": "gpt-oss-20b",
+    "temperature": 0,
+    "max_output_tokens": 512,
+    "reasoning": {
+      "effort": "low"
+    },
+    "store": false,
+    "input": "What is 17 plus 25? Answer with the number only.",
+    "stream": true
+  },
+  "status_code": 200,
+  "events": [
+    {
+      "type": "response.created",
+      "sequence_number": 0,
+      "response": {
+        "id": "resp_b9d000c0213c4c088b6558f02ca3c7fe",
+        "object": "response",
+        "created_at": 1793751639,
+        "model": "gpt-oss-20b",
+        "output": [],
+        "status": "in_progress",
+        "usage": null,
+        "parallel_tool_calls": true,
+        "tool_choice": "auto",
+        "tools": [],
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "max_output_tokens": 512,
+        "previous_response_id": null,
+        "reasoning": {
+          "effort": "low",
+          "summary": null
+        },
+        "store": false,
+        "temperature": 0.0,
+        "text": null,
+        "top_p": null,
+        "truncation": "disabled",
+        "user": null,
+        "metadata": {}
+      }
+    },
+    {
+      "type": "response.in_progress",
+      "sequence_number": 1,
+      "response": {
+        "id": "resp_b9d000c0213c4c088b6558f02ca3c7fe",
+        "object": "response",
+        "created_at": 1793751639,
+        "model": "gpt-oss-20b",
+        "output": [],
+        "status": "in_progress",
+        "usage": null,
+        "parallel_tool_calls": true,
+        "tool_choice": "auto",
+        "tools": [],
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "max_output_tokens": 512,
+        "previous_response_id": null,
+        "reasoning": {
+          "effort": "low",
+          "summary": null
+        },
+        "store": false,
+        "temperature": 0.0,
+        "text": null,
+        "top_p": null,
+        "truncation": "disabled",
+        "user": null,
+        "metadata": {}
+      }
+    },
+    {
+      "type": "response.output_item.added",
+      "sequence_number": 2,
+      "output_index": 0,
+      "item": {
+        "id": "rs_a2d0741e4723410f90aa80c6ab5ed4c5",
+        "summary": [],
+        "type": "reasoning",
+        "content": [],
+        "encrypted_content": null,
+        "status": "in_progress"
+      }
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 3,
+      "output_index": 0,
+      "item_id": "rs_a2d0741e4723410f90aa80c6ab5ed4c5",
+      "content_index": 0,
+      "delta": "Just"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 4,
+      "output_index": 0,
+      "item_id": "rs_a2d0741e4723410f90aa80c6ab5ed4c5",
+      "content_index": 0,
+      "delta": " compute"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 5,
+      "output_index": 0,
+      "item_id": "rs_a2d0741e4723410f90aa80c6ab5ed4c5",
+      "content_index": 0,
+      "delta": " "
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 6,
+      "output_index": 0,
+      "item_id": "rs_a2d0741e4723410f90aa80c6ab5ed4c5",
+      "content_index": 0,
+      "delta": "17"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 7,
+      "output_index": 0,
+      "item_id": "rs_a2d0741e4723410f90aa80c6ab5ed4c5",
+      "content_index": 0,
+      "delta": "+"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 8,
+      "output_index": 0,
+      "item_id": "rs_a2d0741e4723410f90aa80c6ab5ed4c5",
+      "content_index": 0,
+      "delta": "25"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 9,
+      "output_index": 0,
+      "item_id": "rs_a2d0741e4723410f90aa80c6ab5ed4c5",
+      "content_index": 0,
+      "delta": "="
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 10,
+      "output_index": 0,
+      "item_id": "rs_a2d0741e4723410f90aa80c6ab5ed4c5",
+      "content_index": 0,
+      "delta": "42"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 11,
+      "output_index": 0,
+      "item_id": "rs_a2d0741e4723410f90aa80c6ab5ed4c5",
+      "content_index": 0,
+      "delta": "."
+    },
+    {
+      "type": "response.reasoning_text.done",
+      "sequence_number": 12,
+      "output_index": 0,
+      "item_id": "rs_a2d0741e4723410f90aa80c6ab5ed4c5",
+      "content_index": 0,
+      "text": "Just compute 17+25=42."
+    },
+    {
+      "type": "response.output_item.done",
+      "sequence_number": 13,
+      "output_index": 0,
+      "item": {
+        "id": "rs_a2d0741e4723410f90aa80c6ab5ed4c5",
+        "summary": [],
+        "type": "reasoning",
+        "content": [
+          {
+            "text": "Just compute 17+25=42.",
+            "type": "reasoning_text"
+          }
+        ],
+        "encrypted_content": null,
+        "status": "completed"
+      }
+    },
+    {
+      "type": "response.output_item.added",
+      "sequence_number": 14,
+      "output_index": 1,
+      "item": {
+        "id": "msg_5eb8498540db45a881f2a012fcd1502c",
+        "content": [],
+        "role": "assistant",
+        "status": "in_progress",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    },
+    {
+      "type": "response.content_part.added",
+      "sequence_number": 15,
+      "output_index": 1,
+      "item_id": "msg_5eb8498540db45a881f2a012fcd1502c",
+      "content_index": 0,
+      "part": {
+        "annotations": [],
+        "text": "",
+        "type": "output_text",
+        "logprobs": null
+      }
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 16,
+      "output_index": 1,
+      "item_id": "msg_5eb8498540db45a881f2a012fcd1502c",
+      "content_index": 0,
+      "delta": "42",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.done",
+      "sequence_number": 17,
+      "output_index": 1,
+      "item_id": "msg_5eb8498540db45a881f2a012fcd1502c",
+      "content_index": 0,
+      "text": "42",
+      "logprobs": []
+    },
+    {
+      "type": "response.content_part.done",
+      "sequence_number": 18,
+      "output_index": 1,
+      "item_id": "msg_5eb8498540db45a881f2a012fcd1502c",
+      "content_index": 0,
+      "part": {
+        "annotations": [],
+        "text": "42",
+        "type": "output_text",
+        "logprobs": null
+      }
+    },
+    {
+      "type": "response.output_item.done",
+      "sequence_number": 19,
+      "output_index": 1,
+      "item": {
+        "id": "msg_5eb8498540db45a881f2a012fcd1502c",
+        "content": [
+          {
+            "annotations": [],
+            "text": "42",
+            "type": "output_text",
+            "logprobs": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    },
+    {
+      "type": "response.completed",
+      "sequence_number": 20,
+      "response": {
+        "id": "resp_b9d000c0213c4c088b6558f02ca3c7fe",
+        "object": "response",
+        "created_at": 1793751639,
+        "model": "gpt-oss-20b",
+        "output": [
+          {
+            "id": "rs_a2d0741e4723410f90aa80c6ab5ed4c5",
+            "summary": [],
+            "type": "reasoning",
+            "content": [
+              {
+                "text": "Just compute 17+25=42.",
+                "type": "reasoning_text"
+              }
+            ],
+            "encrypted_content": null,
+            "status": "completed"
+          },
+          {
+            "id": "msg_5eb8498540db45a881f2a012fcd1502c",
+            "content": [
+              {
+                "annotations": [],
+                "text": "42",
+                "type": "output_text",
+                "logprobs": null
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "input_tokens": 0,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 0,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 0
+        },
+        "parallel_tool_calls": true,
+        "tool_choice": "auto",
+        "tools": [],
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "max_output_tokens": 512,
+        "previous_response_id": null,
+        "reasoning": {
+          "effort": "low",
+          "summary": null
+        },
+        "store": false,
+        "temperature": 0.0,
+        "text": null,
+        "top_p": null,
+        "truncation": "disabled",
+        "user": null,
+        "metadata": {}
+      }
+    }
+  ],
+  "response": {
+    "id": "resp_b9d000c0213c4c088b6558f02ca3c7fe",
+    "object": "response",
+    "created_at": 1793751639,
+    "model": "gpt-oss-20b",
+    "output": [
+      {
+        "id": "rs_a2d0741e4723410f90aa80c6ab5ed4c5",
+        "summary": [],
+        "type": "reasoning",
+        "content": [
+          {
+            "text": "Just compute 17+25=42.",
+            "type": "reasoning_text"
+          }
+        ],
+        "encrypted_content": null,
+        "status": "completed"
+      },
+      {
+        "id": "msg_5eb8498540db45a881f2a012fcd1502c",
+        "content": [
+          {
+            "annotations": [],
+            "text": "42",
+            "type": "output_text",
+            "logprobs": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "status": "completed",
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "parallel_tool_calls": true,
+    "tool_choice": "auto",
+    "tools": [],
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "max_output_tokens": 512,
+    "previous_response_id": null,
+    "reasoning": {
+      "effort": "low",
+      "summary": null
+    },
+    "store": false,
+    "temperature": 0.0,
+    "text": null,
+    "top_p": null,
+    "truncation": "disabled",
+    "user": null,
+    "metadata": {}
+  },
+  "passed": true,
+  "text": "42",
+  "canonical": {
+    "object": "response",
+    "model": "gpt-oss-20b",
+    "output": [
+      {
+        "summary": [],
+        "type": "reasoning",
+        "content": [
+          {
+            "text": "Just compute 17+25=42.",
+            "type": "reasoning_text"
+          }
+        ],
+        "encrypted_content": null,
+        "status": "completed"
+      },
+      {
+        "content": [
+          {
+            "annotations": [],
+            "text": "42",
+            "type": "output_text",
+            "logprobs": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "status": "completed",
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cache_write_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "parallel_tool_calls": true,
+    "tool_choice": "auto",
+    "tools": [],
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "max_output_tokens": 512,
+    "previous_response_id": null,
+    "reasoning": {
+      "effort": "low",
+      "summary": null
+    },
+    "store": false,
+    "temperature": 0.0,
+    "text": null,
+    "top_p": null,
+    "truncation": "disabled",
+    "user": null,
+    "metadata": {}
+  },
+  "elapsed_seconds": 0.58
+}

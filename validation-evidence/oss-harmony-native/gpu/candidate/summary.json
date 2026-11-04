@@ -1,0 +1,130 @@
+[
+  {
+    "name": "arithmetic",
+    "status_code": 200,
+    "passed": true,
+    "text": "42",
+    "exception": null,
+    "elapsed_seconds": 0.602
+  },
+  {
+    "name": "arithmetic_stream",
+    "status_code": 200,
+    "passed": true,
+    "text": "42",
+    "exception": null,
+    "elapsed_seconds": 0.58
+  },
+  {
+    "name": "capital",
+    "status_code": 200,
+    "passed": true,
+    "text": "Paris",
+    "exception": null,
+    "elapsed_seconds": 0.435
+  },
+  {
+    "name": "capital_stream",
+    "status_code": 200,
+    "passed": true,
+    "text": "Paris",
+    "exception": null,
+    "elapsed_seconds": 0.435
+  },
+  {
+    "name": "literal",
+    "status_code": 200,
+    "passed": true,
+    "text": "BLUE",
+    "exception": null,
+    "elapsed_seconds": 0.488
+  },
+  {
+    "name": "literal_stream",
+    "status_code": 200,
+    "passed": true,
+    "text": "BLUE",
+    "exception": null,
+    "elapsed_seconds": 0.487
+  },
+  {
+    "name": "tool_call",
+    "status_code": 200,
+    "passed": true,
+    "text": "",
+    "exception": null,
+    "elapsed_seconds": 0.864
+  },
+  {
+    "name": "tool_call_stream",
+    "status_code": 200,
+    "passed": true,
+    "text": "",
+    "exception": null,
+    "elapsed_seconds": 0.847
+  },
+  {
+    "name": "tool_replay",
+    "status_code": 200,
+    "passed": true,
+    "text": "It\u2019s 21\u202f\u00b0C and sunny in Paris.",
+    "exception": null,
+    "elapsed_seconds": 0.44
+  },
+  {
+    "name": "tool_replay_stream",
+    "status_code": 200,
+    "passed": true,
+    "text": "It\u2019s 21\u202f\u00b0C and sunny in Paris.",
+    "exception": null,
+    "elapsed_seconds": 0.442
+  },
+  {
+    "name": "chat_control",
+    "status_code": 200,
+    "passed": true,
+    "text": "42",
+    "exception": null,
+    "elapsed_seconds": 0.568
+  },
+  {
+    "name": "chat_control_stream",
+    "status_code": 200,
+    "passed": true,
+    "text": "42",
+    "exception": null,
+    "elapsed_seconds": 0.568
+  },
+  {
+    "name": "multiturn_next_call",
+    "status_code": 200,
+    "passed": true,
+    "text": "",
+    "exception": null,
+    "elapsed_seconds": 0.819
+  },
+  {
+    "name": "multiturn_replay",
+    "status_code": 200,
+    "passed": true,
+    "text": "Rome is 25\u202f\u00b0C and clear.",
+    "exception": null,
+    "elapsed_seconds": 1.395
+  },
+  {
+    "name": "multiturn_next_call_stream",
+    "status_code": 200,
+    "passed": true,
+    "text": "",
+    "exception": null,
+    "elapsed_seconds": 0.809
+  },
+  {
+    "name": "multiturn_replay_stream",
+    "status_code": 200,
+    "passed": true,
+    "text": "Rome is 25\u202f\u00b0C and clear.",
+    "exception": null,
+    "elapsed_seconds": 1.367
+  }
+]

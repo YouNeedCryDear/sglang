@@ -1,0 +1,647 @@
+{
+  "name": "multiturn_replay_stream",
+  "path": "/v1/responses",
+  "request": {
+    "model": "gpt-oss-20b",
+    "temperature": 0,
+    "max_output_tokens": 512,
+    "reasoning": {
+      "effort": "low"
+    },
+    "store": false,
+    "input": [
+      {
+        "role": "user",
+        "content": "What is the current weather in Paris?"
+      },
+      {
+        "type": "function_call",
+        "call_id": "call_paris_fixed",
+        "name": "get_weather",
+        "arguments": "{\"city\":\"Paris\"}"
+      },
+      {
+        "type": "function_call_output",
+        "call_id": "call_paris_fixed",
+        "output": "{\"city\":\"Paris\",\"temperature_c\":21,\"conditions\":\"sunny\"}"
+      },
+      {
+        "role": "assistant",
+        "content": "Paris is 21 C and sunny."
+      },
+      {
+        "role": "user",
+        "content": "And what is the current weather in London?"
+      },
+      {
+        "type": "function_call",
+        "call_id": "call_london_fixed",
+        "name": "get_weather",
+        "arguments": "{\"city\":\"London\"}"
+      },
+      {
+        "type": "function_call_output",
+        "call_id": "call_london_fixed",
+        "output": "{\"city\":\"London\",\"temperature_c\":11,\"conditions\":\"cloudy\"}"
+      },
+      {
+        "role": "assistant",
+        "content": "London is 11 C and cloudy."
+      },
+      {
+        "role": "user",
+        "content": "Now use get_weather to look up the current weather in Rome. Call the tool before answering."
+      },
+      {
+        "type": "function_call",
+        "call_id": "call_rome_fixed",
+        "name": "get_weather",
+        "arguments": "{\"city\":\"Rome\"}"
+      },
+      {
+        "type": "function_call_output",
+        "call_id": "call_rome_fixed",
+        "output": "{\"city\":\"Rome\",\"temperature_c\":25,\"conditions\":\"clear\"}"
+      }
+    ],
+    "instructions": "Use the latest tool result to answer the latest question in one short sentence.",
+    "tools": [
+      {
+        "type": "function",
+        "name": "get_weather",
+        "description": "Get the current weather for a city.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "city"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true
+      }
+    ],
+    "stream": true
+  },
+  "status_code": 200,
+  "events": [
+    {
+      "type": "response.created",
+      "sequence_number": 0,
+      "response": {
+        "id": "resp_b0a4d5ff1a6b498cb7d769f74867130b",
+        "object": "response",
+        "created_at": 1793751431,
+        "model": "gpt-oss-20b",
+        "output": [],
+        "status": "in_progress",
+        "usage": null,
+        "parallel_tool_calls": true,
+        "tool_choice": "auto",
+        "tools": [],
+        "error": null,
+        "incomplete_details": null,
+        "instructions": "Use the latest tool result to answer the latest question in one short sentence.",
+        "max_output_tokens": 512,
+        "previous_response_id": null,
+        "reasoning": {
+          "effort": "low",
+          "summary": null
+        },
+        "store": false,
+        "temperature": 0.0,
+        "text": null,
+        "top_p": null,
+        "truncation": "disabled",
+        "user": null,
+        "metadata": {}
+      }
+    },
+    {
+      "type": "response.in_progress",
+      "sequence_number": 1,
+      "response": {
+        "id": "resp_b0a4d5ff1a6b498cb7d769f74867130b",
+        "object": "response",
+        "created_at": 1793751431,
+        "model": "gpt-oss-20b",
+        "output": [],
+        "status": "in_progress",
+        "usage": null,
+        "parallel_tool_calls": true,
+        "tool_choice": "auto",
+        "tools": [],
+        "error": null,
+        "incomplete_details": null,
+        "instructions": "Use the latest tool result to answer the latest question in one short sentence.",
+        "max_output_tokens": 512,
+        "previous_response_id": null,
+        "reasoning": {
+          "effort": "low",
+          "summary": null
+        },
+        "store": false,
+        "temperature": 0.0,
+        "text": null,
+        "top_p": null,
+        "truncation": "disabled",
+        "user": null,
+        "metadata": {}
+      }
+    },
+    {
+      "type": "response.output_item.added",
+      "sequence_number": 2,
+      "output_index": 0,
+      "item": {
+        "id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+        "summary": [],
+        "type": "reasoning",
+        "content": [],
+        "encrypted_content": null,
+        "status": "in_progress"
+      }
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 3,
+      "output_index": 0,
+      "item_id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+      "content_index": 0,
+      "delta": "Need"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 4,
+      "output_index": 0,
+      "item_id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+      "content_index": 0,
+      "delta": " to"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 5,
+      "output_index": 0,
+      "item_id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+      "content_index": 0,
+      "delta": " answer"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 6,
+      "output_index": 0,
+      "item_id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+      "content_index": 0,
+      "delta": ":"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 7,
+      "output_index": 0,
+      "item_id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+      "content_index": 0,
+      "delta": " Rome"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 8,
+      "output_index": 0,
+      "item_id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+      "content_index": 0,
+      "delta": " is"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 9,
+      "output_index": 0,
+      "item_id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+      "content_index": 0,
+      "delta": " "
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 10,
+      "output_index": 0,
+      "item_id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+      "content_index": 0,
+      "delta": "25"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 11,
+      "output_index": 0,
+      "item_id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+      "content_index": 0,
+      "delta": " C"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 12,
+      "output_index": 0,
+      "item_id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+      "content_index": 0,
+      "delta": " and"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 13,
+      "output_index": 0,
+      "item_id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+      "content_index": 0,
+      "delta": " clear"
+    },
+    {
+      "type": "response.reasoning_text.delta",
+      "sequence_number": 14,
+      "output_index": 0,
+      "item_id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+      "content_index": 0,
+      "delta": "."
+    },
+    {
+      "type": "response.reasoning_text.done",
+      "sequence_number": 15,
+      "output_index": 0,
+      "item_id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+      "content_index": 0,
+      "text": "Need to answer: Rome is 25 C and clear."
+    },
+    {
+      "type": "response.output_item.done",
+      "sequence_number": 16,
+      "output_index": 0,
+      "item": {
+        "id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+        "summary": [],
+        "type": "reasoning",
+        "content": [
+          {
+            "text": "Need to answer: Rome is 25 C and clear.",
+            "type": "reasoning_text"
+          }
+        ],
+        "encrypted_content": null,
+        "status": "completed"
+      }
+    },
+    {
+      "type": "response.output_item.added",
+      "sequence_number": 17,
+      "output_index": 1,
+      "item": {
+        "id": "msg_a986667f29f849148f1c5ed878596360",
+        "content": [],
+        "role": "assistant",
+        "status": "in_progress",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    },
+    {
+      "type": "response.content_part.added",
+      "sequence_number": 18,
+      "output_index": 1,
+      "item_id": "msg_a986667f29f849148f1c5ed878596360",
+      "content_index": 0,
+      "part": {
+        "annotations": [],
+        "text": "",
+        "type": "output_text",
+        "logprobs": null
+      }
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 19,
+      "output_index": 1,
+      "item_id": "msg_a986667f29f849148f1c5ed878596360",
+      "content_index": 0,
+      "delta": "Rome",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 20,
+      "output_index": 1,
+      "item_id": "msg_a986667f29f849148f1c5ed878596360",
+      "content_index": 0,
+      "delta": " is",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 21,
+      "output_index": 1,
+      "item_id": "msg_a986667f29f849148f1c5ed878596360",
+      "content_index": 0,
+      "delta": " ",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 22,
+      "output_index": 1,
+      "item_id": "msg_a986667f29f849148f1c5ed878596360",
+      "content_index": 0,
+      "delta": "25",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 23,
+      "output_index": 1,
+      "item_id": "msg_a986667f29f849148f1c5ed878596360",
+      "content_index": 0,
+      "delta": "\u202f",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 24,
+      "output_index": 1,
+      "item_id": "msg_a986667f29f849148f1c5ed878596360",
+      "content_index": 0,
+      "delta": "\u00b0C",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 25,
+      "output_index": 1,
+      "item_id": "msg_a986667f29f849148f1c5ed878596360",
+      "content_index": 0,
+      "delta": " and",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 26,
+      "output_index": 1,
+      "item_id": "msg_a986667f29f849148f1c5ed878596360",
+      "content_index": 0,
+      "delta": " clear",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.delta",
+      "sequence_number": 27,
+      "output_index": 1,
+      "item_id": "msg_a986667f29f849148f1c5ed878596360",
+      "content_index": 0,
+      "delta": ".",
+      "logprobs": []
+    },
+    {
+      "type": "response.output_text.done",
+      "sequence_number": 28,
+      "output_index": 1,
+      "item_id": "msg_a986667f29f849148f1c5ed878596360",
+      "content_index": 0,
+      "text": "Rome is 25\u202f\u00b0C and clear.",
+      "logprobs": []
+    },
+    {
+      "type": "response.content_part.done",
+      "sequence_number": 29,
+      "output_index": 1,
+      "item_id": "msg_a986667f29f849148f1c5ed878596360",
+      "content_index": 0,
+      "part": {
+        "annotations": [],
+        "text": "Rome is 25\u202f\u00b0C and clear.",
+        "type": "output_text",
+        "logprobs": null
+      }
+    },
+    {
+      "type": "response.output_item.done",
+      "sequence_number": 30,
+      "output_index": 1,
+      "item": {
+        "id": "msg_a986667f29f849148f1c5ed878596360",
+        "content": [
+          {
+            "annotations": [],
+            "text": "Rome is 25\u202f\u00b0C and clear.",
+            "type": "output_text",
+            "logprobs": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    },
+    {
+      "type": "response.completed",
+      "sequence_number": 31,
+      "response": {
+        "id": "resp_b0a4d5ff1a6b498cb7d769f74867130b",
+        "object": "response",
+        "created_at": 1793751431,
+        "model": "gpt-oss-20b",
+        "output": [
+          {
+            "id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+            "summary": [],
+            "type": "reasoning",
+            "content": [
+              {
+                "text": "Need to answer: Rome is 25 C and clear.",
+                "type": "reasoning_text"
+              }
+            ],
+            "encrypted_content": null,
+            "status": "completed"
+          },
+          {
+            "id": "msg_a986667f29f849148f1c5ed878596360",
+            "content": [
+              {
+                "annotations": [],
+                "text": "Rome is 25\u202f\u00b0C and clear.",
+                "type": "output_text",
+                "logprobs": null
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "input_tokens": 0,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 0,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 0
+        },
+        "parallel_tool_calls": true,
+        "tool_choice": "auto",
+        "tools": [],
+        "error": null,
+        "incomplete_details": null,
+        "instructions": "Use the latest tool result to answer the latest question in one short sentence.",
+        "max_output_tokens": 512,
+        "previous_response_id": null,
+        "reasoning": {
+          "effort": "low",
+          "summary": null
+        },
+        "store": false,
+        "temperature": 0.0,
+        "text": null,
+        "top_p": null,
+        "truncation": "disabled",
+        "user": null,
+        "metadata": {}
+      }
+    }
+  ],
+  "response": {
+    "id": "resp_b0a4d5ff1a6b498cb7d769f74867130b",
+    "object": "response",
+    "created_at": 1793751431,
+    "model": "gpt-oss-20b",
+    "output": [
+      {
+        "id": "rs_3a2b57e514a84c82bd8199010f7b65b5",
+        "summary": [],
+        "type": "reasoning",
+        "content": [
+          {
+            "text": "Need to answer: Rome is 25 C and clear.",
+            "type": "reasoning_text"
+          }
+        ],
+        "encrypted_content": null,
+        "status": "completed"
+      },
+      {
+        "id": "msg_a986667f29f849148f1c5ed878596360",
+        "content": [
+          {
+            "annotations": [],
+            "text": "Rome is 25\u202f\u00b0C and clear.",
+            "type": "output_text",
+            "logprobs": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "status": "completed",
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "parallel_tool_calls": true,
+    "tool_choice": "auto",
+    "tools": [],
+    "error": null,
+    "incomplete_details": null,
+    "instructions": "Use the latest tool result to answer the latest question in one short sentence.",
+    "max_output_tokens": 512,
+    "previous_response_id": null,
+    "reasoning": {
+      "effort": "low",
+      "summary": null
+    },
+    "store": false,
+    "temperature": 0.0,
+    "text": null,
+    "top_p": null,
+    "truncation": "disabled",
+    "user": null,
+    "metadata": {}
+  },
+  "passed": true,
+  "text": "Rome is 25\u202f\u00b0C and clear.",
+  "canonical": {
+    "object": "response",
+    "model": "gpt-oss-20b",
+    "output": [
+      {
+        "summary": [],
+        "type": "reasoning",
+        "content": [
+          {
+            "text": "Need to answer: Rome is 25 C and clear.",
+            "type": "reasoning_text"
+          }
+        ],
+        "encrypted_content": null,
+        "status": "completed"
+      },
+      {
+        "content": [
+          {
+            "annotations": [],
+            "text": "Rome is 25\u202f\u00b0C and clear.",
+            "type": "output_text",
+            "logprobs": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "status": "completed",
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cache_write_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "parallel_tool_calls": true,
+    "tool_choice": "auto",
+    "tools": [],
+    "error": null,
+    "incomplete_details": null,
+    "instructions": "Use the latest tool result to answer the latest question in one short sentence.",
+    "max_output_tokens": 512,
+    "previous_response_id": null,
+    "reasoning": {
+      "effort": "low",
+      "summary": null
+    },
+    "store": false,
+    "temperature": 0.0,
+    "text": null,
+    "top_p": null,
+    "truncation": "disabled",
+    "user": null,
+    "metadata": {}
+  },
+  "elapsed_seconds": 0.873
+}

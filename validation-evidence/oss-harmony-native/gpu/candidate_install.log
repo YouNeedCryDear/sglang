@@ -1,0 +1,9 @@
+Found existing installation: openai-harmony 0.0.4
+Uninstalling openai-harmony-0.0.4:
+  Successfully uninstalled openai-harmony-0.0.4
+Collecting oss-harmony==0.0.12
+  Downloading oss_harmony-0.0.12-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (5.4 kB)
+Downloading oss_harmony-0.0.12-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (3.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.5/3.5 MB 111.7 MB/s  0:00:00
+Installing collected packages: oss-harmony
+Successfully installed oss-harmony-0.0.12

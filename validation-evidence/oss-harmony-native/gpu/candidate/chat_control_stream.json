@@ -1,0 +1,234 @@
+{
+  "name": "chat_control_stream",
+  "path": "/v1/chat/completions",
+  "request": {
+    "model": "gpt-oss-20b",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What is 17 plus 25? Answer with the number only."
+      }
+    ],
+    "temperature": 0,
+    "max_tokens": 512,
+    "reasoning_effort": "low",
+    "stream": true
+  },
+  "status_code": 200,
+  "events": [
+    {
+      "id": "ab7a81a14db54d95bcd287e79cbe17d0",
+      "object": "chat.completion.chunk",
+      "created": 1793751645,
+      "model": "gpt-oss-20b",
+      "choices": [
+        {
+          "index": 0,
+          "delta": {
+            "reasoning_content": null,
+            "role": "assistant",
+            "content": ""
+          },
+          "logprobs": null,
+          "finish_reason": null,
+          "matched_stop": null
+        }
+      ]
+    },
+    {
+      "id": "ab7a81a14db54d95bcd287e79cbe17d0",
+      "object": "chat.completion.chunk",
+      "created": 1793751645,
+      "model": "gpt-oss-20b",
+      "choices": [
+        {
+          "index": 0,
+          "delta": {
+            "reasoning_content": "Just"
+          },
+          "logprobs": null,
+          "finish_reason": null,
+          "matched_stop": null
+        }
+      ]
+    },
+    {
+      "id": "ab7a81a14db54d95bcd287e79cbe17d0",
+      "object": "chat.completion.chunk",
+      "created": 1793751645,
+      "model": "gpt-oss-20b",
+      "choices": [
+        {
+          "index": 0,
+          "delta": {
+            "reasoning_content": " compute"
+          },
+          "logprobs": null,
+          "finish_reason": null,
+          "matched_stop": null
+        }
+      ]
+    },
+    {
+      "id": "ab7a81a14db54d95bcd287e79cbe17d0",
+      "object": "chat.completion.chunk",
+      "created": 1793751645,
+      "model": "gpt-oss-20b",
+      "choices": [
+        {
+          "index": 0,
+          "delta": {
+            "reasoning_content": " "
+          },
+          "logprobs": null,
+          "finish_reason": null,
+          "matched_stop": null
+        }
+      ]
+    },
+    {
+      "id": "ab7a81a14db54d95bcd287e79cbe17d0",
+      "object": "chat.completion.chunk",
+      "created": 1793751645,
+      "model": "gpt-oss-20b",
+      "choices": [
+        {
+          "index": 0,
+          "delta": {
+            "reasoning_content": "17"
+          },
+          "logprobs": null,
+          "finish_reason": null,
+          "matched_stop": null
+        }
+      ]
+    },
+    {
+      "id": "ab7a81a14db54d95bcd287e79cbe17d0",
+      "object": "chat.completion.chunk",
+      "created": 1793751645,
+      "model": "gpt-oss-20b",
+      "choices": [
+        {
+          "index": 0,
+          "delta": {
+            "reasoning_content": "+"
+          },
+          "logprobs": null,
+          "finish_reason": null,
+          "matched_stop": null
+        }
+      ]
+    },
+    {
+      "id": "ab7a81a14db54d95bcd287e79cbe17d0",
+      "object": "chat.completion.chunk",
+      "created": 1793751645,
+      "model": "gpt-oss-20b",
+      "choices": [
+        {
+          "index": 0,
+          "delta": {
+            "reasoning_content": "25"
+          },
+          "logprobs": null,
+          "finish_reason": null,
+          "matched_stop": null
+        }
+      ]
+    },
+    {
+      "id": "ab7a81a14db54d95bcd287e79cbe17d0",
+      "object": "chat.completion.chunk",
+      "created": 1793751645,
+      "model": "gpt-oss-20b",
+      "choices": [
+        {
+          "index": 0,
+          "delta": {
+            "reasoning_content": "="
+          },
+          "logprobs": null,
+          "finish_reason": null,
+          "matched_stop": null
+        }
+      ]
+    },
+    {
+      "id": "ab7a81a14db54d95bcd287e79cbe17d0",
+      "object": "chat.completion.chunk",
+      "created": 1793751645,
+      "model": "gpt-oss-20b",
+      "choices": [
+        {
+          "index": 0,
+          "delta": {
+            "reasoning_content": "42"
+          },
+          "logprobs": null,
+          "finish_reason": null,
+          "matched_stop": null
+        }
+      ]
+    },
+    {
+      "id": "ab7a81a14db54d95bcd287e79cbe17d0",
+      "object": "chat.completion.chunk",
+      "created": 1793751645,
+      "model": "gpt-oss-20b",
+      "choices": [
+        {
+          "index": 0,
+          "delta": {
+            "reasoning_content": "."
+          },
+          "logprobs": null,
+          "finish_reason": null,
+          "matched_stop": null
+        }
+      ]
+    },
+    {
+      "id": "ab7a81a14db54d95bcd287e79cbe17d0",
+      "object": "chat.completion.chunk",
+      "created": 1793751645,
+      "model": "gpt-oss-20b",
+      "choices": [
+        {
+          "index": 0,
+          "delta": {
+            "reasoning_content": null,
+            "content": "42"
+          },
+          "logprobs": null,
+          "finish_reason": null,
+          "matched_stop": null
+        }
+      ]
+    },
+    {
+      "id": "ab7a81a14db54d95bcd287e79cbe17d0",
+      "object": "chat.completion.chunk",
+      "created": 1793751645,
+      "model": "gpt-oss-20b",
+      "choices": [
+        {
+          "index": 0,
+          "delta": {
+            "reasoning_content": null
+          },
+          "logprobs": null,
+          "finish_reason": "stop",
+          "matched_stop": 200002
+        }
+      ]
+    }
+  ],
+  "passed": true,
+  "text": "42",
+  "canonical": {
+    "text": "42",
+    "reasoning_content": "Just compute 17+25=42."
+  },
+  "elapsed_seconds": 0.568
+}
