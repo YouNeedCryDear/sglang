@@ -1,0 +1,23 @@
+{
+  "upstream_source_commit": "3f5b1bec8e00115bc8439b5b9a9da902822d2f82",
+  "fixed_source_commit": "75429de8959a18da1b316bc5947949ff1fae9184",
+  "fixed_source": "Upstream git archive plus six final changed files; all hashes verified remotely and against final commit.",
+  "upstream_regression_source": "Unchanged upstream production source plus the final two test files only; no constructor adapters or production edits.",
+  "environment_labels": {
+    "baseline": "openai-harmony==0.0.4",
+    "candidate": "oss-harmony==0.0.12"
+  },
+  "base_image": "lmsysorg/sglang:v0.5.23-cu130",
+  "base_image_digest": "sha256:f832b5c39559c9caa900b22ad37c76fcce66470676855c42052102c537812f1f",
+  "local_dependency_snapshot_image": "sha256:8633e6bab2b10aee55b0e06983f1df07d2f03d1ccd126ef9c555809e2648cb7c",
+  "execution": "CPU only on aarch64; Docker runtime runc, NVIDIA_VISIBLE_DEVICES=void, no GPU device request or model/server launch.",
+  "cleanup": {
+    "both_task_containers_stopped": true,
+    "lease_changed": false,
+    "gpu_used_by_tests": false,
+    "gpu_memory_mib_after": 1,
+    "gpu_utilization_percent_after": 0,
+    "gpu_compute_processes_after": [],
+    "artifacts_retained": true
+  }
+}

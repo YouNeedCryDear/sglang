@@ -1,0 +1,57 @@
+{
+  "source_sha256": "be201ebfba1ce757941d86b91de4ac6c0828604543d57d3c69a8a9c4fe1387b9",
+  "before": {
+    "probe_results": {
+      "valid_unchanged": 4,
+      "metadata_recovered": 3,
+      "metadata_rejected": 3,
+      "missing_message_recovered_preserving_argument_ids": 4,
+      "missing_message_rejected": 11,
+      "prior_messages_once_across_two_repairs": 3,
+      "messages_after_valid_continuation": 5
+    },
+    "construction_ms": {
+      "native": 0.061230570026964415,
+      "recovering": 0.06753395999112399
+    },
+    "processing": {
+      "1000": {
+        "native_ms": 0.18776149772747885,
+        "recovering_ms": 0.25518649999867193,
+        "delta_ms": 0.06742500227119308
+      },
+      "10000": {
+        "native_ms": 1.352674998997827,
+        "recovering_ms": 1.912158999402891,
+        "delta_ms": 0.5594840004050639
+      }
+    }
+  },
+  "after": {
+    "probe_results": {
+      "valid_unchanged": 4,
+      "metadata_recovered": 3,
+      "metadata_rejected": 3,
+      "missing_message_recovered_preserving_argument_ids": 4,
+      "missing_message_rejected": 11,
+      "prior_messages_once_across_two_repairs": 3,
+      "messages_after_valid_continuation": 5
+    },
+    "construction_ms": {
+      "native": 0.06326520997390617,
+      "recovering": 0.06475636000686791
+    },
+    "processing": {
+      "1000": {
+        "native_ms": 0.6616685004701139,
+        "recovering_ms": 0.7352694992732722,
+        "delta_ms": 0.07360099880315829
+      },
+      "10000": {
+        "native_ms": 6.136982497991994,
+        "recovering_ms": 6.778012500944897,
+        "delta_ms": 0.6410300029529026
+      }
+    }
+  }
+}

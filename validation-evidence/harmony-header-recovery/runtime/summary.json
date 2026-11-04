@@ -1,0 +1,60 @@
+{
+  "openai-harmony==0.0.4": {
+    "fixed_full_suites": {
+      "exit_code": 0,
+      "passed_tests": 111,
+      "passed_subtests": 116,
+      "warnings": 18,
+      "seconds": 8.13
+    },
+    "upstream_targeted": {
+      "exit_code": 1,
+      "failed_subtests": 20,
+      "selected_test_methods": 2,
+      "seconds": 7.21
+    }
+  },
+  "oss-harmony==0.0.12": {
+    "fixed_full_suites": {
+      "exit_code": 0,
+      "passed_tests": 111,
+      "passed_subtests": 116,
+      "warnings": 18,
+      "seconds": 8.08
+    },
+    "upstream_targeted": {
+      "exit_code": 1,
+      "failed_subtests": 20,
+      "selected_test_methods": 2,
+      "seconds": 7.21
+    }
+  },
+  "upstream_failure_categories": {
+    "spliced_metadata": "Non-streaming HTTP400; streaming HarmonyError for unexpected tokens remaining in message header.",
+    "missing_message_separator": "Function call omitted, with and without trailing constrain token.",
+    "valid_analysis_function_recipient": "Function call classified as reasoning."
+  },
+  "minimal_reproduction": {
+    "combinations_verified": 4,
+    "upstream_both_packages": {
+      "metadata_spliced": "HarmonyError",
+      "missing_separator": []
+    },
+    "fixed_both_packages": {
+      "metadata_spliced": [
+        {
+          "type": "function_call",
+          "name": "echo",
+          "arguments": "{\"x\":1}"
+        }
+      ],
+      "missing_separator": [
+        {
+          "type": "function_call",
+          "name": "echo",
+          "arguments": "{\"x\":1}"
+        }
+      ]
+    }
+  }
+}

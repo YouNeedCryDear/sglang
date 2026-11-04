@@ -1,0 +1,1755 @@
+/opt/sglang/lib/python3.12/site-packages/pytest_asyncio/plugin.py:300: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the "fixture" caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to "function" scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+..                                                   [100%]
+=================================== FAILURES ===================================
+_ HarmonyHeaderRecoveryTestCase.test_malformed_headers_recover_function_call_response (name='spliced_metadata') _
+
+self = <test_serving_responses.HarmonyHeaderRecoveryTestCase testMethod=test_malformed_headers_recover_function_call_response>
+
+    def test_malformed_headers_recover_function_call_response(self):
+        """A malformed tool header must not lose the call or earlier output."""
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        cases = (
+            (
+                "spliced_metadata",
+                "<|channel|>commentary to=functions.echo "
+                "<|constrain|>commentary to=assistant "
+                "<|constrain|>analysis to=functions.echo json<|message|>",
+                "<|start|>assistant<|channel|>final<|message|>after<|end|>",
+            ),
+            ("missing_separator", "<|channel|>commentary to=functions.echo", ""),
+            (
+                "missing_separator_after_constrain",
+                "<|channel|>analysis to=functions.echo<|constrain|>",
+                "",
+            ),
+            (
+                "valid_analysis_function",
+                "<|channel|>analysis to=functions.echo<|message|>",
+                "",
+            ),
+        )
+        for name, header, tail in cases:
+            with self.subTest(name=name):
+                tokens = (
+                    encoding.encode(prefix + header, allowed_special="all")
+                    + encoding.encode(arguments, disallowed_special=())
+                    + encoding.encode("<|call|>" + tail, allowed_special="all")
+                )
+                response = self._response_from_tokens(
+                    tokens,
+                    [
+                        {
+                            "type": "function",
+                            "name": "echo",
+                            "description": "Return the supplied text.",
+                            "parameters": {"type": "object"},
+                        }
+                    ],
+                )
+>               self.assertIsInstance(
+                    response, ResponsesResponse, getattr(response, "body", None)
+                )
+E               AssertionError: <fastapi.responses.ORJSONResponse object at 0xe317b67b97c0> is not an instance of <class 'sglang.srt.entrypoints.openai.protocol.ResponsesResponse'> : b'{"error":{"message":"unexpected tokens remaining in message header: Some(\\"to=functions.echo <|constrain|>commentary to=assistant <|constrain|>analysis\\")","type":"invalid_request_error","param":null,"code":400}}'
+
+test/registered/unit/entrypoints/openai/test_serving_responses.py:1874: AssertionError
+_ HarmonyHeaderRecoveryTestCase.test_malformed_headers_recover_function_call_response (name='missing_separator') _
+
+self = <test_serving_responses.HarmonyHeaderRecoveryTestCase testMethod=test_malformed_headers_recover_function_call_response>
+
+    def test_malformed_headers_recover_function_call_response(self):
+        """A malformed tool header must not lose the call or earlier output."""
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        cases = (
+            (
+                "spliced_metadata",
+                "<|channel|>commentary to=functions.echo "
+                "<|constrain|>commentary to=assistant "
+                "<|constrain|>analysis to=functions.echo json<|message|>",
+                "<|start|>assistant<|channel|>final<|message|>after<|end|>",
+            ),
+            ("missing_separator", "<|channel|>commentary to=functions.echo", ""),
+            (
+                "missing_separator_after_constrain",
+                "<|channel|>analysis to=functions.echo<|constrain|>",
+                "",
+            ),
+            (
+                "valid_analysis_function",
+                "<|channel|>analysis to=functions.echo<|message|>",
+                "",
+            ),
+        )
+        for name, header, tail in cases:
+            with self.subTest(name=name):
+                tokens = (
+                    encoding.encode(prefix + header, allowed_special="all")
+                    + encoding.encode(arguments, disallowed_special=())
+                    + encoding.encode("<|call|>" + tail, allowed_special="all")
+                )
+                response = self._response_from_tokens(
+                    tokens,
+                    [
+                        {
+                            "type": "function",
+                            "name": "echo",
+                            "description": "Return the supplied text.",
+                            "parameters": {"type": "object"},
+                        }
+                    ],
+                )
+                self.assertIsInstance(
+                    response, ResponsesResponse, getattr(response, "body", None)
+                )
+                self.assertEqual(response.status, "completed")
+>               self.assertEqual(
+                    [item.type for item in response.output],
+                    ["reasoning", "message", "function_call"]
+                    + (["message"] if tail else []),
+                )
+E               AssertionError: Lists differ: ['reasoning', 'message'] != ['reasoning', 'message', 'function_call']
+E               
+E               Second list contains 1 additional elements.
+E               First extra element 2:
+E               'function_call'
+E               
+E               - ['reasoning', 'message']
+E               + ['reasoning', 'message', 'function_call']
+
+test/registered/unit/entrypoints/openai/test_serving_responses.py:1878: AssertionError
+_ HarmonyHeaderRecoveryTestCase.test_malformed_headers_recover_function_call_response (name='missing_separator_after_constrain') _
+
+self = <test_serving_responses.HarmonyHeaderRecoveryTestCase testMethod=test_malformed_headers_recover_function_call_response>
+
+    def test_malformed_headers_recover_function_call_response(self):
+        """A malformed tool header must not lose the call or earlier output."""
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        cases = (
+            (
+                "spliced_metadata",
+                "<|channel|>commentary to=functions.echo "
+                "<|constrain|>commentary to=assistant "
+                "<|constrain|>analysis to=functions.echo json<|message|>",
+                "<|start|>assistant<|channel|>final<|message|>after<|end|>",
+            ),
+            ("missing_separator", "<|channel|>commentary to=functions.echo", ""),
+            (
+                "missing_separator_after_constrain",
+                "<|channel|>analysis to=functions.echo<|constrain|>",
+                "",
+            ),
+            (
+                "valid_analysis_function",
+                "<|channel|>analysis to=functions.echo<|message|>",
+                "",
+            ),
+        )
+        for name, header, tail in cases:
+            with self.subTest(name=name):
+                tokens = (
+                    encoding.encode(prefix + header, allowed_special="all")
+                    + encoding.encode(arguments, disallowed_special=())
+                    + encoding.encode("<|call|>" + tail, allowed_special="all")
+                )
+                response = self._response_from_tokens(
+                    tokens,
+                    [
+                        {
+                            "type": "function",
+                            "name": "echo",
+                            "description": "Return the supplied text.",
+                            "parameters": {"type": "object"},
+                        }
+                    ],
+                )
+                self.assertIsInstance(
+                    response, ResponsesResponse, getattr(response, "body", None)
+                )
+                self.assertEqual(response.status, "completed")
+>               self.assertEqual(
+                    [item.type for item in response.output],
+                    ["reasoning", "message", "function_call"]
+                    + (["message"] if tail else []),
+                )
+E               AssertionError: Lists differ: ['reasoning', 'message'] != ['reasoning', 'message', 'function_call']
+E               
+E               Second list contains 1 additional elements.
+E               First extra element 2:
+E               'function_call'
+E               
+E               - ['reasoning', 'message']
+E               + ['reasoning', 'message', 'function_call']
+
+test/registered/unit/entrypoints/openai/test_serving_responses.py:1878: AssertionError
+_ HarmonyHeaderRecoveryTestCase.test_malformed_headers_recover_function_call_response (name='valid_analysis_function') _
+
+self = <test_serving_responses.HarmonyHeaderRecoveryTestCase testMethod=test_malformed_headers_recover_function_call_response>
+
+    def test_malformed_headers_recover_function_call_response(self):
+        """A malformed tool header must not lose the call or earlier output."""
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        cases = (
+            (
+                "spliced_metadata",
+                "<|channel|>commentary to=functions.echo "
+                "<|constrain|>commentary to=assistant "
+                "<|constrain|>analysis to=functions.echo json<|message|>",
+                "<|start|>assistant<|channel|>final<|message|>after<|end|>",
+            ),
+            ("missing_separator", "<|channel|>commentary to=functions.echo", ""),
+            (
+                "missing_separator_after_constrain",
+                "<|channel|>analysis to=functions.echo<|constrain|>",
+                "",
+            ),
+            (
+                "valid_analysis_function",
+                "<|channel|>analysis to=functions.echo<|message|>",
+                "",
+            ),
+        )
+        for name, header, tail in cases:
+            with self.subTest(name=name):
+                tokens = (
+                    encoding.encode(prefix + header, allowed_special="all")
+                    + encoding.encode(arguments, disallowed_special=())
+                    + encoding.encode("<|call|>" + tail, allowed_special="all")
+                )
+                response = self._response_from_tokens(
+                    tokens,
+                    [
+                        {
+                            "type": "function",
+                            "name": "echo",
+                            "description": "Return the supplied text.",
+                            "parameters": {"type": "object"},
+                        }
+                    ],
+                )
+                self.assertIsInstance(
+                    response, ResponsesResponse, getattr(response, "body", None)
+                )
+                self.assertEqual(response.status, "completed")
+>               self.assertEqual(
+                    [item.type for item in response.output],
+                    ["reasoning", "message", "function_call"]
+                    + (["message"] if tail else []),
+                )
+E               AssertionError: Lists differ: ['reasoning', 'message', 'reasoning'] != ['reasoning', 'message', 'function_call']
+E               
+E               First differing element 2:
+E               'reasoning'
+E               'function_call'
+E               
+E               - ['reasoning', 'message', 'reasoning']
+E               ?                           ^^^^  ^^^
+E               
+E               + ['reasoning', 'message', 'function_call']
+E               ?                           ^^^^^^  ^^^^^
+
+test/registered/unit/entrypoints/openai/test_serving_responses.py:1878: AssertionError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (header='<|channel|>commentary to=functions.echo <|constrain|>commentary to=assistant <|constrain|>analysis to=functions.echo json<|message|>', cumulative=False, chunk_size=1) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Repair must preserve SSE items across token splits and engine modes."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        headers = (
+            "<|channel|>commentary to=functions.echo "
+            "<|constrain|>commentary to=assistant "
+            "<|constrain|>analysis to=functions.echo json<|message|>",
+            "<|channel|>commentary to=functions.echo",
+            "<|channel|>analysis to=functions.echo<|constrain|>",
+            "<|channel|>analysis to=functions.echo<|message|>",
+        )
+        for header in headers:
+            tokens = (
+                encoding.encode(prefix + header, allowed_special="all")
+                + encoding.encode(arguments, disallowed_special=())
+                + encoding.encode("<|call|>", allowed_special="all")
+            )
+            for cumulative in (False, True):
+                for chunk_size in (1, len(tokens)):
+                    with self.subTest(
+                        header=header, cumulative=cumulative, chunk_size=chunk_size
+                    ):
+                        serving = make_serving(model_type="gpt_oss")
+    
+                        async def generate(*args, **kwargs):
+                            for start in range(0, len(tokens), chunk_size):
+                                end = min(start + chunk_size, len(tokens))
+                                chunk = engine_chunk("", end, finish=end == len(tokens))
+                                chunk["output_ids"] = tokens[
+                                    0 if cumulative else start : end
+                                ]
+                                yield chunk
+    
+                        serving.tokenizer_manager.generate_request = generate
+                        request = ResponsesRequest(
+                            model="x",
+                            input="hi",
+                            stream=True,
+                            store=False,
+                            tools=[
+                                {
+                                    "type": "function",
+                                    "name": "echo",
+                                    "description": "Return the supplied text.",
+                                    "parameters": {"type": "object"},
+                                }
+                            ],
+                        )
+    
+                        async def collect():
+                            stream = await serving.create_responses(request)
+                            self.assertNotIsInstance(
+                                stream, ORJSONResponse, getattr(stream, "body", None)
+                            )
+                            return await collect_stream_events(stream)
+    
+>                       events = asyncio.run(collect())
+                                 ^^^^^^^^^^^^^^^^^^^^^^
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:876: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/python/cpython-3.12.16-linux-aarch64-gnu/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/python/cpython-3.12.16-linux-aarch64-gnu/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/python/cpython-3.12.16-linux-aarch64-gnu/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:874: in collect
+    return await collect_stream_events(stream)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test/registered/unit/entrypoints/openai/utils.py:110: in collect_stream_events
+    async for chunk in stream:
+python/sglang/srt/entrypoints/openai/serving_responses.py:2147: in responses_stream_generator
+    async for ctx in result_generator:
+python/sglang/srt/entrypoints/openai/serving_responses.py:3080: in _generate_with_builtin_tools
+    context.append_output(res)
+python/sglang/srt/entrypoints/context.py:221: in append_output
+    self.parser.process(token_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <openai_harmony.StreamableParser object at 0xe317b67bb3e0>
+token = 200008
+
+    def process(self, token: int) -> "StreamableParser":
+>       self._inner.process(token)
+E       openai_harmony.HarmonyError: unexpected tokens remaining in message header: Some("to=functions.echo <|constrain|>commentary to=assistant <|constrain|>analysis")
+
+/opt/sglang/lib/python3.12/site-packages/openai_harmony/__init__.py:637: HarmonyError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (header='<|channel|>commentary to=functions.echo <|constrain|>commentary to=assistant <|constrain|>analysis to=functions.echo json<|message|>', cumulative=False, chunk_size=50) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Repair must preserve SSE items across token splits and engine modes."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        headers = (
+            "<|channel|>commentary to=functions.echo "
+            "<|constrain|>commentary to=assistant "
+            "<|constrain|>analysis to=functions.echo json<|message|>",
+            "<|channel|>commentary to=functions.echo",
+            "<|channel|>analysis to=functions.echo<|constrain|>",
+            "<|channel|>analysis to=functions.echo<|message|>",
+        )
+        for header in headers:
+            tokens = (
+                encoding.encode(prefix + header, allowed_special="all")
+                + encoding.encode(arguments, disallowed_special=())
+                + encoding.encode("<|call|>", allowed_special="all")
+            )
+            for cumulative in (False, True):
+                for chunk_size in (1, len(tokens)):
+                    with self.subTest(
+                        header=header, cumulative=cumulative, chunk_size=chunk_size
+                    ):
+                        serving = make_serving(model_type="gpt_oss")
+    
+                        async def generate(*args, **kwargs):
+                            for start in range(0, len(tokens), chunk_size):
+                                end = min(start + chunk_size, len(tokens))
+                                chunk = engine_chunk("", end, finish=end == len(tokens))
+                                chunk["output_ids"] = tokens[
+                                    0 if cumulative else start : end
+                                ]
+                                yield chunk
+    
+                        serving.tokenizer_manager.generate_request = generate
+                        request = ResponsesRequest(
+                            model="x",
+                            input="hi",
+                            stream=True,
+                            store=False,
+                            tools=[
+                                {
+                                    "type": "function",
+                                    "name": "echo",
+                                    "description": "Return the supplied text.",
+                                    "parameters": {"type": "object"},
+                                }
+                            ],
+                        )
+    
+                        async def collect():
+                            stream = await serving.create_responses(request)
+                            self.assertNotIsInstance(
+                                stream, ORJSONResponse, getattr(stream, "body", None)
+                            )
+                            return await collect_stream_events(stream)
+    
+>                       events = asyncio.run(collect())
+                                 ^^^^^^^^^^^^^^^^^^^^^^
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:876: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/python/cpython-3.12.16-linux-aarch64-gnu/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/python/cpython-3.12.16-linux-aarch64-gnu/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/python/cpython-3.12.16-linux-aarch64-gnu/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:874: in collect
+    return await collect_stream_events(stream)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test/registered/unit/entrypoints/openai/utils.py:110: in collect_stream_events
+    async for chunk in stream:
+python/sglang/srt/entrypoints/openai/serving_responses.py:2147: in responses_stream_generator
+    async for ctx in result_generator:
+python/sglang/srt/entrypoints/openai/serving_responses.py:3080: in _generate_with_builtin_tools
+    context.append_output(res)
+python/sglang/srt/entrypoints/context.py:221: in append_output
+    self.parser.process(token_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <openai_harmony.StreamableParser object at 0xe317b67bb860>
+token = 200008
+
+    def process(self, token: int) -> "StreamableParser":
+>       self._inner.process(token)
+E       openai_harmony.HarmonyError: unexpected tokens remaining in message header: Some("to=functions.echo <|constrain|>commentary to=assistant <|constrain|>analysis")
+
+/opt/sglang/lib/python3.12/site-packages/openai_harmony/__init__.py:637: HarmonyError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (header='<|channel|>commentary to=functions.echo <|constrain|>commentary to=assistant <|constrain|>analysis to=functions.echo json<|message|>', cumulative=True, chunk_size=1) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Repair must preserve SSE items across token splits and engine modes."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        headers = (
+            "<|channel|>commentary to=functions.echo "
+            "<|constrain|>commentary to=assistant "
+            "<|constrain|>analysis to=functions.echo json<|message|>",
+            "<|channel|>commentary to=functions.echo",
+            "<|channel|>analysis to=functions.echo<|constrain|>",
+            "<|channel|>analysis to=functions.echo<|message|>",
+        )
+        for header in headers:
+            tokens = (
+                encoding.encode(prefix + header, allowed_special="all")
+                + encoding.encode(arguments, disallowed_special=())
+                + encoding.encode("<|call|>", allowed_special="all")
+            )
+            for cumulative in (False, True):
+                for chunk_size in (1, len(tokens)):
+                    with self.subTest(
+                        header=header, cumulative=cumulative, chunk_size=chunk_size
+                    ):
+                        serving = make_serving(model_type="gpt_oss")
+    
+                        async def generate(*args, **kwargs):
+                            for start in range(0, len(tokens), chunk_size):
+                                end = min(start + chunk_size, len(tokens))
+                                chunk = engine_chunk("", end, finish=end == len(tokens))
+                                chunk["output_ids"] = tokens[
+                                    0 if cumulative else start : end
+                                ]
+                                yield chunk
+    
+                        serving.tokenizer_manager.generate_request = generate
+                        request = ResponsesRequest(
+                            model="x",
+                            input="hi",
+                            stream=True,
+                            store=False,
+                            tools=[
+                                {
+                                    "type": "function",
+                                    "name": "echo",
+                                    "description": "Return the supplied text.",
+                                    "parameters": {"type": "object"},
+                                }
+                            ],
+                        )
+    
+                        async def collect():
+                            stream = await serving.create_responses(request)
+                            self.assertNotIsInstance(
+                                stream, ORJSONResponse, getattr(stream, "body", None)
+                            )
+                            return await collect_stream_events(stream)
+    
+>                       events = asyncio.run(collect())
+                                 ^^^^^^^^^^^^^^^^^^^^^^
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:876: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/python/cpython-3.12.16-linux-aarch64-gnu/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/python/cpython-3.12.16-linux-aarch64-gnu/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/python/cpython-3.12.16-linux-aarch64-gnu/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:874: in collect
+    return await collect_stream_events(stream)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test/registered/unit/entrypoints/openai/utils.py:110: in collect_stream_events
+    async for chunk in stream:
+python/sglang/srt/entrypoints/openai/serving_responses.py:2147: in responses_stream_generator
+    async for ctx in result_generator:
+python/sglang/srt/entrypoints/openai/serving_responses.py:3080: in _generate_with_builtin_tools
+    context.append_output(res)
+python/sglang/srt/entrypoints/context.py:221: in append_output
+    self.parser.process(token_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <openai_harmony.StreamableParser object at 0xe317b68181a0>
+token = 200008
+
+    def process(self, token: int) -> "StreamableParser":
+>       self._inner.process(token)
+E       openai_harmony.HarmonyError: unexpected tokens remaining in message header: Some("to=functions.echo <|constrain|>commentary to=assistant <|constrain|>analysis")
+
+/opt/sglang/lib/python3.12/site-packages/openai_harmony/__init__.py:637: HarmonyError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (header='<|channel|>commentary to=functions.echo <|constrain|>commentary to=assistant <|constrain|>analysis to=functions.echo json<|message|>', cumulative=True, chunk_size=50) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Repair must preserve SSE items across token splits and engine modes."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        headers = (
+            "<|channel|>commentary to=functions.echo "
+            "<|constrain|>commentary to=assistant "
+            "<|constrain|>analysis to=functions.echo json<|message|>",
+            "<|channel|>commentary to=functions.echo",
+            "<|channel|>analysis to=functions.echo<|constrain|>",
+            "<|channel|>analysis to=functions.echo<|message|>",
+        )
+        for header in headers:
+            tokens = (
+                encoding.encode(prefix + header, allowed_special="all")
+                + encoding.encode(arguments, disallowed_special=())
+                + encoding.encode("<|call|>", allowed_special="all")
+            )
+            for cumulative in (False, True):
+                for chunk_size in (1, len(tokens)):
+                    with self.subTest(
+                        header=header, cumulative=cumulative, chunk_size=chunk_size
+                    ):
+                        serving = make_serving(model_type="gpt_oss")
+    
+                        async def generate(*args, **kwargs):
+                            for start in range(0, len(tokens), chunk_size):
+                                end = min(start + chunk_size, len(tokens))
+                                chunk = engine_chunk("", end, finish=end == len(tokens))
+                                chunk["output_ids"] = tokens[
+                                    0 if cumulative else start : end
+                                ]
+                                yield chunk
+    
+                        serving.tokenizer_manager.generate_request = generate
+                        request = ResponsesRequest(
+                            model="x",
+                            input="hi",
+                            stream=True,
+                            store=False,
+                            tools=[
+                                {
+                                    "type": "function",
+                                    "name": "echo",
+                                    "description": "Return the supplied text.",
+                                    "parameters": {"type": "object"},
+                                }
+                            ],
+                        )
+    
+                        async def collect():
+                            stream = await serving.create_responses(request)
+                            self.assertNotIsInstance(
+                                stream, ORJSONResponse, getattr(stream, "body", None)
+                            )
+                            return await collect_stream_events(stream)
+    
+>                       events = asyncio.run(collect())
+                                 ^^^^^^^^^^^^^^^^^^^^^^
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:876: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/python/cpython-3.12.16-linux-aarch64-gnu/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/python/cpython-3.12.16-linux-aarch64-gnu/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/python/cpython-3.12.16-linux-aarch64-gnu/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:874: in collect
+    return await collect_stream_events(stream)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test/registered/unit/entrypoints/openai/utils.py:110: in collect_stream_events
+    async for chunk in stream:
+python/sglang/srt/entrypoints/openai/serving_responses.py:2147: in responses_stream_generator
+    async for ctx in result_generator:
+python/sglang/srt/entrypoints/openai/serving_responses.py:3080: in _generate_with_builtin_tools
+    context.append_output(res)
+python/sglang/srt/entrypoints/context.py:221: in append_output
+    self.parser.process(token_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <openai_harmony.StreamableParser object at 0xe317b6764800>
+token = 200008
+
+    def process(self, token: int) -> "StreamableParser":
+>       self._inner.process(token)
+E       openai_harmony.HarmonyError: unexpected tokens remaining in message header: Some("to=functions.echo <|constrain|>commentary to=assistant <|constrain|>analysis")
+
+/opt/sglang/lib/python3.12/site-packages/openai_harmony/__init__.py:637: HarmonyError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (header='<|channel|>commentary to=functions.echo', cumulative=False, chunk_size=1) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Repair must preserve SSE items across token splits and engine modes."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        headers = (
+            "<|channel|>commentary to=functions.echo "
+            "<|constrain|>commentary to=assistant "
+            "<|constrain|>analysis to=functions.echo json<|message|>",
+            "<|channel|>commentary to=functions.echo",
+            "<|channel|>analysis to=functions.echo<|constrain|>",
+            "<|channel|>analysis to=functions.echo<|message|>",
+        )
+        for header in headers:
+            tokens = (
+                encoding.encode(prefix + header, allowed_special="all")
+                + encoding.encode(arguments, disallowed_special=())
+                + encoding.encode("<|call|>", allowed_special="all")
+            )
+            for cumulative in (False, True):
+                for chunk_size in (1, len(tokens)):
+                    with self.subTest(
+                        header=header, cumulative=cumulative, chunk_size=chunk_size
+                    ):
+                        serving = make_serving(model_type="gpt_oss")
+    
+                        async def generate(*args, **kwargs):
+                            for start in range(0, len(tokens), chunk_size):
+                                end = min(start + chunk_size, len(tokens))
+                                chunk = engine_chunk("", end, finish=end == len(tokens))
+                                chunk["output_ids"] = tokens[
+                                    0 if cumulative else start : end
+                                ]
+                                yield chunk
+    
+                        serving.tokenizer_manager.generate_request = generate
+                        request = ResponsesRequest(
+                            model="x",
+                            input="hi",
+                            stream=True,
+                            store=False,
+                            tools=[
+                                {
+                                    "type": "function",
+                                    "name": "echo",
+                                    "description": "Return the supplied text.",
+                                    "parameters": {"type": "object"},
+                                }
+                            ],
+                        )
+    
+                        async def collect():
+                            stream = await serving.create_responses(request)
+                            self.assertNotIsInstance(
+                                stream, ORJSONResponse, getattr(stream, "body", None)
+                            )
+                            return await collect_stream_events(stream)
+    
+                        events = asyncio.run(collect())
+                        payloads = event_payloads(events)
+                        output = find_completed_event(events)["response"]["output"]
+>                       self.assertEqual(
+                            [item["type"] for item in output],
+                            ["reasoning", "message", "function_call"],
+                        )
+E                       AssertionError: Lists differ: ['reasoning', 'message'] != ['reasoning', 'message', 'function_call']
+E                       
+E                       Second list contains 1 additional elements.
+E                       First extra element 2:
+E                       'function_call'
+E                       
+E                       - ['reasoning', 'message']
+E                       + ['reasoning', 'message', 'function_call']
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:879: AssertionError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (header='<|channel|>commentary to=functions.echo', cumulative=False, chunk_size=34) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Repair must preserve SSE items across token splits and engine modes."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        headers = (
+            "<|channel|>commentary to=functions.echo "
+            "<|constrain|>commentary to=assistant "
+            "<|constrain|>analysis to=functions.echo json<|message|>",
+            "<|channel|>commentary to=functions.echo",
+            "<|channel|>analysis to=functions.echo<|constrain|>",
+            "<|channel|>analysis to=functions.echo<|message|>",
+        )
+        for header in headers:
+            tokens = (
+                encoding.encode(prefix + header, allowed_special="all")
+                + encoding.encode(arguments, disallowed_special=())
+                + encoding.encode("<|call|>", allowed_special="all")
+            )
+            for cumulative in (False, True):
+                for chunk_size in (1, len(tokens)):
+                    with self.subTest(
+                        header=header, cumulative=cumulative, chunk_size=chunk_size
+                    ):
+                        serving = make_serving(model_type="gpt_oss")
+    
+                        async def generate(*args, **kwargs):
+                            for start in range(0, len(tokens), chunk_size):
+                                end = min(start + chunk_size, len(tokens))
+                                chunk = engine_chunk("", end, finish=end == len(tokens))
+                                chunk["output_ids"] = tokens[
+                                    0 if cumulative else start : end
+                                ]
+                                yield chunk
+    
+                        serving.tokenizer_manager.generate_request = generate
+                        request = ResponsesRequest(
+                            model="x",
+                            input="hi",
+                            stream=True,
+                            store=False,
+                            tools=[
+                                {
+                                    "type": "function",
+                                    "name": "echo",
+                                    "description": "Return the supplied text.",
+                                    "parameters": {"type": "object"},
+                                }
+                            ],
+                        )
+    
+                        async def collect():
+                            stream = await serving.create_responses(request)
+                            self.assertNotIsInstance(
+                                stream, ORJSONResponse, getattr(stream, "body", None)
+                            )
+                            return await collect_stream_events(stream)
+    
+                        events = asyncio.run(collect())
+                        payloads = event_payloads(events)
+                        output = find_completed_event(events)["response"]["output"]
+>                       self.assertEqual(
+                            [item["type"] for item in output],
+                            ["reasoning", "message", "function_call"],
+                        )
+E                       AssertionError: Lists differ: ['reasoning', 'message'] != ['reasoning', 'message', 'function_call']
+E                       
+E                       Second list contains 1 additional elements.
+E                       First extra element 2:
+E                       'function_call'
+E                       
+E                       - ['reasoning', 'message']
+E                       + ['reasoning', 'message', 'function_call']
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:879: AssertionError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (header='<|channel|>commentary to=functions.echo', cumulative=True, chunk_size=1) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Repair must preserve SSE items across token splits and engine modes."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        headers = (
+            "<|channel|>commentary to=functions.echo "
+            "<|constrain|>commentary to=assistant "
+            "<|constrain|>analysis to=functions.echo json<|message|>",
+            "<|channel|>commentary to=functions.echo",
+            "<|channel|>analysis to=functions.echo<|constrain|>",
+            "<|channel|>analysis to=functions.echo<|message|>",
+        )
+        for header in headers:
+            tokens = (
+                encoding.encode(prefix + header, allowed_special="all")
+                + encoding.encode(arguments, disallowed_special=())
+                + encoding.encode("<|call|>", allowed_special="all")
+            )
+            for cumulative in (False, True):
+                for chunk_size in (1, len(tokens)):
+                    with self.subTest(
+                        header=header, cumulative=cumulative, chunk_size=chunk_size
+                    ):
+                        serving = make_serving(model_type="gpt_oss")
+    
+                        async def generate(*args, **kwargs):
+                            for start in range(0, len(tokens), chunk_size):
+                                end = min(start + chunk_size, len(tokens))
+                                chunk = engine_chunk("", end, finish=end == len(tokens))
+                                chunk["output_ids"] = tokens[
+                                    0 if cumulative else start : end
+                                ]
+                                yield chunk
+    
+                        serving.tokenizer_manager.generate_request = generate
+                        request = ResponsesRequest(
+                            model="x",
+                            input="hi",
+                            stream=True,
+                            store=False,
+                            tools=[
+                                {
+                                    "type": "function",
+                                    "name": "echo",
+                                    "description": "Return the supplied text.",
+                                    "parameters": {"type": "object"},
+                                }
+                            ],
+                        )
+    
+                        async def collect():
+                            stream = await serving.create_responses(request)
+                            self.assertNotIsInstance(
+                                stream, ORJSONResponse, getattr(stream, "body", None)
+                            )
+                            return await collect_stream_events(stream)
+    
+                        events = asyncio.run(collect())
+                        payloads = event_payloads(events)
+                        output = find_completed_event(events)["response"]["output"]
+>                       self.assertEqual(
+                            [item["type"] for item in output],
+                            ["reasoning", "message", "function_call"],
+                        )
+E                       AssertionError: Lists differ: ['reasoning', 'message'] != ['reasoning', 'message', 'function_call']
+E                       
+E                       Second list contains 1 additional elements.
+E                       First extra element 2:
+E                       'function_call'
+E                       
+E                       - ['reasoning', 'message']
+E                       + ['reasoning', 'message', 'function_call']
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:879: AssertionError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (header='<|channel|>commentary to=functions.echo', cumulative=True, chunk_size=34) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Repair must preserve SSE items across token splits and engine modes."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        headers = (
+            "<|channel|>commentary to=functions.echo "
+            "<|constrain|>commentary to=assistant "
+            "<|constrain|>analysis to=functions.echo json<|message|>",
+            "<|channel|>commentary to=functions.echo",
+            "<|channel|>analysis to=functions.echo<|constrain|>",
+            "<|channel|>analysis to=functions.echo<|message|>",
+        )
+        for header in headers:
+            tokens = (
+                encoding.encode(prefix + header, allowed_special="all")
+                + encoding.encode(arguments, disallowed_special=())
+                + encoding.encode("<|call|>", allowed_special="all")
+            )
+            for cumulative in (False, True):
+                for chunk_size in (1, len(tokens)):
+                    with self.subTest(
+                        header=header, cumulative=cumulative, chunk_size=chunk_size
+                    ):
+                        serving = make_serving(model_type="gpt_oss")
+    
+                        async def generate(*args, **kwargs):
+                            for start in range(0, len(tokens), chunk_size):
+                                end = min(start + chunk_size, len(tokens))
+                                chunk = engine_chunk("", end, finish=end == len(tokens))
+                                chunk["output_ids"] = tokens[
+                                    0 if cumulative else start : end
+                                ]
+                                yield chunk
+    
+                        serving.tokenizer_manager.generate_request = generate
+                        request = ResponsesRequest(
+                            model="x",
+                            input="hi",
+                            stream=True,
+                            store=False,
+                            tools=[
+                                {
+                                    "type": "function",
+                                    "name": "echo",
+                                    "description": "Return the supplied text.",
+                                    "parameters": {"type": "object"},
+                                }
+                            ],
+                        )
+    
+                        async def collect():
+                            stream = await serving.create_responses(request)
+                            self.assertNotIsInstance(
+                                stream, ORJSONResponse, getattr(stream, "body", None)
+                            )
+                            return await collect_stream_events(stream)
+    
+                        events = asyncio.run(collect())
+                        payloads = event_payloads(events)
+                        output = find_completed_event(events)["response"]["output"]
+>                       self.assertEqual(
+                            [item["type"] for item in output],
+                            ["reasoning", "message", "function_call"],
+                        )
+E                       AssertionError: Lists differ: ['reasoning', 'message'] != ['reasoning', 'message', 'function_call']
+E                       
+E                       Second list contains 1 additional elements.
+E                       First extra element 2:
+E                       'function_call'
+E                       
+E                       - ['reasoning', 'message']
+E                       + ['reasoning', 'message', 'function_call']
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:879: AssertionError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (header='<|channel|>analysis to=functions.echo<|constrain|>', cumulative=False, chunk_size=1) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Repair must preserve SSE items across token splits and engine modes."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        headers = (
+            "<|channel|>commentary to=functions.echo "
+            "<|constrain|>commentary to=assistant "
+            "<|constrain|>analysis to=functions.echo json<|message|>",
+            "<|channel|>commentary to=functions.echo",
+            "<|channel|>analysis to=functions.echo<|constrain|>",
+            "<|channel|>analysis to=functions.echo<|message|>",
+        )
+        for header in headers:
+            tokens = (
+                encoding.encode(prefix + header, allowed_special="all")
+                + encoding.encode(arguments, disallowed_special=())
+                + encoding.encode("<|call|>", allowed_special="all")
+            )
+            for cumulative in (False, True):
+                for chunk_size in (1, len(tokens)):
+                    with self.subTest(
+                        header=header, cumulative=cumulative, chunk_size=chunk_size
+                    ):
+                        serving = make_serving(model_type="gpt_oss")
+    
+                        async def generate(*args, **kwargs):
+                            for start in range(0, len(tokens), chunk_size):
+                                end = min(start + chunk_size, len(tokens))
+                                chunk = engine_chunk("", end, finish=end == len(tokens))
+                                chunk["output_ids"] = tokens[
+                                    0 if cumulative else start : end
+                                ]
+                                yield chunk
+    
+                        serving.tokenizer_manager.generate_request = generate
+                        request = ResponsesRequest(
+                            model="x",
+                            input="hi",
+                            stream=True,
+                            store=False,
+                            tools=[
+                                {
+                                    "type": "function",
+                                    "name": "echo",
+                                    "description": "Return the supplied text.",
+                                    "parameters": {"type": "object"},
+                                }
+                            ],
+                        )
+    
+                        async def collect():
+                            stream = await serving.create_responses(request)
+                            self.assertNotIsInstance(
+                                stream, ORJSONResponse, getattr(stream, "body", None)
+                            )
+                            return await collect_stream_events(stream)
+    
+                        events = asyncio.run(collect())
+                        payloads = event_payloads(events)
+                        output = find_completed_event(events)["response"]["output"]
+>                       self.assertEqual(
+                            [item["type"] for item in output],
+                            ["reasoning", "message", "function_call"],
+                        )
+E                       AssertionError: Lists differ: ['reasoning', 'message'] != ['reasoning', 'message', 'function_call']
+E                       
+E                       Second list contains 1 additional elements.
+E                       First extra element 2:
+E                       'function_call'
+E                       
+E                       - ['reasoning', 'message']
+E                       + ['reasoning', 'message', 'function_call']
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:879: AssertionError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (header='<|channel|>analysis to=functions.echo<|constrain|>', cumulative=False, chunk_size=34) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Repair must preserve SSE items across token splits and engine modes."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        headers = (
+            "<|channel|>commentary to=functions.echo "
+            "<|constrain|>commentary to=assistant "
+            "<|constrain|>analysis to=functions.echo json<|message|>",
+            "<|channel|>commentary to=functions.echo",
+            "<|channel|>analysis to=functions.echo<|constrain|>",
+            "<|channel|>analysis to=functions.echo<|message|>",
+        )
+        for header in headers:
+            tokens = (
+                encoding.encode(prefix + header, allowed_special="all")
+                + encoding.encode(arguments, disallowed_special=())
+                + encoding.encode("<|call|>", allowed_special="all")
+            )
+            for cumulative in (False, True):
+                for chunk_size in (1, len(tokens)):
+                    with self.subTest(
+                        header=header, cumulative=cumulative, chunk_size=chunk_size
+                    ):
+                        serving = make_serving(model_type="gpt_oss")
+    
+                        async def generate(*args, **kwargs):
+                            for start in range(0, len(tokens), chunk_size):
+                                end = min(start + chunk_size, len(tokens))
+                                chunk = engine_chunk("", end, finish=end == len(tokens))
+                                chunk["output_ids"] = tokens[
+                                    0 if cumulative else start : end
+                                ]
+                                yield chunk
+    
+                        serving.tokenizer_manager.generate_request = generate
+                        request = ResponsesRequest(
+                            model="x",
+                            input="hi",
+                            stream=True,
+                            store=False,
+                            tools=[
+                                {
+                                    "type": "function",
+                                    "name": "echo",
+                                    "description": "Return the supplied text.",
+                                    "parameters": {"type": "object"},
+                                }
+                            ],
+                        )
+    
+                        async def collect():
+                            stream = await serving.create_responses(request)
+                            self.assertNotIsInstance(
+                                stream, ORJSONResponse, getattr(stream, "body", None)
+                            )
+                            return await collect_stream_events(stream)
+    
+                        events = asyncio.run(collect())
+                        payloads = event_payloads(events)
+                        output = find_completed_event(events)["response"]["output"]
+>                       self.assertEqual(
+                            [item["type"] for item in output],
+                            ["reasoning", "message", "function_call"],
+                        )
+E                       AssertionError: Lists differ: ['reasoning', 'message'] != ['reasoning', 'message', 'function_call']
+E                       
+E                       Second list contains 1 additional elements.
+E                       First extra element 2:
+E                       'function_call'
+E                       
+E                       - ['reasoning', 'message']
+E                       + ['reasoning', 'message', 'function_call']
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:879: AssertionError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (header='<|channel|>analysis to=functions.echo<|constrain|>', cumulative=True, chunk_size=1) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Repair must preserve SSE items across token splits and engine modes."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        headers = (
+            "<|channel|>commentary to=functions.echo "
+            "<|constrain|>commentary to=assistant "
+            "<|constrain|>analysis to=functions.echo json<|message|>",
+            "<|channel|>commentary to=functions.echo",
+            "<|channel|>analysis to=functions.echo<|constrain|>",
+            "<|channel|>analysis to=functions.echo<|message|>",
+        )
+        for header in headers:
+            tokens = (
+                encoding.encode(prefix + header, allowed_special="all")
+                + encoding.encode(arguments, disallowed_special=())
+                + encoding.encode("<|call|>", allowed_special="all")
+            )
+            for cumulative in (False, True):
+                for chunk_size in (1, len(tokens)):
+                    with self.subTest(
+                        header=header, cumulative=cumulative, chunk_size=chunk_size
+                    ):
+                        serving = make_serving(model_type="gpt_oss")
+    
+                        async def generate(*args, **kwargs):
+                            for start in range(0, len(tokens), chunk_size):
+                                end = min(start + chunk_size, len(tokens))
+                                chunk = engine_chunk("", end, finish=end == len(tokens))
+                                chunk["output_ids"] = tokens[
+                                    0 if cumulative else start : end
+                                ]
+                                yield chunk
+    
+                        serving.tokenizer_manager.generate_request = generate
+                        request = ResponsesRequest(
+                            model="x",
+                            input="hi",
+                            stream=True,
+                            store=False,
+                            tools=[
+                                {
+                                    "type": "function",
+                                    "name": "echo",
+                                    "description": "Return the supplied text.",
+                                    "parameters": {"type": "object"},
+                                }
+                            ],
+                        )
+    
+                        async def collect():
+                            stream = await serving.create_responses(request)
+                            self.assertNotIsInstance(
+                                stream, ORJSONResponse, getattr(stream, "body", None)
+                            )
+                            return await collect_stream_events(stream)
+    
+                        events = asyncio.run(collect())
+                        payloads = event_payloads(events)
+                        output = find_completed_event(events)["response"]["output"]
+>                       self.assertEqual(
+                            [item["type"] for item in output],
+                            ["reasoning", "message", "function_call"],
+                        )
+E                       AssertionError: Lists differ: ['reasoning', 'message'] != ['reasoning', 'message', 'function_call']
+E                       
+E                       Second list contains 1 additional elements.
+E                       First extra element 2:
+E                       'function_call'
+E                       
+E                       - ['reasoning', 'message']
+E                       + ['reasoning', 'message', 'function_call']
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:879: AssertionError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (header='<|channel|>analysis to=functions.echo<|constrain|>', cumulative=True, chunk_size=34) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Repair must preserve SSE items across token splits and engine modes."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        headers = (
+            "<|channel|>commentary to=functions.echo "
+            "<|constrain|>commentary to=assistant "
+            "<|constrain|>analysis to=functions.echo json<|message|>",
+            "<|channel|>commentary to=functions.echo",
+            "<|channel|>analysis to=functions.echo<|constrain|>",
+            "<|channel|>analysis to=functions.echo<|message|>",
+        )
+        for header in headers:
+            tokens = (
+                encoding.encode(prefix + header, allowed_special="all")
+                + encoding.encode(arguments, disallowed_special=())
+                + encoding.encode("<|call|>", allowed_special="all")
+            )
+            for cumulative in (False, True):
+                for chunk_size in (1, len(tokens)):
+                    with self.subTest(
+                        header=header, cumulative=cumulative, chunk_size=chunk_size
+                    ):
+                        serving = make_serving(model_type="gpt_oss")
+    
+                        async def generate(*args, **kwargs):
+                            for start in range(0, len(tokens), chunk_size):
+                                end = min(start + chunk_size, len(tokens))
+                                chunk = engine_chunk("", end, finish=end == len(tokens))
+                                chunk["output_ids"] = tokens[
+                                    0 if cumulative else start : end
+                                ]
+                                yield chunk
+    
+                        serving.tokenizer_manager.generate_request = generate
+                        request = ResponsesRequest(
+                            model="x",
+                            input="hi",
+                            stream=True,
+                            store=False,
+                            tools=[
+                                {
+                                    "type": "function",
+                                    "name": "echo",
+                                    "description": "Return the supplied text.",
+                                    "parameters": {"type": "object"},
+                                }
+                            ],
+                        )
+    
+                        async def collect():
+                            stream = await serving.create_responses(request)
+                            self.assertNotIsInstance(
+                                stream, ORJSONResponse, getattr(stream, "body", None)
+                            )
+                            return await collect_stream_events(stream)
+    
+                        events = asyncio.run(collect())
+                        payloads = event_payloads(events)
+                        output = find_completed_event(events)["response"]["output"]
+>                       self.assertEqual(
+                            [item["type"] for item in output],
+                            ["reasoning", "message", "function_call"],
+                        )
+E                       AssertionError: Lists differ: ['reasoning', 'message'] != ['reasoning', 'message', 'function_call']
+E                       
+E                       Second list contains 1 additional elements.
+E                       First extra element 2:
+E                       'function_call'
+E                       
+E                       - ['reasoning', 'message']
+E                       + ['reasoning', 'message', 'function_call']
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:879: AssertionError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (header='<|channel|>analysis to=functions.echo<|message|>', cumulative=False, chunk_size=1) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Repair must preserve SSE items across token splits and engine modes."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        headers = (
+            "<|channel|>commentary to=functions.echo "
+            "<|constrain|>commentary to=assistant "
+            "<|constrain|>analysis to=functions.echo json<|message|>",
+            "<|channel|>commentary to=functions.echo",
+            "<|channel|>analysis to=functions.echo<|constrain|>",
+            "<|channel|>analysis to=functions.echo<|message|>",
+        )
+        for header in headers:
+            tokens = (
+                encoding.encode(prefix + header, allowed_special="all")
+                + encoding.encode(arguments, disallowed_special=())
+                + encoding.encode("<|call|>", allowed_special="all")
+            )
+            for cumulative in (False, True):
+                for chunk_size in (1, len(tokens)):
+                    with self.subTest(
+                        header=header, cumulative=cumulative, chunk_size=chunk_size
+                    ):
+                        serving = make_serving(model_type="gpt_oss")
+    
+                        async def generate(*args, **kwargs):
+                            for start in range(0, len(tokens), chunk_size):
+                                end = min(start + chunk_size, len(tokens))
+                                chunk = engine_chunk("", end, finish=end == len(tokens))
+                                chunk["output_ids"] = tokens[
+                                    0 if cumulative else start : end
+                                ]
+                                yield chunk
+    
+                        serving.tokenizer_manager.generate_request = generate
+                        request = ResponsesRequest(
+                            model="x",
+                            input="hi",
+                            stream=True,
+                            store=False,
+                            tools=[
+                                {
+                                    "type": "function",
+                                    "name": "echo",
+                                    "description": "Return the supplied text.",
+                                    "parameters": {"type": "object"},
+                                }
+                            ],
+                        )
+    
+                        async def collect():
+                            stream = await serving.create_responses(request)
+                            self.assertNotIsInstance(
+                                stream, ORJSONResponse, getattr(stream, "body", None)
+                            )
+                            return await collect_stream_events(stream)
+    
+                        events = asyncio.run(collect())
+                        payloads = event_payloads(events)
+                        output = find_completed_event(events)["response"]["output"]
+>                       self.assertEqual(
+                            [item["type"] for item in output],
+                            ["reasoning", "message", "function_call"],
+                        )
+E                       AssertionError: Lists differ: ['reasoning', 'message', 'reasoning'] != ['reasoning', 'message', 'function_call']
+E                       
+E                       First differing element 2:
+E                       'reasoning'
+E                       'function_call'
+E                       
+E                       - ['reasoning', 'message', 'reasoning']
+E                       ?                           ^^^^  ^^^
+E                       
+E                       + ['reasoning', 'message', 'function_call']
+E                       ?                           ^^^^^^  ^^^^^
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:879: AssertionError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (header='<|channel|>analysis to=functions.echo<|message|>', cumulative=False, chunk_size=34) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Repair must preserve SSE items across token splits and engine modes."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        headers = (
+            "<|channel|>commentary to=functions.echo "
+            "<|constrain|>commentary to=assistant "
+            "<|constrain|>analysis to=functions.echo json<|message|>",
+            "<|channel|>commentary to=functions.echo",
+            "<|channel|>analysis to=functions.echo<|constrain|>",
+            "<|channel|>analysis to=functions.echo<|message|>",
+        )
+        for header in headers:
+            tokens = (
+                encoding.encode(prefix + header, allowed_special="all")
+                + encoding.encode(arguments, disallowed_special=())
+                + encoding.encode("<|call|>", allowed_special="all")
+            )
+            for cumulative in (False, True):
+                for chunk_size in (1, len(tokens)):
+                    with self.subTest(
+                        header=header, cumulative=cumulative, chunk_size=chunk_size
+                    ):
+                        serving = make_serving(model_type="gpt_oss")
+    
+                        async def generate(*args, **kwargs):
+                            for start in range(0, len(tokens), chunk_size):
+                                end = min(start + chunk_size, len(tokens))
+                                chunk = engine_chunk("", end, finish=end == len(tokens))
+                                chunk["output_ids"] = tokens[
+                                    0 if cumulative else start : end
+                                ]
+                                yield chunk
+    
+                        serving.tokenizer_manager.generate_request = generate
+                        request = ResponsesRequest(
+                            model="x",
+                            input="hi",
+                            stream=True,
+                            store=False,
+                            tools=[
+                                {
+                                    "type": "function",
+                                    "name": "echo",
+                                    "description": "Return the supplied text.",
+                                    "parameters": {"type": "object"},
+                                }
+                            ],
+                        )
+    
+                        async def collect():
+                            stream = await serving.create_responses(request)
+                            self.assertNotIsInstance(
+                                stream, ORJSONResponse, getattr(stream, "body", None)
+                            )
+                            return await collect_stream_events(stream)
+    
+                        events = asyncio.run(collect())
+                        payloads = event_payloads(events)
+                        output = find_completed_event(events)["response"]["output"]
+>                       self.assertEqual(
+                            [item["type"] for item in output],
+                            ["reasoning", "message", "function_call"],
+                        )
+E                       AssertionError: Lists differ: ['reasoning', 'message', 'reasoning'] != ['reasoning', 'message', 'function_call']
+E                       
+E                       First differing element 2:
+E                       'reasoning'
+E                       'function_call'
+E                       
+E                       - ['reasoning', 'message', 'reasoning']
+E                       ?                           ^^^^  ^^^
+E                       
+E                       + ['reasoning', 'message', 'function_call']
+E                       ?                           ^^^^^^  ^^^^^
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:879: AssertionError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (header='<|channel|>analysis to=functions.echo<|message|>', cumulative=True, chunk_size=1) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Repair must preserve SSE items across token splits and engine modes."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        headers = (
+            "<|channel|>commentary to=functions.echo "
+            "<|constrain|>commentary to=assistant "
+            "<|constrain|>analysis to=functions.echo json<|message|>",
+            "<|channel|>commentary to=functions.echo",
+            "<|channel|>analysis to=functions.echo<|constrain|>",
+            "<|channel|>analysis to=functions.echo<|message|>",
+        )
+        for header in headers:
+            tokens = (
+                encoding.encode(prefix + header, allowed_special="all")
+                + encoding.encode(arguments, disallowed_special=())
+                + encoding.encode("<|call|>", allowed_special="all")
+            )
+            for cumulative in (False, True):
+                for chunk_size in (1, len(tokens)):
+                    with self.subTest(
+                        header=header, cumulative=cumulative, chunk_size=chunk_size
+                    ):
+                        serving = make_serving(model_type="gpt_oss")
+    
+                        async def generate(*args, **kwargs):
+                            for start in range(0, len(tokens), chunk_size):
+                                end = min(start + chunk_size, len(tokens))
+                                chunk = engine_chunk("", end, finish=end == len(tokens))
+                                chunk["output_ids"] = tokens[
+                                    0 if cumulative else start : end
+                                ]
+                                yield chunk
+    
+                        serving.tokenizer_manager.generate_request = generate
+                        request = ResponsesRequest(
+                            model="x",
+                            input="hi",
+                            stream=True,
+                            store=False,
+                            tools=[
+                                {
+                                    "type": "function",
+                                    "name": "echo",
+                                    "description": "Return the supplied text.",
+                                    "parameters": {"type": "object"},
+                                }
+                            ],
+                        )
+    
+                        async def collect():
+                            stream = await serving.create_responses(request)
+                            self.assertNotIsInstance(
+                                stream, ORJSONResponse, getattr(stream, "body", None)
+                            )
+                            return await collect_stream_events(stream)
+    
+                        events = asyncio.run(collect())
+                        payloads = event_payloads(events)
+                        output = find_completed_event(events)["response"]["output"]
+>                       self.assertEqual(
+                            [item["type"] for item in output],
+                            ["reasoning", "message", "function_call"],
+                        )
+E                       AssertionError: Lists differ: ['reasoning', 'message', 'reasoning'] != ['reasoning', 'message', 'function_call']
+E                       
+E                       First differing element 2:
+E                       'reasoning'
+E                       'function_call'
+E                       
+E                       - ['reasoning', 'message', 'reasoning']
+E                       ?                           ^^^^  ^^^
+E                       
+E                       + ['reasoning', 'message', 'function_call']
+E                       ?                           ^^^^^^  ^^^^^
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:879: AssertionError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (header='<|channel|>analysis to=functions.echo<|message|>', cumulative=True, chunk_size=34) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Repair must preserve SSE items across token splits and engine modes."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        prefix = (
+            "<|channel|>analysis<|message|>plan<|end|>"
+            "<|start|>assistant<|channel|>final<|message|>before<|end|>"
+            "<|start|>assistant"
+        )
+        headers = (
+            "<|channel|>commentary to=functions.echo "
+            "<|constrain|>commentary to=assistant "
+            "<|constrain|>analysis to=functions.echo json<|message|>",
+            "<|channel|>commentary to=functions.echo",
+            "<|channel|>analysis to=functions.echo<|constrain|>",
+            "<|channel|>analysis to=functions.echo<|message|>",
+        )
+        for header in headers:
+            tokens = (
+                encoding.encode(prefix + header, allowed_special="all")
+                + encoding.encode(arguments, disallowed_special=())
+                + encoding.encode("<|call|>", allowed_special="all")
+            )
+            for cumulative in (False, True):
+                for chunk_size in (1, len(tokens)):
+                    with self.subTest(
+                        header=header, cumulative=cumulative, chunk_size=chunk_size
+                    ):
+                        serving = make_serving(model_type="gpt_oss")
+    
+                        async def generate(*args, **kwargs):
+                            for start in range(0, len(tokens), chunk_size):
+                                end = min(start + chunk_size, len(tokens))
+                                chunk = engine_chunk("", end, finish=end == len(tokens))
+                                chunk["output_ids"] = tokens[
+                                    0 if cumulative else start : end
+                                ]
+                                yield chunk
+    
+                        serving.tokenizer_manager.generate_request = generate
+                        request = ResponsesRequest(
+                            model="x",
+                            input="hi",
+                            stream=True,
+                            store=False,
+                            tools=[
+                                {
+                                    "type": "function",
+                                    "name": "echo",
+                                    "description": "Return the supplied text.",
+                                    "parameters": {"type": "object"},
+                                }
+                            ],
+                        )
+    
+                        async def collect():
+                            stream = await serving.create_responses(request)
+                            self.assertNotIsInstance(
+                                stream, ORJSONResponse, getattr(stream, "body", None)
+                            )
+                            return await collect_stream_events(stream)
+    
+                        events = asyncio.run(collect())
+                        payloads = event_payloads(events)
+                        output = find_completed_event(events)["response"]["output"]
+>                       self.assertEqual(
+                            [item["type"] for item in output],
+                            ["reasoning", "message", "function_call"],
+                        )
+E                       AssertionError: Lists differ: ['reasoning', 'message', 'reasoning'] != ['reasoning', 'message', 'function_call']
+E                       
+E                       First differing element 2:
+E                       'reasoning'
+E                       'function_call'
+E                       
+E                       - ['reasoning', 'message', 'reasoning']
+E                       ?                           ^^^^  ^^^
+E                       
+E                       + ['reasoning', 'message', 'function_call']
+E                       ?                           ^^^^^^  ^^^^^
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:879: AssertionError
+=============================== warnings summary ===============================
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+registered/unit/entrypoints/openai/test_serving_responses.py::HarmonyHeaderRecoveryTestCase::test_malformed_headers_recover_function_call_response
+  /work/source_upstream/python/sglang/srt/entrypoints/openai/serving_responses.py:730: FastAPIDeprecationWarning: ORJSONResponse is deprecated, FastAPI now serializes data directly to JSON bytes via Pydantic when a return type or response model is set, which is faster and doesn't need a custom response class. Read more in the FastAPI docs: https://fastapi.tiangolo.com/advanced/custom-response/#orjson-or-response-model and https://fastapi.tiangolo.com/tutorial/response-model/
+    return self.create_error_response(str(e))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SUBFAILED(name='spliced_metadata') test/registered/unit/entrypoints/openai/test_serving_responses.py::HarmonyHeaderRecoveryTestCase::test_malformed_headers_recover_function_call_response
+SUBFAILED(name='missing_separator') test/registered/unit/entrypoints/openai/test_serving_responses.py::HarmonyHeaderRecoveryTestCase::test_malformed_headers_recover_function_call_response
+SUBFAILED(name='missing_separator_after_constrain') test/registered/unit/entrypoints/openai/test_serving_responses.py::HarmonyHeaderRecoveryTestCase::test_malformed_headers_recover_function_call_response
+SUBFAILED(name='valid_analysis_function') test/registered/unit/entrypoints/openai/test_serving_responses.py::HarmonyHeaderRecoveryTestCase::test_malformed_headers_recover_function_call_response
+SUBFAILED(header='<|channel|>commentary to=functions.echo <|constrain|>commentary to=assistant <|constrain|>analysis to=functions.echo json<|message|>', cumulative=False, chunk_size=1) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+SUBFAILED(header='<|channel|>commentary to=functions.echo <|constrain|>commentary to=assistant <|constrain|>analysis to=functions.echo json<|message|>', cumulative=False, chunk_size=50) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+SUBFAILED(header='<|channel|>commentary to=functions.echo <|constrain|>commentary to=assistant <|constrain|>analysis to=functions.echo json<|message|>', cumulative=True, chunk_size=1) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+SUBFAILED(header='<|channel|>commentary to=functions.echo <|constrain|>commentary to=assistant <|constrain|>analysis to=functions.echo json<|message|>', cumulative=True, chunk_size=50) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+SUBFAILED(header='<|channel|>commentary to=functions.echo', cumulative=False, chunk_size=1) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+SUBFAILED(header='<|channel|>commentary to=functions.echo', cumulative=False, chunk_size=34) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+SUBFAILED(header='<|channel|>commentary to=functions.echo', cumulative=True, chunk_size=1) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+SUBFAILED(header='<|channel|>commentary to=functions.echo', cumulative=True, chunk_size=34) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+SUBFAILED(header='<|channel|>analysis to=functions.echo<|constrain|>', cumulative=False, chunk_size=1) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+SUBFAILED(header='<|channel|>analysis to=functions.echo<|constrain|>', cumulative=False, chunk_size=34) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+SUBFAILED(header='<|channel|>analysis to=functions.echo<|constrain|>', cumulative=True, chunk_size=1) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+SUBFAILED(header='<|channel|>analysis to=functions.echo<|constrain|>', cumulative=True, chunk_size=34) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+SUBFAILED(header='<|channel|>analysis to=functions.echo<|message|>', cumulative=False, chunk_size=1) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+SUBFAILED(header='<|channel|>analysis to=functions.echo<|message|>', cumulative=False, chunk_size=34) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+SUBFAILED(header='<|channel|>analysis to=functions.echo<|message|>', cumulative=True, chunk_size=1) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+SUBFAILED(header='<|channel|>analysis to=functions.echo<|message|>', cumulative=True, chunk_size=34) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+20 failed, 2 passed, 3 warnings in 7.21s
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

@@ -1,0 +1,3 @@
+{"context": {"source_commit": "3f5b1bec8e00115bc8439b5b9a9da902822d2f82", "harmony_distribution": "openai-harmony", "harmony_version": "0.0.4", "cuda_available": false, "cuda_device_count": 0}}
+{"case": "metadata_spliced", "error": "HarmonyError", "message": "unexpected tokens remaining in message header: [\"to=functions.echo\", \"<|constrain|>commentary\", \"to=assistant\", \"<|constrain|>analysis\"]"}
+{"case": "missing_separator", "output": []}

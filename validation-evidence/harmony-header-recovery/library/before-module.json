@@ -1,0 +1,9 @@
+{
+  "valid_unchanged": 4,
+  "metadata_recovered": 3,
+  "metadata_rejected": 3,
+  "missing_message_recovered_preserving_argument_ids": 4,
+  "missing_message_rejected": 11,
+  "prior_messages_once_across_two_repairs": 3,
+  "messages_after_valid_continuation": 5
+}
