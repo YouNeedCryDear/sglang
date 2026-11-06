@@ -1,0 +1,48 @@
+{
+  "final_commit": "e90d413945a0ac38b69b191cb855591abcb2ca26",
+  "production_commit": "ae3fffc9d0ab0bbb7f311a02941f262ca62efea0",
+  "production_unchanged": true,
+  "initial_attempt": {
+    "commit": "e7467cd75e064a95b4a9516cb2fd300cb7b8e124",
+    "outcome": "Both environments:110 tests and90 subtests passed,2 streaming subtests failed on the added usage assertion (0 !=53).",
+    "cause": "Existing StreamingHarmonyContext does not update num_output_tokens.",
+    "correction": "Removed only that unrelated streaming usage assertion; production code and non-streaming usage assertion unchanged.",
+    "evidence": "initial_attempt/"
+  },
+  "environments": {
+    "openai-harmony==0.0.4": {
+      "fixed_tests_passed": 110,
+      "fixed_subtests_passed": 92,
+      "warnings": 19,
+      "seconds": 8.0,
+      "corrected_streaming_test": {
+        "tests_passed": 1,
+        "subtests_passed": 2
+      },
+      "upstream_regression": {
+        "selected_test_methods": 2,
+        "failed_subcases": 5,
+        "nonstream_failed": 3,
+        "stream_failed": 2,
+        "expected_exit_code": 1
+      }
+    },
+    "oss-harmony==0.0.12": {
+      "fixed_tests_passed": 110,
+      "fixed_subtests_passed": 92,
+      "warnings": 19,
+      "seconds": 7.96,
+      "corrected_streaming_test": {
+        "tests_passed": 1,
+        "subtests_passed": 2
+      },
+      "upstream_regression": {
+        "selected_test_methods": 2,
+        "failed_subcases": 5,
+        "nonstream_failed": 3,
+        "stream_failed": 2,
+        "expected_exit_code": 1
+      }
+    }
+  }
+}

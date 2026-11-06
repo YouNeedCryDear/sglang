@@ -1,0 +1,52 @@
+{
+  "source_manifest": {
+    "fixed_commit": "e90d413945a0ac38b69b191cb855591abcb2ca26",
+    "production_commit": "ae3fffc9d0ab0bbb7f311a02941f262ca62efea0",
+    "upstream_commit": "3f5b1bec8e00115bc8439b5b9a9da902822d2f82",
+    "changed_since_production": [
+      "test/registered/unit/entrypoints/openai/test_serving_responses.py",
+      "test/registered/unit/entrypoints/openai/test_serving_responses_stream.py"
+    ],
+    "production_unchanged": true
+  },
+  "verification": {
+    "source": {
+      "sha256_verified": {
+        "python/sglang/srt/entrypoints/context.py": "60032389fb44bcc3622dacf2331dccd45a889d9c52c5d079680376b0e0baab5c",
+        "python/sglang/srt/entrypoints/harmony_utils.py": "2ab4442f1040a41c8d244223ce617eea9effe31c5e7c8ea1064300cabd238c31",
+        "python/sglang/srt/entrypoints/openai/serving_responses.py": "779c18e9086427f327cb44218a7e8fd0f997fded2e5ce92f64f80ac329b67e2c",
+        "test/registered/unit/entrypoints/openai/test_serving_responses.py": "f19af58dd3b2cc2f80c5ea94885506fbb86075cb22f97522ca9a1f4407c74a7f",
+        "test/registered/unit/entrypoints/openai/test_serving_responses_stream.py": "79b11ea83061ee3f366864dbe050c47696f329b60825d88778f55cd9b5ad9f90"
+      },
+      "compiled_files": 5,
+      "wrapper_absent": true
+    },
+    "source_upstream": {
+      "sha256_verified": {
+        "python/sglang/srt/entrypoints/context.py": "98b581cbed34a4caea3d19884aaac9642405b8b1ee580d8440ee2dbb5ae2c73b",
+        "python/sglang/srt/entrypoints/harmony_utils.py": "f6908a8aa8e7563e1009ff374c423d75dc16479a3e3aab91ea157bc39e120afb",
+        "python/sglang/srt/entrypoints/openai/serving_responses.py": "72bbdd7ec1fae7ad1a059a2d5d8b3e804925d1df0c878b51d5ccda8e07a82c6c",
+        "test/registered/unit/entrypoints/openai/test_serving_responses.py": "f19af58dd3b2cc2f80c5ea94885506fbb86075cb22f97522ca9a1f4407c74a7f",
+        "test/registered/unit/entrypoints/openai/test_serving_responses_stream.py": "79b11ea83061ee3f366864dbe050c47696f329b60825d88778f55cd9b5ad9f90"
+      },
+      "compiled_files": 5,
+      "wrapper_absent": true
+    }
+  },
+  "environment": {
+    "sglang": "0.5.23",
+    "torch": "2.14.1+cu130",
+    "openai-harmony": null,
+    "oss-harmony": "0.0.12",
+    "openai": "2.8.0",
+    "transformers": "5.19.0",
+    "sglang-kernel": "0.4.10",
+    "tml-renderers": "0.1.0",
+    "pytest": "9.2.0",
+    "pytest-asyncio": "1.4.1.post1",
+    "python": "3.12.16",
+    "architecture": "aarch64",
+    "cuda_available": false,
+    "cuda_device_count": 0
+  }
+}

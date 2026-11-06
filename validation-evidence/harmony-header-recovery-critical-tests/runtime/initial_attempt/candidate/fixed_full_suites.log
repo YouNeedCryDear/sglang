@@ -1,0 +1,236 @@
+/opt/sglang/lib/python3.12/site-packages/pytest_asyncio/plugin.py:300: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the "fixture" caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to "function" scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+........................................ [ 36%]
+...................................... [ 70%]
+................................               [100%]
+=================================== FAILURES ===================================
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (cumulative=False) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Successive repairs must not duplicate SSE items or corrupt arguments."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        body = encoding.encode(arguments, disallowed_special=())
+        tokens = (
+            encoding.encode(
+                "<|channel|>analysis<|message|>plan<|end|>"
+                "<|start|>assistant<|channel|>analysis to=functions.echo "
+                "<|constrain|>analysis json<|message|>",
+                allowed_special="all",
+            )
+            + body
+            + encoding.encode(
+                "<|call|><|start|>assistant<|channel|>analysis to=functions.echo<|constrain|>",
+                allowed_special="all",
+            )
+            + body
+            + encoding.encode("<|call|>", allowed_special="all")
+        )
+        for cumulative in (False, True):
+            with self.subTest(cumulative=cumulative):
+                serving = make_serving(model_type="gpt_oss")
+    
+                async def generate(*args, **kwargs):
+                    for end in range(1, len(tokens) + 1):
+                        chunk = engine_chunk("", end, finish=end == len(tokens))
+                        chunk["output_ids"] = (
+                            tokens[:end] if cumulative else tokens[end - 1 : end]
+                        )
+                        yield chunk
+    
+                serving.tokenizer_manager.generate_request = generate
+                request = ResponsesRequest(
+                    model="x",
+                    input="hi",
+                    stream=True,
+                    store=False,
+                    tools=[
+                        {
+                            "type": "function",
+                            "name": "echo",
+                            "description": "Return the supplied text.",
+                            "parameters": {"type": "object"},
+                        }
+                    ],
+                )
+    
+                async def collect():
+                    stream = await serving.create_responses(request)
+                    self.assertNotIsInstance(
+                        stream, ORJSONResponse, getattr(stream, "body", None)
+                    )
+                    return await collect_stream_events(stream)
+    
+                events = asyncio.run(collect())
+                payloads = event_payloads(events)
+                response = find_completed_event(events)["response"]
+                output = response["output"]
+                self.assertEqual(
+                    [item["type"] for item in output],
+                    ["reasoning", "function_call", "function_call"],
+                )
+                self.assertEqual(output[0]["content"][0]["text"], "plan")
+                self.assertEqual(
+                    [(item["name"], item["arguments"]) for item in output[1:]],
+                    [("echo", arguments)] * 2,
+                )
+>               self.assertEqual(response["usage"]["output_tokens"], len(tokens))
+E               AssertionError: 0 != 53
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:882: AssertionError
+_ HarmonyStreamLifecycleTestCase.test_repaired_headers_preserve_function_call_stream (cumulative=True) _
+
+self = <test_serving_responses_stream.HarmonyStreamLifecycleTestCase testMethod=test_repaired_headers_preserve_function_call_stream>
+
+    def test_repaired_headers_preserve_function_call_stream(self):
+        """Successive repairs must not duplicate SSE items or corrupt arguments."""
+        from sglang.srt.entrypoints.harmony_utils import get_encoding
+    
+        encoding = get_encoding()
+        arguments = '{"text":"literal <|call|> and café"}'
+        body = encoding.encode(arguments, disallowed_special=())
+        tokens = (
+            encoding.encode(
+                "<|channel|>analysis<|message|>plan<|end|>"
+                "<|start|>assistant<|channel|>analysis to=functions.echo "
+                "<|constrain|>analysis json<|message|>",
+                allowed_special="all",
+            )
+            + body
+            + encoding.encode(
+                "<|call|><|start|>assistant<|channel|>analysis to=functions.echo<|constrain|>",
+                allowed_special="all",
+            )
+            + body
+            + encoding.encode("<|call|>", allowed_special="all")
+        )
+        for cumulative in (False, True):
+            with self.subTest(cumulative=cumulative):
+                serving = make_serving(model_type="gpt_oss")
+    
+                async def generate(*args, **kwargs):
+                    for end in range(1, len(tokens) + 1):
+                        chunk = engine_chunk("", end, finish=end == len(tokens))
+                        chunk["output_ids"] = (
+                            tokens[:end] if cumulative else tokens[end - 1 : end]
+                        )
+                        yield chunk
+    
+                serving.tokenizer_manager.generate_request = generate
+                request = ResponsesRequest(
+                    model="x",
+                    input="hi",
+                    stream=True,
+                    store=False,
+                    tools=[
+                        {
+                            "type": "function",
+                            "name": "echo",
+                            "description": "Return the supplied text.",
+                            "parameters": {"type": "object"},
+                        }
+                    ],
+                )
+    
+                async def collect():
+                    stream = await serving.create_responses(request)
+                    self.assertNotIsInstance(
+                        stream, ORJSONResponse, getattr(stream, "body", None)
+                    )
+                    return await collect_stream_events(stream)
+    
+                events = asyncio.run(collect())
+                payloads = event_payloads(events)
+                response = find_completed_event(events)["response"]
+                output = response["output"]
+                self.assertEqual(
+                    [item["type"] for item in output],
+                    ["reasoning", "function_call", "function_call"],
+                )
+                self.assertEqual(output[0]["content"][0]["text"], "plan")
+                self.assertEqual(
+                    [(item["name"], item["arguments"]) for item in output[1:]],
+                    [("echo", arguments)] * 2,
+                )
+>               self.assertEqual(response["usage"]["output_tokens"], len(tokens))
+E               AssertionError: 0 != 53
+
+test/registered/unit/entrypoints/openai/test_serving_responses_stream.py:882: AssertionError
+=============================== warnings summary ===============================
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+registered/unit/entrypoints/openai/test_serving_responses.py::ChatToolForwardingTestCase::test_harmony_forced_choices_explain_missing_routing_constraints
+  /work/critical-tests-20261105/source/python/sglang/srt/entrypoints/openai/serving_responses.py:455: FastAPIDeprecationWarning: ORJSONResponse is deprecated, FastAPI now serializes data directly to JSON bytes via Pydantic when a return type or response model is set, which is faster and doesn't need a custom response class. Read more in the FastAPI docs: https://fastapi.tiangolo.com/advanced/custom-response/#orjson-or-response-model and https://fastapi.tiangolo.com/tutorial/response-model/
+    return self.create_error_response(f"{e} {e.__cause__}")
+
+registered/unit/entrypoints/openai/test_serving_responses.py::ChatToolForwardingTestCase::test_required_tool_choice_without_function_tool_returns_400
+  /work/critical-tests-20261105/source/python/sglang/srt/entrypoints/openai/serving_responses.py:359: FastAPIDeprecationWarning: ORJSONResponse is deprecated, FastAPI now serializes data directly to JSON bytes via Pydantic when a return type or response model is set, which is faster and doesn't need a custom response class. Read more in the FastAPI docs: https://fastapi.tiangolo.com/advanced/custom-response/#orjson-or-response-model and https://fastapi.tiangolo.com/tutorial/response-model/
+    return self.create_error_response(
+
+registered/unit/entrypoints/openai/test_serving_responses.py::ResponseTemplateRequiredToolTestCase::test_automatic_call_needs_a_grammar_from_the_message_start
+  /work/critical-tests-20261105/source/python/sglang/srt/entrypoints/openai/serving_responses.py:652: FastAPIDeprecationWarning: ORJSONResponse is deprecated, FastAPI now serializes data directly to JSON bytes via Pydantic when a return type or response model is set, which is faster and doesn't need a custom response class. Read more in the FastAPI docs: https://fastapi.tiangolo.com/advanced/custom-response/#orjson-or-response-model and https://fastapi.tiangolo.com/tutorial/response-model/
+    return self.create_error_response(str(e))
+
+registered/unit/entrypoints/openai/test_serving_responses.py::ResponseTemplateRequiredToolTestCase::test_json_answer_admits_only_declared_calls
+  /work/critical-tests-20261105/source/python/sglang/srt/entrypoints/openai/serving_responses.py:626: FastAPIDeprecationWarning: ORJSONResponse is deprecated, FastAPI now serializes data directly to JSON bytes via Pydantic when a return type or response model is set, which is faster and doesn't need a custom response class. Read more in the FastAPI docs: https://fastapi.tiangolo.com/advanced/custom-response/#orjson-or-response-model and https://fastapi.tiangolo.com/tutorial/response-model/
+    return self.create_error_response(str(e))
+
+registered/unit/entrypoints/openai/test_serving_responses.py::MultimodalRequestTestCase::test_text_only_create_responses_rejects_media_before_generation
+  /work/critical-tests-20261105/source/python/sglang/srt/entrypoints/openai/serving_responses.py:452: FastAPIDeprecationWarning: ORJSONResponse is deprecated, FastAPI now serializes data directly to JSON bytes via Pydantic when a return type or response model is set, which is faster and doesn't need a custom response class. Read more in the FastAPI docs: https://fastapi.tiangolo.com/advanced/custom-response/#orjson-or-response-model and https://fastapi.tiangolo.com/tutorial/response-model/
+    return self.create_error_response(str(e))
+
+registered/unit/entrypoints/openai/test_serving_responses.py::HarmonyHeaderRecoveryTestCase::test_recovery_rejects_unrecognized_headers
+  /work/critical-tests-20261105/source/python/sglang/srt/entrypoints/openai/serving_responses.py:739: FastAPIDeprecationWarning: ORJSONResponse is deprecated, FastAPI now serializes data directly to JSON bytes via Pydantic when a return type or response model is set, which is faster and doesn't need a custom response class. Read more in the FastAPI docs: https://fastapi.tiangolo.com/advanced/custom-response/#orjson-or-response-model and https://fastapi.tiangolo.com/tutorial/response-model/
+    return self.create_error_response(str(e))
+
+registered/unit/entrypoints/openai/test_serving_responses.py::StreamingLogprobsRejectionTestCase::test_stream_with_logprobs_include_rejected
+  /work/critical-tests-20261105/source/python/sglang/srt/entrypoints/openai/serving_responses.py:382: FastAPIDeprecationWarning: ORJSONResponse is deprecated, FastAPI now serializes data directly to JSON bytes via Pydantic when a return type or response model is set, which is faster and doesn't need a custom response class. Read more in the FastAPI docs: https://fastapi.tiangolo.com/advanced/custom-response/#orjson-or-response-model and https://fastapi.tiangolo.com/tutorial/response-model/
+    return self.create_error_response(
+
+registered/unit/entrypoints/openai/test_serving_responses.py::test_response_store_admission[empty-predecessor]
+registered/unit/entrypoints/openai/test_serving_responses.py::test_response_store_admission[disabled-background]
+registered/unit/entrypoints/openai/test_serving_responses.py::test_response_store_read_endpoints[False]
+  /work/critical-tests-20261105/source/python/sglang/srt/entrypoints/openai/serving_responses.py:282: FastAPIDeprecationWarning: ORJSONResponse is deprecated, FastAPI now serializes data directly to JSON bytes via Pydantic when a return type or response model is set, which is faster and doesn't need a custom response class. Read more in the FastAPI docs: https://fastapi.tiangolo.com/advanced/custom-response/#orjson-or-response-model and https://fastapi.tiangolo.com/tutorial/response-model/
+    return self.create_error_response(
+
+registered/unit/entrypoints/openai/test_serving_responses.py::test_response_store_admission[background-without-store]
+  /work/critical-tests-20261105/source/python/sglang/srt/entrypoints/openai/serving_responses.py:344: FastAPIDeprecationWarning: ORJSONResponse is deprecated, FastAPI now serializes data directly to JSON bytes via Pydantic when a return type or response model is set, which is faster and doesn't need a custom response class. Read more in the FastAPI docs: https://fastapi.tiangolo.com/advanced/custom-response/#orjson-or-response-model and https://fastapi.tiangolo.com/tutorial/response-model/
+    return self.create_error_response(
+
+registered/unit/entrypoints/openai/test_serving_responses.py::test_response_store_read_endpoints[True]
+  /work/critical-tests-20261105/source/python/sglang/srt/entrypoints/openai/serving_responses.py:1948: FastAPIDeprecationWarning: ORJSONResponse is deprecated, FastAPI now serializes data directly to JSON bytes via Pydantic when a return type or response model is set, which is faster and doesn't need a custom response class. Read more in the FastAPI docs: https://fastapi.tiangolo.com/advanced/custom-response/#orjson-or-response-model and https://fastapi.tiangolo.com/tutorial/response-model/
+    return self.create_error_response(
+
+registered/unit/entrypoints/openai/test_serving_responses.py::test_response_store_read_endpoints[True]
+registered/unit/entrypoints/openai/test_serving_responses.py::test_active_stream_cancel_and_final_history
+  /work/critical-tests-20261105/source/python/sglang/srt/entrypoints/openai/serving_responses.py:1958: FastAPIDeprecationWarning: ORJSONResponse is deprecated, FastAPI now serializes data directly to JSON bytes via Pydantic when a return type or response model is set, which is faster and doesn't need a custom response class. Read more in the FastAPI docs: https://fastapi.tiangolo.com/advanced/custom-response/#orjson-or-response-model and https://fastapi.tiangolo.com/tutorial/response-model/
+    return self.create_error_response(
+
+registered/unit/entrypoints/openai/test_serving_responses.py::test_background_task_lifecycle[failure]
+  /work/critical-tests-20261105/source/python/sglang/srt/entrypoints/openai/serving_responses.py:870: FastAPIDeprecationWarning: ORJSONResponse is deprecated, FastAPI now serializes data directly to JSON bytes via Pydantic when a return type or response model is set, which is faster and doesn't need a custom response class. Read more in the FastAPI docs: https://fastapi.tiangolo.com/advanced/custom-response/#orjson-or-response-model and https://fastapi.tiangolo.com/tutorial/response-model/
+    return self.create_error_response(str(e))
+
+registered/unit/entrypoints/openai/test_serving_responses.py::test_background_task_lifecycle[cancel_running]
+  /work/critical-tests-20261105/source/python/sglang/srt/entrypoints/openai/serving_responses.py:868: FastAPIDeprecationWarning: ORJSONResponse is deprecated, FastAPI now serializes data directly to JSON bytes via Pydantic when a return type or response model is set, which is faster and doesn't need a custom response class. Read more in the FastAPI docs: https://fastapi.tiangolo.com/advanced/custom-response/#orjson-or-response-model and https://fastapi.tiangolo.com/tutorial/response-model/
+    return self.create_error_response("Client disconnected")
+
+registered/unit/entrypoints/openai/test_serving_responses.py::test_pd_builtin_tool_admission
+  /work/critical-tests-20261105/source/python/sglang/srt/entrypoints/openai/serving_responses.py:412: FastAPIDeprecationWarning: ORJSONResponse is deprecated, FastAPI now serializes data directly to JSON bytes via Pydantic when a return type or response model is set, which is faster and doesn't need a custom response class. Read more in the FastAPI docs: https://fastapi.tiangolo.com/advanced/custom-response/#orjson-or-response-model and https://fastapi.tiangolo.com/tutorial/response-model/
+    return self.create_error_response(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SUBFAILED(cumulative=False) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+SUBFAILED(cumulative=True) test/registered/unit/entrypoints/openai/test_serving_responses_stream.py::HarmonyStreamLifecycleTestCase::test_repaired_headers_preserve_function_call_stream
+2 failed, 110 passed, 19 warnings, 90 subtests passed in 9.45s
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

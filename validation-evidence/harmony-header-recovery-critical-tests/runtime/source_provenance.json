@@ -1,0 +1,29 @@
+{
+  "fixed_commit": "e90d413945a0ac38b69b191cb855591abcb2ca26",
+  "unchanged_production_commit": "ae3fffc9d0ab0bbb7f311a02941f262ca62efea0",
+  "upstream_commit": "3f5b1bec8e00115bc8439b5b9a9da902822d2f82",
+  "source_preparation": "Fresh extraction of exact ae3fffc9 source archive, overlaid with only the two final test files from e90d413; git diff verifies these are the only changes. Separate upstream tree receives the same two tests only.",
+  "changed_file_sha256": {
+    "python/sglang/srt/entrypoints/context.py": "60032389fb44bcc3622dacf2331dccd45a889d9c52c5d079680376b0e0baab5c",
+    "python/sglang/srt/entrypoints/harmony_utils.py": "2ab4442f1040a41c8d244223ce617eea9effe31c5e7c8ea1064300cabd238c31",
+    "python/sglang/srt/entrypoints/openai/serving_responses.py": "779c18e9086427f327cb44218a7e8fd0f997fded2e5ce92f64f80ac329b67e2c",
+    "test/registered/unit/entrypoints/openai/test_serving_responses.py": "f19af58dd3b2cc2f80c5ea94885506fbb86075cb22f97522ca9a1f4407c74a7f",
+    "test/registered/unit/entrypoints/openai/test_serving_responses_stream.py": "79b11ea83061ee3f366864dbe050c47696f329b60825d88778f55cd9b5ad9f90"
+  },
+  "base_image": "lmsysorg/sglang:v0.5.23-cu130",
+  "base_image_digest": "sha256:f832b5c39559c9caa900b22ad37c76fcce66470676855c42052102c537812f1f",
+  "reused_cpu_container_image_ids": {
+    "baseline": "sha256:17616cecbf1e54ce670368da39c36d7b0839e26bffd370176876fdc5340affcf",
+    "candidate": "sha256:e48c74678585461da2feb1b9d009b69926bde65f15cfff620f8ece120bb85239"
+  },
+  "execution": "CPU only, Docker runc, NVIDIA_VISIBLE_DEVICES=void, no GPU device requests.",
+  "cleanup": {
+    "both_task_containers_stopped": true,
+    "gpu_memory_mib_after": 1,
+    "gpu_utilization_percent_after": 0,
+    "gpu_compute_processes_after": [],
+    "lease_changed": false,
+    "prior_source_and_evidence_preserved": true,
+    "unrelated_workloads_untouched": true
+  }
+}

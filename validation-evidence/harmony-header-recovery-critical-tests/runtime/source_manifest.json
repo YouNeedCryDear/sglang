@@ -1,0 +1,10 @@
+{
+  "fixed_commit": "e90d413945a0ac38b69b191cb855591abcb2ca26",
+  "production_commit": "ae3fffc9d0ab0bbb7f311a02941f262ca62efea0",
+  "upstream_commit": "3f5b1bec8e00115bc8439b5b9a9da902822d2f82",
+  "changed_since_production": [
+    "test/registered/unit/entrypoints/openai/test_serving_responses.py",
+    "test/registered/unit/entrypoints/openai/test_serving_responses_stream.py"
+  ],
+  "production_unchanged": true
+}
