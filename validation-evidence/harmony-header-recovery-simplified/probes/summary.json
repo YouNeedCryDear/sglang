@@ -1,0 +1,80 @@
+{
+  "before": {
+    "source": {
+      "validation_kind": "isolated AST-extracted actual helpers/context classes; real Harmony library; not full runtime",
+      "commit": "ae3fffc9d0ab0bbb7f311a02941f262ca62efea0",
+      "sha256": {
+        "python/sglang/srt/entrypoints/harmony_utils.py": "2ab4442f1040a41c8d244223ce617eea9effe31c5e7c8ea1064300cabd238c31",
+        "python/sglang/srt/entrypoints/context.py": "60032389fb44bcc3622dacf2331dccd45a889d9c52c5d079680376b0e0baab5c"
+      }
+    },
+    "distribution": {
+      "openai-harmony": "0.0.4"
+    },
+    "valid_processing": {
+      "1000": {
+        "native_ms": 0.18852451466955245,
+        "context_ms": 0.21100750018376857,
+        "overhead_ms": 0.022482985514216125
+      },
+      "10000": {
+        "native_ms": 1.3615450006909668,
+        "context_ms": 1.5398059913422912,
+        "overhead_ms": 0.1782609906513244
+      }
+    },
+    "failure_recovery": {
+      "0": {
+        "metadata_error": 0.3642510127974674,
+        "missing_message_at_finish": 1.3954919995740056
+      },
+      "1000": {
+        "metadata_error": 0.6003379967296496,
+        "missing_message_at_finish": 2.771045488771051
+      },
+      "10000": {
+        "metadata_error": 1.8830935005098581,
+        "missing_message_at_finish": 4.115380506846122
+      }
+    }
+  },
+  "after": {
+    "source": {
+      "validation_kind": "isolated AST-extracted actual helpers/context classes; real Harmony library; not full runtime",
+      "commit": "ae3fffc9d0ab0bbb7f311a02941f262ca62efea0",
+      "sha256": {
+        "python/sglang/srt/entrypoints/harmony_utils.py": "2ab4442f1040a41c8d244223ce617eea9effe31c5e7c8ea1064300cabd238c31",
+        "python/sglang/srt/entrypoints/context.py": "60032389fb44bcc3622dacf2331dccd45a889d9c52c5d079680376b0e0baab5c"
+      }
+    },
+    "distribution": {
+      "oss-harmony": "0.0.12"
+    },
+    "valid_processing": {
+      "1000": {
+        "native_ms": 0.5486315058078617,
+        "context_ms": 0.536738007212989,
+        "overhead_ms": -0.011893498594872653
+      },
+      "10000": {
+        "native_ms": 5.098070498206653,
+        "context_ms": 5.685151481884532,
+        "overhead_ms": 0.587080983677879
+      }
+    },
+    "failure_recovery": {
+      "0": {
+        "metadata_error": 0.3309920139145106,
+        "missing_message_at_finish": 1.3679129915544763
+      },
+      "1000": {
+        "metadata_error": 1.1593365197768435,
+        "missing_message_at_finish": 3.8088790024630725
+      },
+      "10000": {
+        "metadata_error": 7.225743000162765,
+        "missing_message_at_finish": 9.268741981941275
+      }
+    }
+  }
+}

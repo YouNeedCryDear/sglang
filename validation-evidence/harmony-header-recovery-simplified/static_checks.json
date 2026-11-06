@@ -1,0 +1,20 @@
+{
+  "source_commit": "ae3fffc9d0ab0bbb7f311a02941f262ca62efea0",
+  "pre_commit": {
+    "command": "pre-commit run --files python/sglang/srt/entrypoints/harmony_utils.py python/sglang/srt/entrypoints/context.py test/registered/unit/entrypoints/openai/test_serving_responses.py",
+    "exit_code": 0,
+    "result": "All applicable hooks passed after formatting; inapplicable hooks skipped."
+  },
+  "diff_check": {
+    "command": "git diff --check 3f5b1bec8e00115bc8439b5b9a9da902822d2f82 HEAD",
+    "exit_code": 0
+  },
+  "migration_merge_check": {
+    "command": "git merge-tree --write-tree HEAD YouNeedCryDear/oss-harmony",
+    "migration_commit": "dc4d6e600a9e87cc3a979209c74dc657557bc0cb",
+    "exit_code": 0,
+    "synthetic_tree": "0e23d93ef1cb9592045835df9840e4978ec72906",
+    "branches_modified": false
+  },
+  "record_kind": "Recorded command outcomes, not raw stdout."
+}

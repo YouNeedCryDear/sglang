@@ -1,0 +1,48 @@
+{
+  "openai-harmony==0.0.4": {
+    "fixed_source_commit": "ae3fffc9d0ab0bbb7f311a02941f262ca62efea0",
+    "passed_tests": 112,
+    "passed_subtests": 122,
+    "warnings": 18,
+    "seconds": 9.39,
+    "source_hashes_verified": true,
+    "compiled_changed_python_files": 5,
+    "deleted_wrapper_absent": true,
+    "minimal_reproduction_upstream": {
+      "metadata_spliced": "HarmonyError",
+      "missing_separator": []
+    },
+    "minimal_reproduction_fixed": {
+      "both_cases": [
+        {
+          "type": "function_call",
+          "name": "echo",
+          "arguments": "{\"x\":1}"
+        }
+      ]
+    }
+  },
+  "oss-harmony==0.0.12": {
+    "fixed_source_commit": "ae3fffc9d0ab0bbb7f311a02941f262ca62efea0",
+    "passed_tests": 112,
+    "passed_subtests": 122,
+    "warnings": 18,
+    "seconds": 9.18,
+    "source_hashes_verified": true,
+    "compiled_changed_python_files": 5,
+    "deleted_wrapper_absent": true,
+    "minimal_reproduction_upstream": {
+      "metadata_spliced": "HarmonyError",
+      "missing_separator": []
+    },
+    "minimal_reproduction_fixed": {
+      "both_cases": [
+        {
+          "type": "function_call",
+          "name": "echo",
+          "arguments": "{\"x\":1}"
+        }
+      ]
+    }
+  }
+}

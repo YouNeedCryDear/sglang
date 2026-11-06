@@ -1,0 +1,31 @@
+{
+  "upstream_source_commit": "3f5b1bec8e00115bc8439b5b9a9da902822d2f82",
+  "fixed_source_commit": "ae3fffc9d0ab0bbb7f311a02941f262ca62efea0",
+  "source_delivery": "Exact full git archive of frozen commit, extracted into a fresh source directory. No source overlay or prior recovery wrapper.",
+  "source_archive_sha256": "55d5bbc42236fd4fdd9023c267790f9e70f264a33029a8bb3e68d69740c34f97",
+  "changed_files_against_upstream": {
+    "python/sglang/srt/entrypoints/context.py": "60032389fb44bcc3622dacf2331dccd45a889d9c52c5d079680376b0e0baab5c",
+    "python/sglang/srt/entrypoints/harmony_utils.py": "2ab4442f1040a41c8d244223ce617eea9effe31c5e7c8ea1064300cabd238c31",
+    "python/sglang/srt/entrypoints/openai/serving_responses.py": "779c18e9086427f327cb44218a7e8fd0f997fded2e5ce92f64f80ac329b67e2c",
+    "test/registered/unit/entrypoints/openai/test_serving_responses.py": "f8fae5a6bc9ef11bccaffbea0c1c3794f5f7b311f01dccd3f851ecc4c20bf74a",
+    "test/registered/unit/entrypoints/openai/test_serving_responses_stream.py": "8634efd2a6a3e99bc3c28d13ae41217914000072f6eadde0fe793cc1426d56dc"
+  },
+  "harmony_recovery_wrapper_absent": true,
+  "base_image": "lmsysorg/sglang:v0.5.23-cu130",
+  "base_image_digest": "sha256:f832b5c39559c9caa900b22ad37c76fcce66470676855c42052102c537812f1f",
+  "local_dependency_snapshot_images": {
+    "baseline": "sha256:17616cecbf1e54ce670368da39c36d7b0839e26bffd370176876fdc5340affcf",
+    "candidate": "sha256:e48c74678585461da2feb1b9d009b69926bde65f15cfff620f8ece120bb85239"
+  },
+  "execution": "CPU-only aarch64 containers, Docker runc, NVIDIA_VISIBLE_DEVICES=void, no GPU device requests, no model/server launch.",
+  "cleanup": {
+    "both_task_containers_stopped": true,
+    "gpu_used": false,
+    "gpu_memory_mib_after": 1,
+    "gpu_utilization_percent_after": 0,
+    "gpu_compute_processes_after": [],
+    "lease_changed": false,
+    "prior_evidence_unchanged": true,
+    "artifacts_retained": true
+  }
+}

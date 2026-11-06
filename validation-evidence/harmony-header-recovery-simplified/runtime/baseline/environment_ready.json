@@ -1,0 +1,17 @@
+{
+  "sglang": "0.5.23",
+  "torch": "2.14.1+cu130",
+  "openai-harmony": "0.0.4",
+  "oss-harmony": null,
+  "openai": "2.8.0",
+  "transformers": "5.19.0",
+  "sglang-kernel": "0.4.10",
+  "tml-renderers": "0.1.0",
+  "pytest": "9.2.0",
+  "pytest-asyncio": "1.4.1.post1",
+  "python": "3.12.16",
+  "architecture": "aarch64",
+  "cuda_available": false,
+  "cuda_device_count": 0,
+  "harmony_probe_token_count": 1
+}
